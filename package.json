@@ -1,0 +1,19 @@
+{
+  "name": "comp-307-final-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node backend/server.js"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "mongoose": "^8.8.1"
+  }
+}
