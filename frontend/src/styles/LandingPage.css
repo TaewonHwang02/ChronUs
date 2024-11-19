@@ -1,0 +1,62 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #ffffff; 
+    overflow: hidden;
+
+  }
+  
+  .landing-page {
+    position: relative; 
+    width: 100vw; 
+    height: 100vh; 
+    background-color: #ffffff; 
+    overflow: hidden;
+  }
+  
+  .background{
+    width: 80%; 
+    height: 100%; 
+    background-color: #0B1354; 
+    border-radius: 0 0 750px 0;
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    z-index: 0; 
+  }
+  
+  .text-content {
+    position: relative;
+    z-index: 2; 
+    color: white;
+    margin-left: 5%; 
+    margin-top: 10%; 
+  }
+  
+  .text-content h2 {
+    font-size: 2rem;
+    margin: 0;
+    color: #ffffff;
+    font-weight: 300; 
+  }
+  
+  .text-content h1 {
+    font-size: 3rem;
+    margin: 0.5rem 0;
+    font-weight: 700;
+  }
+  
+
+  .text-content h1 .chron {
+    font-family: 'Kulim Park', sans-serif;
+    font-weight: 150;
+  }
+  
+  .text-content h1 .us {
+    font-family: 'Kulim Park', sans-serif;
+    font-weight: 150;
+    color: #1751E5; 
+  }
+  
