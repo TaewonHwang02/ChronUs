@@ -1,7 +1,8 @@
 import React from 'react';
 import largeLogo from '../assets/logo_whitebg.png'; // Circular logo
-import landingLogo from '../assets/logo.png'; // Header logo
+import landingLogo from '../assets/Group 61.svg'; // Header logo
 import '../styles/LandingPage.css'; // Import CSS
+import Button from '../components/Button';
 
 
 const LandingPage = () => {
@@ -20,7 +21,7 @@ const LandingPage = () => {
           <span className="chron">Chron</span>
           <span className="us">Us</span>
         </h1>
-
+        <Button text="Log in"/>
       </div>
   
     
