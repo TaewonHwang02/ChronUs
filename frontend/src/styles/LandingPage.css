@@ -17,10 +17,10 @@ body {
   }
   
   .background{
-    width:80%; 
-    height: 1126px; 
+    width:88%; 
+    height: 100%; 
     background-color: #0B1354; 
-    border-radius: 0 0 700px 0;
+    border-bottom-right-radius: 700px 600px;
     position: absolute; 
     top: 0; 
     left: 0; 
