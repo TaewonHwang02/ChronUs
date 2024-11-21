@@ -5,7 +5,7 @@ body {
     font-family: 'Poppins', sans-serif;
     background-color: #ffffff; 
     overflow: hidden;
-
+    font-size: 62.5%;
   }
   
   .landing-page {
@@ -29,41 +29,40 @@ body {
   
   .text-content {
     position: relative;
-    z-index: 2; 
+    z-index: 2;
     color: white;
-    left: 121px;
-    top: 416px; 
+    left: 2rem; 
+    top: 5rem; 
+    text-align: left; 
   }
   
   .text-content h2 {
-    font-size: 2rem;
-    margin: 0;
+    font-size: 2.5rem; 
     color: #ffffff;
     font-weight: 300; 
+    line-height: 1.5; 
+
   }
   
   .text-content h1 {
-    font-size: 3rem;
-    margin: 0.5rem 0;
-    font-weight: 700;
-  }
-  
+    font-size: 4rem; 
+    font-weight: 700; 
+    line-height: 1.2; 
 
+  }
   .text-content h1 .chron {
     font-family: 'Kulim Park', sans-serif;
-    font-weight: 300;
+    color: #ffffff; 
   }
   
   .text-content h1 .us {
     font-family: 'Kulim Park', sans-serif;
-    font-weight: 300;
-
     color: #1751E5; 
   }
   .logo_container {
 
-    top: 160px;
-    left: 175px
+    top: 10rem;
+    left: 10rem
   }
   .logo {
     width:200px;
