@@ -18,9 +18,11 @@ const LandingPage = () => {
         <h2>Plan Smarter</h2>
         <h2>with</h2>
         <h1>
-          <span className="chron">Chron</span>
-          <span className="us">Us</span>
+          <span class="chron">Chron</span>
+          <span class="u">u</span>
+          <span class="s">s</span>
         </h1>
+
         <Button text="Log in"/>
       </div>
   

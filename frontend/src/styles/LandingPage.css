@@ -29,42 +29,54 @@ body {
   
   .text-content {
     position: relative;
-    z-index: 2;
+    z-index: 2; 
     color: white;
-    left: 2rem; 
-    top: 5rem; 
-    text-align: left; 
+    top: 10rem; 
+    left: 8rem; 
+    text-align: left;
+    letter-spacing: 0.1rem;
+    line-height: 1; 
   }
   
   .text-content h2 {
-    font-size: 2.5rem; 
-    color: #ffffff;
+    font-size: 2.5rem;
+    margin: 0 0 0.1rem 0; 
     font-weight: 300; 
-    line-height: 1.5; 
-
   }
-  
   .text-content h1 {
-    font-size: 4rem; 
-    font-weight: 700; 
-    line-height: 1.2; 
-
+    margin: 0; 
+    line-height: 1;
   }
   .text-content h1 .chron {
     font-family: 'Kulim Park', sans-serif;
+    font-weight: 400; 
+    font-size: 4rem; 
     color: #ffffff; 
   }
-  
-  .text-content h1 .us {
+  .text-content h1 .u {
     font-family: 'Kulim Park', sans-serif;
+    font-weight: 400;
+    font-size: 5rem; 
     color: #1751E5; 
+    line-height: 1; 
+    letter-spacing: 0.2rem;
   }
-  .logo_container {
-
-    top: 10rem;
-    left: 10rem
+  .text-content h1 .s {
+    font-family: 'Kulim Park', sans-serif;
+    font-weight: 700; 
+    font-size: 4rem;
+    color: #1751E5;
+    line-height: 1; 
+    letter-spacing: 0.2rem;
+  }
+  .logo-container {
+    position: absolute;
+    top: 1.5rem; 
+    left: 6rem;
+    z-index: 1; 
   }
   .logo {
-    width:200px;
-    height:auto;
+    width: 6.5rem; 
+    height: auto; 
   }
+  
