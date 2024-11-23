@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import reactLogo from './assets/logo.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import LandingPage from './pages/landingPage'
 
