@@ -9,7 +9,8 @@ export default {
       colors: {
         steel_blue: '#3F88C5',
         selective_yellow: '#FFBA08',
-        grey_background: '#F5F5F5'
+        grey_background: '#F5F5F5',
+        light_blue:'#A1CDF1',
 
       },
       fontFamily: {
