@@ -1,6 +1,7 @@
 import React from 'react';
 import landingLogo from '../assets/Group 76.svg'; // Header logo
 import Button from '../components/Button';
+import {Link} from 'react-router-dom'
 
 
 const LandingPage = () => {
@@ -40,9 +41,11 @@ const LandingPage = () => {
 
       {/* Button */}
       <div className="mt-8 ">
+        <Link to="/login">
         <Button text="Log in" />
+        </Link>
       </div>
-      
+
       <div className="mt-32 text-left"> 
     
       <p className="mt-4 text-sm text-white">
