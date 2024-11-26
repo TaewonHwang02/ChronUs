@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
+import { NextDataPathnameNormalizer } from "next/dist/server/future/normalizers/request/next-data";
 
 const userSchema = new mongoose.Schema({
-  userName: {
+  NextDataPathnameNormalizer: {
     type: String,
     required: true,
   },
