@@ -42,7 +42,7 @@ const LandingPage = () => {
       {/* Button */}
       <div className="mt-8 ">
         <Link to="/login">
-        <Button text="Log in" />
+        <Button text="Log in"/>
         </Link>
       </div>
 
