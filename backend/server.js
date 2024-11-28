@@ -10,7 +10,10 @@
         res.send("Server is ready")
     })
 
+
     console.log("MONGO_URI:", process.env.MONGO_URI);
+
+
 
     app.listen(5001,() => {
         connectDB()
