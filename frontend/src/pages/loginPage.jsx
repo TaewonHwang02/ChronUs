@@ -1,38 +1,38 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import {auth,googleProvider} from "../firebase"
 import LoginLogo from '../assets/GreenLogo.svg'; // Login logo
 import Button from '../components/Button';
 
+
 const LoginPage = () => {
-    useEffect(() => {
-        const script = document.createElement('script');
-        script.src = 'https://accounts.google.com/gsi/client';
-        script.async = true;
-        script.defer = true;
-        script.onload = () => {
-        if (window.google) {
-            window.google.accounts.id.initialize({
-            client_id: '721894821371-bpf46fjns0sui0ln4v1eiuki3h86ifjc.apps.googleusercontent.com', 
-            callback: handleGoogleLogin,
-            });
 
-            window.google.accounts.id.renderButton(
-            document.getElementById('googleSignInDiv'),
-            {
-                type: 'standard',
-                size: 'large',
-                theme: 'outline',
-                text: 'sign_in_with',
-                shape: 'rectangular',
-            }
-            );
+ 
+    const [email,setEmail] = useState("");
+    const [password,setPassword] = useState();
+    const [error,setError] = useState("")
+    const handleEmailLogin = async(e) => {
+        e.preventDefault();
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth,email,password);
+            console.log("User logged in:", userCredential.user);
+            setError("")
         }
-        };
-        document.body.appendChild(script); // Add the script to the document
-    }, []);
-
-      const handleGoogleLogin = (response) => {
-        console.log('Google Login Success:', response.credential);
-      };
+        catch (error){
+            console.error("Error logging in: ", error.message);
+            setError("Invalid email or password")
+        }
+    }
+    const handleGoogleLogin = async () => {
+        try{
+            const userCredential = await signInWithPopup(auth,googleProvider);
+            console.log("Signed in with Google",userCredential.user);
+        }
+        catch (error) {
+            console.error("Error attemping to sign using Google", error.message)
+        }
+    }
+   
 
 
     return (
@@ -55,6 +55,8 @@ const LoginPage = () => {
         <input
         type="email"
         id="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         className="absolute w-[23.6%] h-[4.9%] top-[43.1%] left-[8.6%] bg-[#FBFBFB] shadow-inner rounded-[1.5%] p-2"
         />
 
@@ -68,6 +70,8 @@ const LoginPage = () => {
         <input
         type="password"
         id="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
         className="absolute w-[23.6%] h-[4.9%] top-[52.7%] left-[8.6%] bg-[#FBFBFB] shadow-inner rounded-[1.5%] p-2"
         />
 
