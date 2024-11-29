@@ -12,12 +12,13 @@ const LoginPage = () => {
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState();
     const [error,setError] = useState("")
+    const navigate = useNavigate();
     const handleEmailLogin = async(e) => {
         e.preventDefault();
         try {
             const userCredential = await signInWithEmailAndPassword(auth,email,password);
             console.log("User logged in:", userCredential.user);
-            setError("")
+            navigate("/dashboard");
         }
         catch (error){
             console.error("Error logging in: ", error.message);
