@@ -9,10 +9,13 @@
 
 
 
-    dotenv.config()
+    dotenv.config();
     const app = express();
-  
 
+    app.use(cors());
+    app.use(express.json()); //parse incoming json requests
+    app.use(express.urlencoded({extended:true}))
+    app.use("/api/users", userRoutes);
     app.get("/",(req,res) => {
         res.send("Server is ready")
     })

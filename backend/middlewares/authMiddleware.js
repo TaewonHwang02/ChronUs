@@ -1,4 +1,5 @@
-const admin = require("../config/firebaseAdmin.cjs");
+import admin from "../config/firebaseAdmin.js";
+
 const verifyFirebaseToken = async (req,res,next) => {
     const authHeader = req.headers.autherization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
