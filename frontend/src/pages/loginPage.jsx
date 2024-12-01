@@ -13,11 +13,24 @@ const LoginPage = () => {
     const [password,setPassword] = useState();
     const [error,setError] = useState("")
     const navigate = useNavigate();
+    
+    //email login
     const handleEmailLogin = async(e) => {
         e.preventDefault();
         try {
+            
+            //testing
+            console.log("Attempting to log in...");
             const userCredential = await signInWithEmailAndPassword(auth,email,password);
             console.log("User logged in:", userCredential.user);
+            // testing
+            const idToken = await userCredential.user.getIdToken();
+            console.log("Firebase ID Token:", idToken); 
+            await fetch("/api/users/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", Authorization: `Bearer ${idToken}` },
+                body: JSON.stringify({ email }),
+            });
             navigate("/dashboard");
         }
         catch (error){
@@ -25,10 +38,15 @@ const LoginPage = () => {
             setError("Invalid email or password")
         }
     }
+
+    //google login
     const handleGoogleLogin = async () => {
         try{
             const userCredential = await signInWithPopup(auth,googleProvider);
             console.log("Signed in with Google",userCredential.user);
+            // testing
+            const idToken = await userCredential.user.getIdToken();
+            console.log("Firebase ID Token:", idToken); 
         }
         catch (error) {
             console.error("Error attemping to sign using Google", error.message)
