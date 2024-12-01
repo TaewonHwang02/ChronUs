@@ -1,8 +1,10 @@
-const express = require("express");
-const User = require("../models/User")
+import express from "express";
+import User from "../models/User.js";
+import verifyFirebaseToken from "../middlewares/authMiddleware.js";
+
 const router = express.Router();
 
-router.post("/register",async(req,res) => {
+router.post("/register",verifyFirebaseToken, async(req,res) => {
     const {uid,email,name} = req.user;
     try {
        let user = await User.findOne({firebaseUID:uid})
@@ -23,4 +25,4 @@ router.post("/register",async(req,res) => {
     }
 
 })
-module.exports = router; 
+export default router
