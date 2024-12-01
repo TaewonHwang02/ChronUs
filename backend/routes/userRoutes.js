@@ -10,7 +10,7 @@ router.post("/register",verifyFirebaseToken, async(req,res) => {
        let user = await User.findOne({firebaseUID:uid})
        if (!user) {
         user = new User({
-            firebaseUID: uid,
+            uid: uid,
             email,
             name:name,
         });
@@ -21,7 +21,7 @@ router.post("/register",verifyFirebaseToken, async(req,res) => {
     }
     catch (error) {
         console.log("Error syncing user:", error.message)
-        res.status(500).json({message:"server error"})
+        res.status(500).json({message:"server errorfafsf"})
     }
 
 })
