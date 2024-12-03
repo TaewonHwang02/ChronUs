@@ -42,11 +42,18 @@ const LoginPage = () => {
     //google login
     const handleGoogleLogin = async () => {
         try{
+            console.log("Attempting to log in...");
             const userCredential = await signInWithPopup(auth,googleProvider);
             console.log("Signed in with Google",userCredential.user);
             // testing
             const idToken = await userCredential.user.getIdToken();
             console.log("Firebase ID Token:", idToken); 
+            await fetch("/api/users/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", Authorization: `Bearer ${idToken}` },
+                body: JSON.stringify({ email }),
+            });
+            navigate("/dashboard");
         }
         catch (error) {
             console.error("Error attemping to sign using Google", error.message)
