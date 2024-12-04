@@ -5,10 +5,11 @@ import verifyFirebaseToken from "../middlewares/authMiddleware.js";
 const router = express.Router();
 
 router.post("/register", verifyFirebaseToken, async (req, res) => {
-    console.log("Request body:", req.body); // Logs name and email sent from frontend
-    console.log("User data from Firebase token:", req.user); // Logs uid and email decoded from Firebase token
+    console.log("Request body:", req.body); // Log name and email 
+    console.log("User data from Firebase token:", req.user); // Log uid and email
     const { uid, email } = req.user; // Extracted from Firebase token
     const { name } = req.body; // Sent from the frontend
+
   
     try {
         let user = await User.findOne({ uid }); // Look for an existing user

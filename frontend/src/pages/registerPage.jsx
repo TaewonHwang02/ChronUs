@@ -26,8 +26,10 @@ const RegisterPage = () => {
         email,
         password
       );
+  
+
       const idToken = await userCredential.user.getIdToken();
-      const response = await fetch("/api/users/register", {
+      const response = await fetch("http://localhost:5001/api/users/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
