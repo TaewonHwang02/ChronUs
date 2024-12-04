@@ -4,25 +4,23 @@ import verifyFirebaseToken from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/register",verifyFirebaseToken, async(req,res) => {
-    const {uid,email,name} = req.user;
+router.post("/register", verifyFirebaseToken, async (req, res) => {
+    console.log("Request body:", req.body); // Logs name and email sent from frontend
+    console.log("User data from Firebase token:", req.user); // Logs uid and email decoded from Firebase token
+    const { uid, email } = req.user; // Extracted from Firebase token
+    const { name } = req.body; // Sent from the frontend
+  
     try {
-       let user = await User.findOne({firebaseUID:uid})
-       if (!user) {
-        user = new User({
-            uid: uid,
-            email,
-            name:name,
-        });
-        await user.save()
-       }
-       res.status(200).json({message:"User synced",user})
-
+        let user = await User.findOne({ uid }); // Look for an existing user
+        if (!user) {
+        user = new User({ uid, email, name }); // Create new user
+        await user.save();
+        }
+        res.status(200).json({ message: "User synced", user });
+    } catch (error) {
+        console.error("Error syncing user:", error.message);
+        res.status(500).json({ message: "Failed to sync user with MongoDB" });
     }
-    catch (error) {
-        console.log("Error syncing user:", error.message)
-        res.status(500).json({message:"server errorfafsf"})
-    }
+    });
 
-})
-export default router
+export default router;
