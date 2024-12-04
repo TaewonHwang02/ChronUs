@@ -4,17 +4,30 @@ const eventSchema = new mongoose.Schema({
 
     eventName: {
         type: String,
-        required: true
+        required:true
     },
-    eventDate: {
-        type: [String],
-        required: true
-    },
-    eventTimeSlots: {
-        type: [String],
-        required: true
+    participants: [
+        {
+            name: {
+                type: String,
+                required: true
+            },
+            availability: [
+                {
+                  day: { type: String },
+                  times: [{ type: String }],
+                },
+              ],
+           
+            
+        },
+    ],
+    eventLink: {
+        type:String,
+        required:true,
+        unique:true
+
     }
 });
 
 const Event = mongoose.model('Event', eventSchema);
-export default Event
