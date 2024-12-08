@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import registerLogo from "../assets/YellowLogo.svg"; // Header logo
+import googleLogo from "../assets/GoogleLogo.svg";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
@@ -162,12 +163,10 @@ const RegisterPage = () => {
           </div>  
           
           {/* Google button */}
-          <button
-            className="justify-center w-40 bg-white shadow rounded-2xl text-[1.15vw] font-poppins font-normal text-black"
-            onClick=""
-          >
-            Sign up with Google
-          </button>
+          <div className="flex justify-center items-center w-48 h-6 bg-white shadow rounded-2xl">
+            <img src={googleLogo} alt="ChronUs Logo" className="h-auto w-5 pr-[3%]" />
+            <span className="text-[1.15vw] font-poppins font-normal text-black">Sign up with Google</span>
+          </div>
         </div>
         
       </div>
