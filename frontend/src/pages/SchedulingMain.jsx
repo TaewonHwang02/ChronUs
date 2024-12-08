@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import registerLogo from "../assets/WhiteLogo.svg"; 
 import { DraggableSelector } from "react-draggable-selector";
+import ButtonBlue from '../components/ButtonBlue';
 
 const SchedulingMainPage = () => {
-    const [dates, setDates] = useState([
-     
-    ]); // Pre-populated dates for demonstration
+    const [dates, setDates] = useState([new Date()]); 
     const [times, setTimes] = useState([]);
     const location = useLocation();
     const user = location.state?.user || {};  
@@ -27,23 +26,36 @@ const SchedulingMainPage = () => {
             </h1>
 
             {/* Draggable Selector */}
-            <div className="absolute top-[30%] left-[5%] w-[90%] flex justify-between">
-                <div className="w-[45%]">
+            <div className="absolute top-[30%] left-[5%] p-4 w-[90%] flex justify-between">
+
+
+                {/* Left Draggable Selector */}
+                <div className="w-[40%] bg-white p-4 rounded-lg shadow-md">
                     <DraggableSelector
                         minTime={8}               // Start time
                         maxTime={19}              // End time 
                         dates={dates}             
                         timeSlots={times}         
-                        setTimeSlots={setTimes}   
+                        setTimeSlots={setTimes}  
+                        slotHeight={18}
+                        slotWidth={55} 
                     />
                 </div>
-                <div className="w-[45%]">
+                
+                {/* Right Draggable Selector */}
+                <div className="w-[40%] bg-white p-4 rounded-lg shadow-md">
+                    <div className="w-full flex justify-center items-center">
+                    <ButtonBlue text="Reset Times" />
+
+                    </div>
                     <DraggableSelector
                         minTime={8}               // Start time
                         maxTime={19}              // End time 
                         dates={dates}             
                         timeSlots={times}         
                         setTimeSlots={setTimes}   
+                        slotHeight={18}
+                        slotWidth={55} 
                     />
                 </div>
             </div>
