@@ -27,15 +27,27 @@ const SchedulingMainPage = () => {
             </h1>
 
             {/* Draggable Selector */}
-            <div className="absolute top-[30%] left-[5%] w-[40%]">
-                <DraggableSelector
-                    minTime={8}               // Start time
-                    maxTime={19}              // End time 
-                    dates={dates}             
-                    timeSlots={times}         
-                    setTimeSlots={setTimes}   
-                />
+            <div className="absolute top-[30%] left-[5%] w-[90%] flex justify-between">
+                <div className="w-[45%]">
+                    <DraggableSelector
+                        minTime={8}               // Start time
+                        maxTime={19}              // End time 
+                        dates={dates}             
+                        timeSlots={times}         
+                        setTimeSlots={setTimes}   
+                    />
+                </div>
+                <div className="w-[45%]">
+                    <DraggableSelector
+                        minTime={8}               // Start time
+                        maxTime={19}              // End time 
+                        dates={dates}             
+                        timeSlots={times}         
+                        setTimeSlots={setTimes}   
+                    />
+                </div>
             </div>
+
 
         </div>
     );
