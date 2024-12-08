@@ -4,6 +4,15 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body, #root {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow-x: hidden !important; /* Prevent horizontal scroll */
+}
+
 .gsi-material-button {
   -moz-user-select: none;
   -webkit-user-select: none;
