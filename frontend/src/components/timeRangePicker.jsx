@@ -48,7 +48,7 @@ const TimeRangePicker = ({
   return (
     <div className="relative top-3 w-full h-[160px] bg-white rounded-md">
       <div className="absolute top-5 w-5/6 h-full left-1/2 -translate-x-1/2">
-        <div className="absolute top-0 w-[240px] left-1/3 font-poppins text-[30px] text-[#0B1354]">
+        <div className="absolute top-0 w-full text-center font-poppins text-[30px] text-[#0B1354]">
           {`${minVal > 12 ? minVal - 12 : minVal} ${
             minVal < 12 ? "AM" : "PM"
           } to ${maxVal > 12 ? maxVal - 12 : maxVal} ${

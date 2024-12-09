@@ -7,6 +7,8 @@ import defaultimg from '../assets/defaultOp.svg';
 import minimum from  '../assets/minTime.svg';
 import TimeRangePicker from '../components/timeRangePicker';
 import DatePicker from '../components/datePicker';
+import Accordion from '../components/accordionOptions';
+import MinRangeSlider from '../components/minTimeRange';
 
 
 const CreateMeeting = () => {
@@ -33,15 +35,22 @@ const CreateMeeting = () => {
                     <span>Back to Dashboard</span>
                 </div>
                 <h1 className='py-2 font-poppins text-[3vw] font-medium text-white '>Set Your Dates</h1>
-                <div className=''>
-                    <DatePicker onChange={handleDateChange} />
-                </div>
+                    <DatePicker onChange={handleDateChange}/>
             </div>
             <div className="w-2/5 h-4/5">
                 <h3 className='py-1 font-poppins text-[1.3vw] font-normal text-[#98BCDA]'>Advanced Options</h3>
                 <h2 className='font-poppins text-[2.75vw] font-normal text-[#ffffff]'>Select Your Time Frame</h2>
                 <TimeRangePicker onChange={handleTimeRangeChange} />
-                <button className="relative top-96 left-1/2 -translate-x-1/2 bg-selective_yellow text-white font-normal font-poppins py-1 px-12 rounded-[50px] shadow-md w-auto cursor-pointer"
+                
+                <div className='py-8'>
+                <Accordion title="Default Option">
+                </Accordion>
+                <Accordion title="Section 1">
+                    <MinRangeSlider onChange={handleTimeRangeChange} />
+                </Accordion>
+                </div>
+
+                <button className="relative bottom-0 left-1/2 -translate-x-1/2 bg-selective_yellow text-white font-normal font-poppins py-1 px-12 rounded-[50px] shadow-md w-auto cursor-pointer"
                 onClick={() => navigate("/schedule")}
                 >
                     Generate Schedule

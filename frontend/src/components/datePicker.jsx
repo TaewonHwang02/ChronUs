@@ -19,9 +19,9 @@ const DateSelector = ({ onChange }) => {
   };
 
   return (
-    <div className="w-5/6 bg-white rounded-md p-4 flex items-center justify-center">
-      <div className="transform object-scale-down origin-top">
-        <DateRange
+    <div className="relative w-5/6 h-1/2 bg-white rounded-md p-2 flex items-center justify-center overflow-hidden">
+      <div className="transform scale-[clamp(0.5,1,2)]">
+      <DateRange
           editableDateInputs={true}
           onChange={handleDateChange}
           moveRangeOnFirstSelection={false}
