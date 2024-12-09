@@ -112,7 +112,6 @@ const TimeRangePicker = ({
             background: transparent;
           }
 
-          /* Thumbs */
           input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             background: white;
