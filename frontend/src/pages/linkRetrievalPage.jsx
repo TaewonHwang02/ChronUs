@@ -15,15 +15,33 @@ const LinkRetrievalPage = () => {
 
             
        {/* Text */}
-       <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-center">
-            <h4 className="text-5xl font-poppins mb-2">Thank you for choosing</h4>
+       <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-center">
+            <h4 className="text-4xl font-poppins font-semibold mb-2">Thank you for choosing</h4>
             
-            <h3 className="text-8xl font-kulim">
-                <span className="text-white font-normal">Chron</span>
-                <span className="text-steel_blue text-9xl">u</span>
+            <h3 className="text-6xl font-kulim font-semibold">
+                <span className="text-white  ">Chron</span>
+                <span className="text-steel_blue text-7xl">u</span>
                 <span className="text-steel_blue">s</span>
             </h3>
+
+           
+
+
         </div>
+
+        <div className="absolute top-1/2 left-2/3 transform -translate-x-1/2 -translate-y-1/2 text-white ">
+            <h3 className="text-3xl font-poppins mb-2">
+                <span className="text-white  ">You will be notified of the most</span>
+                <span className="text-white  ">optimal time slots upon</span>
+
+            </h3>
+    
+        </div>
+        
+
+        {/* White Box */}
+        <div class="absolute bottom-[3%] left-[10%] w-64 h-96 bg-white flex items-center justify-center"></div>
+
 
           
 
