@@ -1,7 +1,10 @@
 import React from 'react';
-import { Link,useLocation } from 'react-router-dom';
+import { Link,useNavigate,useLocation } from 'react-router-dom';
 
 const DashboardPage = () => {
+
+    const navigate = useNavigate();
+
     const location = useLocation();
     const user = location.state?.user || {};  
     return (
@@ -103,7 +106,9 @@ const DashboardPage = () => {
                 </div>
 
                 {/* Add Meeting Button */}
-                <div className='relative mt-[6vh] mx-auto flex flex-col justify-center items-center py-[4vh] h-[19vh] w-[25vw] bg-white rounded-2xl border-dashed border-4'>
+                <div className='relative mt-[6vh] mx-auto flex flex-col justify-center items-center py-[4vh] h-[19vh] w-[25vw] bg-white rounded-2xl border-dashed border-4'
+                onClick={() => navigate("/createMeeting")}
+                >
                     <svg width="40" height="auto" viewBox="0 0 82 82" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M40.9997 17.084V64.9173M17.083 41.0006H64.9163" stroke="#B3B3B3" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
