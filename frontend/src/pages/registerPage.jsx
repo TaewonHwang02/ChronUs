@@ -65,6 +65,7 @@ const RegisterPage = () => {
       <div className="absolute bottom-0 right-0 h-full w-[42%]">
         {/* Logo + Register Heading */}
         <div>
+          {/* Logo */}
           <div className="flex justify-center pt-8">
             <img src={registerLogo} alt="ChronUs Logo" className="h-auto w-28" />
           </div>
@@ -73,7 +74,6 @@ const RegisterPage = () => {
             Register Here
           </h1>
         </div>
-        {/* Logo "absolute   p-10"  and ""*/}
         
         {/* All Labels */}
         <div className="flex flex-col items-center justify-center space-y-4 pt-6">
@@ -162,13 +162,12 @@ const RegisterPage = () => {
             <hr className="block h-[10px] border-t-black w-36"/>
           </div>  
           
-          {/* Google button */}
+          {/* Google Button */}
           <div className="flex justify-center items-center w-48 h-6 bg-white shadow rounded-2xl">
             <img src={googleLogo} alt="ChronUs Logo" className="h-auto w-5 pr-[3%]" />
             <span className="text-[1.15vw] font-poppins font-normal text-black">Sign up with Google</span>
           </div>
         </div>
-        
       </div>
       
     </div>
