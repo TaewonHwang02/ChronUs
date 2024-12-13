@@ -35,10 +35,8 @@ const CreateMeeting = () => {
             <div className="w-2/5 h-4/5 relative">
                 <img src={LoginLogo} alt="ChronUs Logo" className="w-20 h-35" />
                 <div
-                className="relative mt-4 font-poppins text-white flex items-center space-x-2 cursor-pointer"
-                onClick={() => navigate("/dashboard")} 
-                >
-                    <img src={returnArr} alt="return" className="w-5 h-5" />
+                className="relative w-2/3 mt-4 font-poppins text-white flex items-center space-x-2 cursor-pointer" onClick={() => navigate("/dashboard")}>
+                    <img src={returnArr} alt="return" className="w-5 h-5"/>
                     <span>Back to Dashboard</span>
                 </div>
                 <h1 className='py-2 font-poppins text-[3vw] font-medium text-white '>Set Your Dates</h1>
