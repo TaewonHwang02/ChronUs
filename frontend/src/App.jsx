@@ -7,6 +7,7 @@ import DashboardPage from './pages/dashboardPage';
 import RegisterPage from './pages/registerPage';
 import SchedulingMainPage from './pages/SchedulingMain';
 import LinkRetrievalPage from './pages/linkRetrievalPage';
+import CreateMeeting from './pages/createMeeting';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/schedulingmain" element={<SchedulingMainPage />} />
         <Route path="/linkretrieval" element={<LinkRetrievalPage />} />
+        <Route path='/createMeeting' element={<CreateMeeting />} />
      
        
         
