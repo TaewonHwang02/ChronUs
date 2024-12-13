@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import ButtonBlue from '../components/ButtonBlue';
+import { DraggableSelector } from "react-draggable-selector";
 
 
 const LinkRetrievalPage = () => {
+    const [dates, setDates] = useState([new Date()]); 
+    const [times, setTimes] = useState([]);
+    const location = useLocation();
+    const user = location.state?.user || {}; 
+    
+
 
     return (
         <div className="relative w-full h-screen bg-[#F5F5F5] overflow-hidden">
@@ -12,8 +19,8 @@ const LinkRetrievalPage = () => {
         <div className="absolute w-full h-[84%] bg-selective_yellow rounded-br-[600px]"></div>
 
             
-       {/* Text */}
-       <div className="absolute top-[25%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 text-white text-center">
+       {/* ChronUs Text*/}
+       <div className="absolute top-[25%] left-[47%] transform -translate-x-1/2 -translate-y-1/2 text-white text-center">
             <h4 className="text-4xl font-poppins font-semibold mb-2">Thank you for choosing</h4>
             
             <h3 className="text-6xl font-kulim font-semibold">
@@ -22,8 +29,8 @@ const LinkRetrievalPage = () => {
                 <span className="text-steel_blue">s</span>
             </h3>
         </div>
-
-        <div className="absolute top-1/2 left-[55%] transform -translate-x-1/2 -translate-y-1/2 text-white ">
+        {/*  Text*/}
+        <div className="absolute top-1/2 left-[58%] transform -translate-x-1/2 -translate-y-1/2 text-white ">
           
             <h3 className="text-3xl font-poppins mb-2">
                 <span className="text-white  ">You will be notified of the most</span>
@@ -36,7 +43,7 @@ const LinkRetrievalPage = () => {
            </h3>
         </div>
         
-        <div className="absolute top-[65%] left-[59%] transform -translate-x-1/2 flex items-center justify-between space-x-4 w-[40%] h-16">
+        <div className="absolute top-[65%] left-[62%] transform -translate-x-1/2 flex items-center justify-between space-x-4 w-[40%] h-16">
             {/* Meeting Name Input */}
             <input
                 type="text"
@@ -47,13 +54,26 @@ const LinkRetrievalPage = () => {
         </div>
 
         
-      {/* White Box */}
-        <div class="absolute bottom-[3%] left-[10%] w-96 h-[30rem] bg-white flex items-center justify-center"></div>
+      {/* time Box */}
+     
+      <div className="absolute bottom-[10%] left-[20%] transform -translate-x-1/2 bg-white p-4 rounded-lg shadow-md w-[33%] h-auto flex items-center justify-center">
+    <DraggableSelector
+        minTime={8}
+        maxTime={19}
+        dates={dates}
+        timeSlots={times}
+        setTimeSlots={setTimes}
+        slotHeight={15}
+        slotWidth={50}
+        slotsMarginTop={5}        // Adjust the vertical gap (default is 11)
+  slotsMarginLeft={5}      // Adj
+    />
+</div>
 
 
-        
-    
+
     </div>
+
 
     );
 };
