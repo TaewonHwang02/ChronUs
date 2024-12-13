@@ -91,7 +91,7 @@ const TimeRangePicker = ({
             max={max}
             value={minVal}
             onChange={(e) => setMinVal(Math.min(Number(e.target.value), maxVal - 1))}
-            className="relative appearance-none w-full h-2 z-[4] "
+            className="relative appearance-none w-full h-2 z-[4] left-thumb"
           />
         </div>
       </div>
@@ -124,6 +124,10 @@ const TimeRangePicker = ({
             transform: translateY(-50%);
             position: relative;
             z-index: 10;
+          }
+
+          input[type="range"].left-thumb::-webkit-slider-thumb {
+            transform: translateY(-30%); 
           }
 
           input[type="range"]::-moz-range-thumb {

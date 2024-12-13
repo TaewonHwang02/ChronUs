@@ -19,8 +19,8 @@ const Accordion = ({ title, subtext, children, imageSrc, isActive, onToggle }) =
         />
         {/* Title and Subtext */}
         <div className="flex flex-col flex-grow">
-          <h3 className="text-lg font-medium">{title}</h3>
-          <p className="text-sm text-gray-500 mt-1">{subtext}</p>
+          <h3 className="text-lg font-medium font-poppins">{title}</h3>
+          <p className="text-sm text-gray-500 mt-1 font-poppins">{subtext}</p>
         </div>
         {/* Icon */}
         <span className="text-xs font-poppins">{isActive ? '' : 'select'}</span>
