@@ -8,19 +8,20 @@ const DateSelector = ({ onChange }) => {
   const [state, setState] = useState([
     {
       startDate: new Date(),
-      endDate: null,
+      endDate: addDays(new Date(), 3),
       key: 'selection',
     }
   ]);
 
   const handleDateChange = (item) => {
-    setState([item.selection]);
-    onChange && onChange(item.selection);
+    const newSelection = item.selection;
+    setState([newSelection]);
+    onChange && onChange(newSelection);
   };
 
   return (
-    <div className="relative w-5/6 h-1/2 bg-white rounded-md p-2 flex items-center justify-center overflow-hidden">
-      <div className="transform scale-[clamp(0.5,1,2)]">
+    <div className="relative w-5/6 h-1/2 bg-white rounded-md p-2 font-poppins flex items-center justify-center overflow-hidden">
+      <div className="justify-center flex w-full h-full">
       <DateRange
           editableDateInputs={true}
           onChange={handleDateChange}
@@ -30,7 +31,8 @@ const DateSelector = ({ onChange }) => {
           minDate={addDays(new Date(), -300)}
           maxDate={addDays(new Date(), 900)}
           direction="vertical"
-          scroll={{ enabled: true }}
+          scroll={{ enabled: false }}
+          className="w-full h-full"
         />
       </div>
     </div>
