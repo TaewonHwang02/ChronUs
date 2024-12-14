@@ -30,6 +30,7 @@ const RegisterPage = () => {
   
 
       const idToken = await userCredential.user.getIdToken();
+      console.log("Generated Firebase ID Token:", idToken);
       const response = await fetch("http://localhost:5001/api/users/register", {
         method: "POST",
         headers: {

@@ -1,22 +1,31 @@
 import admin from "../config/firebaseAdmin.js";
 
 const verifyFirebaseToken = async (req, res, next) => {
-    console.log("Headers:", req.headers); 
-    const token = req.headers.authorization?.split(" ")[1];
-    if (!token) {
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) {
       return res.status(401).json({ message: "Unauthorized: Missing token" });
-    }
-  
-    try {
+  }
+
+  try {
       const decodedToken = await admin.auth().verifyIdToken(token);
+
+      // Ensure `uid` and `email` exist in the decoded token
+      if (!decodedToken.uid || !decodedToken.email) {
+          console.error("Invalid token: Missing uid or email");
+          return res.status(400).json({ message: "Invalid token: Missing uid or email" });
+      }
+
       req.user = {
-      uid: decodedToken.uid,
-      email: decodedToken.email,
-      name: decodedToken.name || "Anonymous", // Optional fallback
-    };
-    next();
-    } catch (error) {
-      res.status(403).json({ message: "Unauthorized: Invalid token" });
-    }
-  };
+          uid: decodedToken.uid,
+          email: decodedToken.email,
+          name: decodedToken.name || "Anonymous",
+      };
+      console.log("Decoded token:", req.user);
+      next();
+  } catch (error) {
+      console.error("Firebase token verification failed:", error.message);
+      return res.status(403).json({ message: "Unauthorized: Invalid token" });
+  }
+};
+
 export default verifyFirebaseToken
