@@ -26,12 +26,19 @@ const LoginPage = () => {
             // testing
             const idToken = await userCredential.user.getIdToken();
             console.log("Firebase ID Token:", idToken); 
-            await fetch("/api/users/login", {
+            const response = await fetch("http://localhost:5001/api/users/login", {
                 method: "POST",
-                headers: { "Content-Type": "application/json", Authorization: `Bearer ${idToken}` },
+                headers: { 
+                    "Content-Type": "application/json", 
+                    Authorization: `Bearer ${idToken}` 
+                },
                 body: JSON.stringify({ email }),
             });
-            navigate("/dashboard");
+              // Debug response
+            console.log("Response status:", response.status);
+            console.log("Response text:", await response.text());
+            const data = await response.json();
+            navigate("/dashboard", { state: { user: data.user } });
         }
         catch (error){
             console.error("Error logging in: ", error.message);
