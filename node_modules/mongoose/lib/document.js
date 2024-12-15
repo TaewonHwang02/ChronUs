@@ -624,16 +624,17 @@ Document.prototype.toBSON = function() {
 };
 
 /**
- * Initializes the document without setters or marking anything modified.
+ * Hydrates this document with the data in `doc`. Does not run setters or mark any paths modified.
  *
- * Called internally after a document is returned from mongodb. Normally,
+ * Called internally after a document is returned from MongoDB. Normally,
  * you do **not** need to call this function on your own.
  *
  * This function triggers `init` [middleware](https://mongoosejs.com/docs/middleware.html).
  * Note that `init` hooks are [synchronous](https://mongoosejs.com/docs/middleware.html#synchronous).
  *
- * @param {Object} doc document returned by mongo
+ * @param {Object} doc raw document returned by mongo
  * @param {Object} [opts]
+ * @param {Boolean} [opts.hydratedPopulatedDocs=false] If true, hydrate and mark as populated any paths that are populated in the raw document
  * @param {Function} [fn]
  * @api public
  * @memberOf Document
@@ -804,6 +805,14 @@ function init(self, obj, doc, opts, prefix) {
               value: e.value,
               reason: e
             }));
+          }
+        } else if (opts.hydratedPopulatedDocs) {
+          doc[i] = schemaType.cast(value, self, true);
+
+          if (doc[i] && doc[i].$__ && doc[i].$__.wasPopulated) {
+            self.$populated(path, doc[i].$__.wasPopulated.value, doc[i].$__.wasPopulated.options);
+          } else if (Array.isArray(doc[i]) && doc[i].length && doc[i][0]?.$__?.wasPopulated) {
+            self.$populated(path, doc[i].map(populatedDoc => populatedDoc?.$__?.wasPopulated?.value).filter(val => val != null), doc[i][0].$__.wasPopulated.options);
           }
         } else {
           doc[i] = value;
@@ -2711,7 +2720,7 @@ function _getPathsToValidate(doc, pathsToValidate, pathsToSkip, isNestedValidate
 
   if (!isNestedValidate) {
     // If we're validating a subdocument, all this logic will run anyway on the top-level document, so skip for subdocuments
-    const subdocs = doc.$getAllSubdocs();
+    const subdocs = doc.$getAllSubdocs({ useCache: true });
     const modifiedPaths = doc.modifiedPaths();
     for (const subdoc of subdocs) {
       if (subdoc.$basePath) {
@@ -3482,7 +3491,7 @@ Document.prototype.$__reset = function reset() {
   let _this = this;
 
   // Skip for subdocuments
-  const subdocs = !this.$isSubdocument ? this.$getAllSubdocs() : null;
+  const subdocs = !this.$isSubdocument ? this.$getAllSubdocs({ useCache: true }) : null;
   if (subdocs && subdocs.length > 0) {
     for (const subdoc of subdocs) {
       subdoc.$__reset();
@@ -3672,6 +3681,7 @@ Document.prototype.$__getArrayPathsToValidate = function() {
 /**
  * Get all subdocs (by bfs)
  *
+ * @param {Object} [options] options. Currently for internal use.
  * @return {Array}
  * @api public
  * @method $getAllSubdocs
@@ -3679,57 +3689,50 @@ Document.prototype.$__getArrayPathsToValidate = function() {
  * @instance
  */
 
-Document.prototype.$getAllSubdocs = function() {
+Document.prototype.$getAllSubdocs = function(options) {
+  if (options?.useCache && this.$__.saveOptions?.__subdocs) {
+    return this.$__.saveOptions.__subdocs;
+  }
+
   DocumentArray || (DocumentArray = require('./types/documentArray'));
   Embedded = Embedded || require('./types/arraySubdocument');
 
-  function docReducer(doc, seed, path) {
-    let val = doc;
-    let isNested = false;
-    if (path) {
-      if (doc instanceof Document && doc[documentSchemaSymbol].paths[path]) {
-        val = doc._doc[path];
-      } else if (doc instanceof Document && doc[documentSchemaSymbol].nested[path]) {
-        val = doc._doc[path];
-        isNested = true;
-      } else {
-        val = doc[path];
+  const subDocs = [];
+  function getSubdocs(doc) {
+    const newSubdocs = [];
+    for (const { path } of doc.$__schema.childSchemas) {
+      const val = doc.$__getValue(path);
+      if (val == null) {
+        continue;
+      }
+      if (val.$__) {
+        newSubdocs.push(val);
+      }
+      if (Array.isArray(val)) {
+        for (const el of val) {
+          if (el != null && el.$__) {
+            newSubdocs.push(el);
+          }
+        }
+      }
+      if (val instanceof Map) {
+        for (const el of val.values()) {
+          if (el != null && el.$__) {
+            newSubdocs.push(el);
+          }
+        }
       }
     }
-    if (val instanceof Embedded) {
-      seed.push(val);
-    } else if (val instanceof Map) {
-      seed = Array.from(val.keys()).reduce(function(seed, path) {
-        return docReducer(val.get(path), seed, null);
-      }, seed);
-    } else if (val && !Array.isArray(val) && val.$isSingleNested) {
-      seed = Object.keys(val._doc).reduce(function(seed, path) {
-        return docReducer(val, seed, path);
-      }, seed);
-      seed.push(val);
-    } else if (val && utils.isMongooseDocumentArray(val)) {
-      val.forEach(function _docReduce(doc) {
-        if (!doc || !doc._doc) {
-          return;
-        }
-        seed = Object.keys(doc._doc).reduce(function(seed, path) {
-          return docReducer(doc._doc, seed, path);
-        }, seed);
-        if (doc instanceof Embedded) {
-          seed.push(doc);
-        }
-      });
-    } else if (isNested && val != null) {
-      for (const path of Object.keys(val)) {
-        docReducer(val, seed, path);
-      }
+    for (const subdoc of newSubdocs) {
+      getSubdocs(subdoc);
     }
-    return seed;
+    subDocs.push(...newSubdocs);
   }
 
-  const subDocs = [];
-  for (const path of Object.keys(this._doc)) {
-    docReducer(this, subDocs, path);
+  getSubdocs(this);
+
+  if (this.$__.saveOptions) {
+    this.$__.saveOptions.__subdocs = subDocs;
   }
 
   return subDocs;
