@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from "axios";
 import { Link, useNavigate } from 'react-router-dom';
 import { addDays } from 'date-fns';
 import { DateRangePicker } from 'react-date-range';
@@ -14,6 +15,31 @@ import MinRangeSlider from '../components/minTimeRange';
 
 const CreateMeeting = () => {
 
+    const handleGenerateSchedule = async () => {
+        const meetingData = {
+          meetingID: "meeting123", // Replace with actual data
+          userID: "user456",
+          scheduleMode: activeIndex === 0 ? "common_time" : "common_date", // Based on the selected accordion
+          emailOption: true, // Retrieve checkbox value dynamically
+          timeZone: "UTC", // Replace with actual data
+          begTimeFrame: 480, // Start time in minutes
+          endTimeFrame: 1020, // End time in minutes
+          minimumTimeSlot: 30, // Replace with actual data
+          startDate: new Date(), // Replace with selected date range
+          endDate: new Date(), // Replace with selected date range
+          deadline: new Date(), // Replace with actual data
+          participants: ["user1@example.com", "user2@example.com"], // Replace with actual data
+        };
+      
+        try {
+          const response = await axios.post("http://localhost:5000/api/meetings/create-meeting", meetingData);
+          console.log(response.data.message);
+          navigate("/schedule"); // Redirect after successful meeting creation
+        } catch (error) {
+          console.error("Error creating meeting:", error.response?.data || error.message);
+        }
+      };
+
     const navigate = useNavigate();
 
     const handleTimeRangeChange = (range) => {
@@ -25,6 +51,8 @@ const CreateMeeting = () => {
       };
 
     const [activeIndex, setActiveIndex] = useState(null);
+
+    const [emailOption, setEmailOption] = useState(false);
 
     const handleToggle = (index) => {
     setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
@@ -44,7 +72,7 @@ const CreateMeeting = () => {
 
                 <div className="mt-2 px-3 w-4/5 left-1/2">
                     <label className="flex items-center space-x-2 text-[#ffffff]">
-                        <input type="checkbox" className="form-checkbox " />
+                        <input type="checkbox" className="form-checkbox" checked={emailOption} onChange={(e) => setEmailOption(e.target.checked)} />
                         <span className="px-2 text-l font-poppins">Receive an E-mail of curated dates/times upon the Deadline</span>
                     </label>
                 </div>
@@ -74,7 +102,7 @@ const CreateMeeting = () => {
                 </div>              
 
                 <button className="relative bottom-0 left-1/2 -translate-x-1/2 bg-selective_yellow text-white font-normal font-poppins py-1 px-12 rounded-[50px] shadow-md w-auto cursor-pointer"
-                onClick={() => navigate("/schedule")}
+                onClick={handleGenerateSchedule}
                 >
                     Generate Schedule
                 </button>
