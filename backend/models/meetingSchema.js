@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-//const { Schema } = mongoose;
+const { Schema } = mongoose;
 
-const meetingSchema  = new mongoose.Schema(
+const meetingSchema  = new Schema(
     {
     meetingID: { type: String, required: true },
     userID: { type: String, required: true }, 
