@@ -31,7 +31,29 @@ router.post("/register", verifyFirebaseToken, async (req, res) => {
     }
 });
 
+router.post("/login", verifyFirebaseToken, async (req, res) => {
+    const { uid, email } = req.user; // Extract uid and email from token
 
+    if (!uid || !email) {
+        console.error("Missing required fields: uid or email");
+        return res.status(400).json({ message: "Missing required fields: uid or email" });
+    }
+
+    try {
+        const user = await User.findOne({ uid });
+
+        if (!user) {
+            console.error("User not found with the given uid");
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        console.log("User logged in successfully:", user);
+        res.status(200).json({ message: "Login successful", user });
+    } catch (error) {
+        console.error("Error during login:", error.message);
+        res.status(500).json({ message: "Failed to login" });
+    }
+});
 
 
 

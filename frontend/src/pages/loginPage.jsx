@@ -32,13 +32,13 @@ const LoginPage = () => {
                     "Content-Type": "application/json", 
                     Authorization: `Bearer ${idToken}` 
                 },
-                body: JSON.stringify({ email }),
+                body: JSON.stringify({ name, email }),
             });
-              // Debug response
-            console.log("Response status:", response.status);
-            console.log("Response text:", await response.text());
+             
+
             const data = await response.json();
             navigate("/dashboard", { state: { user: data.user } });
+            console.log(data.user.name)
         }
         catch (error){
             console.error("Error logging in: ", error.message);
