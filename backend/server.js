@@ -6,16 +6,21 @@
     import "./config/db.js";
     import admin from "./config/firebaseAdmin.js";
     import userRoutes from "./routes/userRoutes.js";
+    import meetingRoutes from "./routes/meetingRoutes.js";
+
 
 
 
     dotenv.config();
     const app = express();
+    connectDB();
 
     app.use(cors());
     app.use(express.json()); //parse incoming json requests
     app.use(express.urlencoded({extended:true}))
     app.use("/api/users", userRoutes);
+    app.use("/api/meetings", meetingRoutes);
+
     app.get("/",(req,res) => {
         res.send("Server is ready")
     })
