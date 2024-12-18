@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
-import { Link,useNavigate,useLocation } from 'react-router-dom';
+import { Link,useNavigate,useLocation,useParams } from 'react-router-dom';
 import registerLogo from "../assets/WhiteLogo.svg"; // Header logo
 import { DraggableSelector } from "react-draggable-selector";
 
 const LinkPage = () => {
+    const {meetingLink} = useParams();
     const [dates, setDates] = useState([new Date()]); 
     const [times, setTimes] = useState([]);
-    const user = location.state?.user || {}; 
+    // const user = location.state?.user || {}; 
+    const [participantNmae, setParticipantName] = useState("")
+
+
+
+    
     return (
         <div>
             {/* Background Ellipse */}

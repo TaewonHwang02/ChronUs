@@ -21,7 +21,8 @@ function App() {
         <Route path="/schedulingmain" element={<SchedulingMainPage />} />
         <Route path="/linkretrieval" element={<LinkRetrievalPage />} />
         <Route path='/createMeeting' element={<CreateMeeting />} />
-        <Route path='/linkpage' element={<LinkPage />} />
+        <Route path='/join/:meetingLink' element={<LinkPage />} />
+
        
         
       </Routes>

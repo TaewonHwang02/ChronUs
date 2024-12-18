@@ -21,7 +21,7 @@ router.post("/create-meeting", verifyFirebaseToken, async (req, res) => {
 
     // Validate required fields
     if (!userID || !scheduleMode || !timeZone || !begTimeFrame || !endTimeFrame || !startdate || !enddate || !deadline) {
-      return res.status(400).json({ message: "Missing required fields" });
+      return res.status(400).json({ message: "Missing required fiaelds" });
     }
 
     // Validate userID as a non-empty string (Firebase UID)
@@ -56,5 +56,55 @@ router.post("/create-meeting", verifyFirebaseToken, async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+router.post("/join-meeting", async (req, res) => {
+  const { meetingLink, participantName, times } = req.body;
+
+  if (!meetingLink || !participantName || !times) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+
+  try {
+    const meeting = await Meeting.findOne({ meetingLink });
+
+    if (!meeting) {
+      return res.status(404).json({ message: "Meeting not found" });
+    }
+
+    meeting.participants.push({
+      name: participantName,
+      times,
+    });
+
+    await meeting.save();
+
+    res.status(200).json({
+      message: "Participant added successfully",
+      participants: meeting.participants,
+    });
+  } catch (error) {
+    console.error("Error adding participant:", error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+router.get("/:meetingLink", async (req, res) => {
+  const { meetingLink } = req.params;
+
+  try {
+    const meeting = await Meeting.findOne({ meetingLink });
+
+    if (!meeting) {
+      return res.status(404).json({ message: "Meeting not found" });
+    }
+
+    res.status(200).json({
+      meeting,
+    });
+  } catch (error) {
+    console.error("Error retrieving meeting:", error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
 
 export default router;

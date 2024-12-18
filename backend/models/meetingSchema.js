@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import participantSchema from "./participantSchema.js";
 
 const meetingSchema = new mongoose.Schema({
   userID: { type: String, required: true }, // Firebase UID as a string
@@ -9,7 +10,7 @@ const meetingSchema = new mongoose.Schema({
   startdate: { type: Date, required: true },
   enddate: { type: Date, required: true },
   deadline: { type: Date, required: true },
-  participants: { type: [String], required: true },
+  participants: [participantSchema],
   meetingLink: { type: String, unique: true, required: true },
 });
 

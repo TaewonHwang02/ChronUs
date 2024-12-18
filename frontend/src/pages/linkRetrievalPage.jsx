@@ -23,14 +23,16 @@ const LinkRetrievalPage = () => {
 
     // Handle finalizing the meeting
     const handleFinalizeMeeting = () => {
+        console.log("Finalize meeting button clicked");
         if (!inputMeetingName) {
             alert("Please provide a meeting name.");
             return;
         }
 
-        // Mock finalization logic
-        alert(`Meeting "${inputMeetingName}" finalized! Link copied to clipboard.`);
-        navigator.clipboard.writeText(`http://localhost:5173/join/${meetingLink}`);
+        const shareableLink = `http://localhost:5173/join/${meetingLink}`;
+        console.log("Generated Shareable Link:", shareableLink);
+        navigator.clipboard.writeText(shareableLink);
+        alert("Link copied to clipboard!");
         navigate("/dashboard");
     };
 

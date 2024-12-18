@@ -46,7 +46,7 @@ const CreateMeeting = () => {
                 startdate: dateRange.startDate,
                 enddate: dateRange.endDate,
                 deadline: new Date(), // Replace with actual deadline
-                participants: ["user1@example.com", "user2@example.com"], // Replace with actual participants
+                //participants: ["user1@example.com", "user2@example.com"], // Replace with actual participants
             };
     
             // Make the POST request
@@ -88,6 +88,12 @@ const CreateMeeting = () => {
     const handleToggle = (index) => {
         setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
     };
+    // const handleAddParticipant = () => {
+    //     if (newParticipant && !participants.includes(newParticipant)) {
+    //         setParticipants([...participants, newParticipant]);
+    //         setNewParticipant("");
+    //     }
+    // };
 
     return (
         <div className="relative w-full h-screen bg-steel_blue flex items-center justify-center gap-1">
