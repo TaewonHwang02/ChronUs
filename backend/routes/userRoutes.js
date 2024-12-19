@@ -83,6 +83,22 @@ router.post("/addMeeting", async (req, res) => {
       res.status(500).json({ message: "Server error", error: error.message });
     }
   });
+  router.get("/user-meetings/:userID", verifyFirebaseToken, async (req, res) => {
+    const { userID } = req.params;
+  
+    try {
+      const user = await User.findOne({ uid: userID }).populate("meetings");
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      res.status(200).json({ meetings: user.meetings });
+    } catch (error) {
+      console.error("Error fetching user meetings:", error.message);
+      res.status(500).json({ message: "Server error", error: error.message });
+    }
+  });
+  
 
 
 

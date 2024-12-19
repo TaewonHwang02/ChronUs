@@ -1,20 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import { Link,useNavigate,useLocation } from 'react-router-dom';
 import axios from "axios"
+import meetingSchema from '../../../backend/models/meetingSchema';
 
 const DashboardPage = () => {
 
     const navigate = useNavigate();
-
+    const [meetings, setMeeting] = useState([]);
     const location = useLocation();
     const user = location.state?.user || {};  
+    
     useEffect(() => {
         const fetchUserMeetings = async () => {
             try {
+                if (!user?.token) {
+                    console.error("Token is missing");
+                    return;
+                }
                 const token = user?.token; // Assuming token is passed with user state
                 const response = await axios.get(`http://localhost:5001/api/meetings/user-meetings/${user.uid}`, {
                     headers: {
-                        Authorization: `Bearer ${token}`, // Use Firebase token for authentication
+                        Authorization: `Bearer ${user.token}`, // Use Firebase token for authentication
                     },
                 });
                 setMeetings(response.data.meetings);
@@ -23,10 +29,10 @@ const DashboardPage = () => {
             }
         };
 
-        if (user.uid) {
+        if (user) {
             fetchUserMeetings();
         }
-    }, [user]);
+    }, [user.uid, user.token]);
 
     
     return (
@@ -76,7 +82,7 @@ const DashboardPage = () => {
                         <div className='relative h-[21vh] w-[34vw] bg-white rounded p-[3.5vh]'>
                             {/* Title + Date */}
                             <div className='relative flex flex-row items-end'>
-                                <h1 className='font-poppins font-semibold text-[2.75vh] text-black'>AKCSE Executive Meeting</h1>
+                                <h1 className='font-poppins font-semibold text-[2.75vh] text-black'>{meetings.meetingName}</h1>
                                 <p className='absolute inset-y-0 right-0 font-poppins font-semibold text-[2.25vh] text-[#B3B3B3]'>Nov 10th-16th</p>
                             </div>
                             {/* Time Slot + Min Time Slot */}
@@ -93,45 +99,7 @@ const DashboardPage = () => {
                             </button>
                         </div>
 
-                        {/* Meeting 2 */}
-                        <div className='relative h-[21vh] w-[34vw] bg-white rounded p-[3.5vh]'>
-                            {/* Title + Date */}
-                            <div className='relative flex flex-row items-end'>
-                                <h1 className='font-poppins font-semibold text-[2.75vh] text-black'>AKCSE Executive Meeting</h1>
-                                <p className='absolute inset-y-0 right-0 font-poppins font-semibold text-[2.25vh] text-[#B3B3B3]'>Nov 10th-16th</p>
-                            </div>
-                            {/* Time Slot + Min Time Slot */}
-                            <div className='absolute pb-[3.5vh] pl-[3.5vh] inset-x-0 bottom-0'>
-                                <h1 className='font-poppins text-[2vh] text-black'>Time Slot: 12pm to 6pm</h1>
-                                <h1 className='font-poppins text-[2vh] text-black mt-[0.25vh]'>Minimum Time Slot: 120 Minutes</h1>
-                            </div>
-                            <button
-                                className="absolute bottom-0 translate-x-[50%] translate-y-[50%] w-[15vw] bg-selective_yellow shadow rounded-2xl text-[1.15vw] font-poppins font-normal text-white"
-                                onClick=''
-                            >
-                                Reuse this Schedule
-                            </button>
-                        </div>
-
-                        {/* Meeting 3 */}
-                        <div className='relative h-[21vh] w-[34vw] bg-white rounded p-[3.5vh]'>
-                            {/* Title + Date */}
-                            <div className='relative flex flex-row items-end'>
-                                <h1 className='font-poppins font-semibold text-[2.75vh] text-black'>AKCSE Executive Meeting</h1>
-                                <p className='absolute inset-y-0 right-0 font-poppins font-semibold text-[2.25vh] text-[#B3B3B3]'>Nov 10th-16th</p>
-                            </div>
-                            {/* Time Slot + Min Time Slot */}
-                            <div className='absolute pb-[3.5vh] pl-[3.5vh] inset-x-0 bottom-0'>
-                                <h1 className='font-poppins text-[2vh] text-black'>Time Slot: 12pm to 6pm</h1>
-                                <h1 className='font-poppins text-[2vh] text-black mt-[0.25vh]'>Minimum Time Slot: 120 Minutes</h1>
-                            </div>
-                            <button
-                                className="absolute bottom-0 translate-x-[50%] translate-y-[50%] w-[15vw] bg-selective_yellow shadow rounded-2xl text-[1.15vw] font-poppins font-normal text-white"
-                                onClick=''
-                            >
-                                Reuse this Schedule
-                            </button>
-                        </div>
+                        
                     </div>
                 </div>
 
