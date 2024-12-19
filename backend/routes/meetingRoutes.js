@@ -146,6 +146,25 @@ router.put("/update-meeting/:meetingID", verifyFirebaseToken, async (req, res) =
     res.status(500).json({ message: "Server error", error: error.message });
   }
 });
+router.get("/scheduling/:meetingLink", async (req, res) => {
+  const { meetingLink } = req.params;
+
+  try {
+    const meeting = await Meeting.findOne({ meetingLink });
+
+    if (!meeting) {
+      return res.status(404).json({ message: "Meeting not found" });
+    }
+
+    res.status(200).json({
+      meeting,
+    });
+  } catch (error) {
+    console.error("Error retrieving meeting for scheduling:", error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
 
 
 export default router;
