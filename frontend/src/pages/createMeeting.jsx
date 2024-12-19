@@ -22,6 +22,26 @@ const CreateMeeting = () => {
     const [timeRange, setTimeRange] = useState({ start: 480, end: 1020 });
     const [activeIndex, setActiveIndex] = useState(null);
     const navigate = useNavigate();
+
+    const handleDateChange = (selectedDates) => {
+        setDateRange({
+            startDate: selectedDates.startDate,
+            endDate: selectedDates.endDate,
+        });
+    };
+
+    const handleTimeRangeChange = (range) => {
+        const convertedRange = {
+            start: range.min * 60, // Convert hours to minutes
+            end: range.max * 60, // Convert hours to minutes
+        };
+        setTimeRange(convertedRange);
+    };
+
+    const handleToggle = (index) => {
+        setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
+    };
+ 
    
 
     const handleGenerateSchedule = async () => {
@@ -77,26 +97,7 @@ const CreateMeeting = () => {
     
     
 
-    const handleDateChange = (selectedDates) => {
-        setDateRange({
-            startDate: selectedDates.startDate,
-            endDate: selectedDates.endDate,
-        });
-    };
-
-    const handleTimeRangeChange = (range) => {
-        setTimeRange(range);
-    };
-
-    const handleToggle = (index) => {
-        setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
-    };
-    // const handleAddParticipant = () => {
-    //     if (newParticipant && !participants.includes(newParticipant)) {
-    //         setParticipants([...participants, newParticipant]);
-    //         setNewParticipant("");
-    //     }
-    // };
+   
 
     return (
         <div className="relative w-full h-screen bg-steel_blue flex items-center justify-center gap-1">

@@ -9,6 +9,8 @@ import axios from "axios"
 const SchedulingMainPage = () => {
     const [dates, setDates] = useState([new Date()]); 
     const [times, setTimes] = useState([]);
+    const [minTime, setMinTime] = useState(8); 
+    const [maxTime, setMaxTime] = useState(19); 
     const location = useLocation();
     const user = location.state?.user || {};  
     const participant = location.state?.participantName;
@@ -22,7 +24,9 @@ const SchedulingMainPage = () => {
             const meeting = response.data.meeting;
     
             setMeetingData(meeting);
-    
+            setMinTime(meeting.begTimeFrame / 60); // Convert minutes back to hours
+            setMaxTime(meeting.endTimeFrame / 60); // Convert minutes back to hours
+
             // Generate all dates in the range
             const startDate = new Date(meeting.startdate);
             const endDate = new Date(meeting.enddate);
@@ -40,8 +44,29 @@ const SchedulingMainPage = () => {
     
         fetchMeetingData();
       }, [meetingLink]);
+      // Send time slots to the backend when `times` changes
 
-
+    const submitTimeSlots = async () => {
+        if (times.length === 0) {
+            alert("Please select time slots before submitting");
+            return;
+        }
+        try {
+            const response = await axios.post(
+                `http://localhost:5001/api/meetings/${meetingLink}/select-time`,
+                {
+                    participantName,
+                    selectedTimeSlots: times,
+                }
+            );
+        }
+        catch (error) {
+            console.error("Error submitting time slots:", error.response?.data || error.message);
+            alert("Failed to submit time slots. Please try again.");
+        }
+        
+    }
+   
     return (
         <div className="relative w-full h-screen bg-[#F5F5F5] overflow-hidden">
 
@@ -72,12 +97,12 @@ const SchedulingMainPage = () => {
             {/* Left Draggable Selector */}
             <div className="w-[40%] bg-white p-4 rounded-lg shadow-md">
                 <DraggableSelector
-                    minTime={8}               // Start time
-                    maxTime={19}              // End time 
+                    minTime={minTime}               // Start time
+                    maxTime={maxTime}              // End time 
                     dates={dates}             
                     timeSlots={times}         
                     setTimeSlots={setTimes}  
-                    slotHeight={18}
+                    slotHeight={15}
                     slotWidth={55} 
                     mode = {"date"}
             
@@ -91,16 +116,20 @@ const SchedulingMainPage = () => {
                     <ButtonBlue text="Reset Times" />
                 </div>
                 <DraggableSelector
-                    minTime={8}               // Start time
-                    maxTime={19}              // End time 
+                    minTime={minTime}               // Start time
+                    maxTime={maxTime}              // End time 
                     dates={dates}             
                     timeSlots={times}         
                     setTimeSlots={setTimes}   
-                    slotHeight={18}
+                    slotHeight={15}
                     slotWidth={55} 
                     mode={"date"}
                
                 />
+                <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2">
+                    <ButtonBlue text="Submit "  onClick={submitTimeSlots}/>
+                </div>
+               
             </div>
             </div>
 
