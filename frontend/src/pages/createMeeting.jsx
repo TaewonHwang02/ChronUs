@@ -120,6 +120,58 @@ const CreateMeeting = () => {
                             Receive an E-mail of curated dates/times upon the Deadline
                         </span>
                     </label>
+
+                    {emailOption && (
+                        <div className="mt-4 space-y-2">
+                            <div className="font-poppins text-[#ffffff]">
+                                <label className="py-2 px-2 flex items-center space-x-2 text-[#ffffff] font-poppins text-m">
+                                    <div className="flex items-center space-x-1 px-2">
+                                        <input
+                                        type="radio"
+                                        value="3"
+                                        onChange={(e) => setSelectedDays(e.target.value)}
+                                        />
+                                        <span>3</span>
+                                    </div>
+
+                                    <div className="flex items-center space-x-1 px-2">
+                                        <input
+                                        type="radio"
+                                        value="2"
+                                        onChange={(e) => setSelectedDays(e.target.value)}
+                                        />
+                                        <span>2</span>
+                                    </div>
+
+                                    <div className="flex items-center space-x-1 px-2">
+                                        <input
+                                        type="radio"
+                                        value="1"
+                                        onChange={(e) => setSelectedDays(e.target.value)}
+                                        />
+                                        <span>1</span>
+                                    </div>
+
+                                    <div className="flex items-center space-x-2 px-2">
+                                        <input
+                                        type="radio"
+                                        onChange={(e) => setSelectedDays(e.target.value)}
+                                        />
+                                        <span>Other:</span>
+                                        <input
+                                        type="number"
+                                        className="form-input text-center text-black font-poppins text-sm w-10"
+                                        min="1"
+                                        onChange={(e) => setDays(e.target.value)}
+                                        />
+                                        <span className='px-4'>days before the end date</span>
+                                    </div>                                
+                                </label> 
+                            </div>
+
+                        </div>
+                    )}
+
                 </div>
             </div>
             <div className="w-2/5 h-4/5">
