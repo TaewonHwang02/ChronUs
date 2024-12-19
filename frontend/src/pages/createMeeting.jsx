@@ -22,11 +22,13 @@ const CreateMeeting = () => {
     const [timeRange, setTimeRange] = useState({ start: 480, end: 1020 });
     const [activeIndex, setActiveIndex] = useState(null);
     const navigate = useNavigate();
+   
 
     const handleGenerateSchedule = async () => {
         try {
             const auth = getAuth();
             const user = auth.currentUser;
+            
     
             if (!user) {
                 throw new Error("User is not authenticated");

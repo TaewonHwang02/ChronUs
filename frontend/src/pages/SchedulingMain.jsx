@@ -29,7 +29,7 @@ const SchedulingMainPage = () => {
             const dateArray = [];
     
             for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
-              dateArray.push(new Date(d)); // Push a copy of the date
+              dateArray.push(new Date(d)); 
             }
     
             setDates(dateArray);

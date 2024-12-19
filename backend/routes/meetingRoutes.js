@@ -2,6 +2,7 @@ import express from "express";
 import Meeting from "../models/meetingSchema.js";
 import { v4 as uuidv4 } from "uuid";
 import verifyFirebaseToken from "../middlewares/authMiddleware.js";
+import User from "../models/User.js"
 
 const router = express.Router();
 
@@ -45,6 +46,11 @@ router.post("/create-meeting", verifyFirebaseToken, async (req, res) => {
 
     // Save the meeting
     const savedMeeting = await meeting.save();
+    const user = await User.findOne({ uid: userID });
+    if (user) {
+      user.meetings.push(savedMeeting._id);
+      await user.save();
+    }
 
     res.status(201).json({
       message: "Meeting created successfully",
