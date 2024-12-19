@@ -54,24 +54,26 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="absolute w-full h-screen bg-grey_background overflow-hidden">
-      {/* Background */}
-      <div className="absolute bottom-0 left-0 w-[58%] h-full bg-selective_yellow flex justify-center items-center">
-        <h3 className="font-poppins font-normal font-semibold text-[5vw] text-white tracking-wider translate-x-[-20%] translate-y-[40%]">
+    <div className="">
+      <div className="absolute w-full h-screen bg-grey_background overflow-hidden z-[-2]"></div>
+
+      {/* Yellow Background */}
+      <div className="invisible ph:visible absolute bottom-0 left-0 w-[58%] h-full bg-selective_yellow flex justify-center ph:items-center z-[-1]">
+        <h3 className="absolute font-poppins font-normal font-semibold text-[5vw] text-white tracking-wider bottom-0 ph:bottom-auto mb-[40px] ph:mb-0 ph:translate-x-[-20%] ph:translate-y-[40%]">
           Time for Us <br  />to Start!
         </h3>
       </div>
 
       {/* right side rectangle */}
-      <div className="absolute bottom-0 right-0 h-full w-[42%]">
+      <div className="flex flex-col ph:absolute ph:bottom-0 ph:right-0 ph:w-[42%] h-full w-full">
         {/* Logo + Register Heading */}
         <div>
           {/* Logo */}
-          <div className="flex justify-center pt-8">
+          <div className="flex justify-center mt-[90px]">
             <img src={registerLogo} alt="ChronUs Logo" className="h-auto w-28" />
           </div>
           {/* Register Heading */}
-          <h1 className="font-kulim font-semibold text-[1.65vw] text-[#032B43] text-center">
+          <h1 className="font-kulim font-semibold text-[20px] ph:text-[1.65vw] text-[#032B43] text-center">
             Register Here
           </h1>
         </div>
@@ -79,10 +81,10 @@ const RegisterPage = () => {
         {/* All Labels */}
         <div className="flex flex-col items-center justify-center space-y-4 pt-6">
           {/* Full Name */}
-          <div className="flex flex-col items-start justify-center ">
+          <div className="flex flex-col items-start justify-center space-y-[3px] ">
             <label
               htmlFor="name"
-              className="font-poppins font-normal text-[0.95vw] text-[#0D2D7F]"
+              className="font-poppins font-normal text-[10px] ph:text-[0.95vw] text-[#0D2D7F]"
             >
               Full Name
             </label>
@@ -91,15 +93,15 @@ const RegisterPage = () => {
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="bg-[#FBFBFB] shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md p-2 w-72 h-8"
+              className="bg-[#FBFBFB] shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md p-2 h-[10px] ph:w-72 h-[23px] ph:h-8"
             />
           </div>
           
-          <div className="flex flex-col items-start justify-center">
+          <div className="flex flex-col items-start justify-center space-y-[3px]">
             {/* Email Address */}
             <label
               htmlFor="email"
-              className="font-poppins font-normal text-[0.95vw] text-[#0D2D7F]"
+              className="font-poppins font-normal text-[10px] ph:text-[0.95vw] text-[#0D2D7F]"
             >
               Email Address
             </label>
@@ -108,15 +110,15 @@ const RegisterPage = () => {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="bg-[#FBFBFB] shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md p-2 w-72 h-8"
+              className="bg-[#FBFBFB] shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md p-2 h-[10px] ph:w-72 h-[23px] ph:h-8"
             />
           </div>
           
-          <div className="flex flex-col items-start justify-center">
+          <div className="flex flex-col items-start justify-center space-y-[3px]">
             {/* Password */}
             <label
               htmlFor="password"
-              className="font-poppins font-normal text-[0.95vw] text-[#0D2D7F]"
+              className="font-poppins font-normal text-[10px] ph:text-[0.95vw] text-[#0D2D7F]"
             >
               Password
             </label>
@@ -125,15 +127,15 @@ const RegisterPage = () => {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-[#FBFBFB] shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md p-2 w-72 h-8"
+              className="bg-[#FBFBFB] shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md p-2 h-[10px] ph:w-72 h-[23px] ph:h-8"
             />
           </div>
 
-          <div className="flex flex-col items-start justify-center">
+          <div className="flex flex-col items-start justify-center space-y-[3px]">
             {/* Re-enter Password */}
             <label
               htmlFor="confirmPassword"
-              className="font-poppins font-normal text-[0.95vw] text-[#0D2D7F]"
+              className="font-poppins font-normal text-[10px] ph:text-[0.95vw] text-[#0D2D7F]"
             >
               Re-Enter Password
             </label>
@@ -142,16 +144,16 @@ const RegisterPage = () => {
               id="confirmPassword"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="bg-[#FBFBFB] shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md p-2 w-72 h-8"
+              className="bg-[#FBFBFB] shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md p-2 h-[10px] ph:w-72 h-[23px] ph:h-8"
             />
           </div>
         </div>
 
         {/* Buttons */}
-        <div className="flex flex-col items-center justify-center space-y-[3%] mt-[8%]">
+        <div className="flex flex-col items-center justify-center space-y-[20px] ph:space-y-[3%] mt-[8%]">
           {/* Register Button */}
           <button
-            className="justify-center w-28 bg-steel_blue shadow rounded-2xl text-[1.15vw] font-poppins font-normal text-white"
+            className="justify-center w-28 bg-steel_blue shadow rounded-2xl text-[12px] ph:text-[1.15vw] font-poppins font-normal text-white"
             onClick={handleRegister}
           >
             Join Now
@@ -159,14 +161,14 @@ const RegisterPage = () => {
 
           {/* Lines */}
           <div className="flex row">
-            <hr className="block h-[10px] border-t-black w-36 mr-16"/>
-            <hr className="block h-[10px] border-t-black w-36"/>
+            <hr className="block h-[10px] border-t-black w-[110px] ph:w-36 mr-16"/>
+            <hr className="block h-[10px] border-t-black w-[110px] ph:w-36"/>
           </div>  
           
           {/* Google Button */}
           <div className="flex justify-center items-center w-48 h-6 bg-white shadow rounded-2xl">
             <img src={googleLogo} alt="ChronUs Logo" className="h-auto w-5 pr-[3%]" />
-            <span className="text-[1.15vw] font-poppins font-normal text-black">Sign up with Google</span>
+            <span className="text-[12px] ph:text-[1.15vw] font-poppins font-normal text-black">Sign up with Google</span>
           </div>
         </div>
       </div>
