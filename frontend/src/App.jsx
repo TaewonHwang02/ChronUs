@@ -9,6 +9,7 @@ import SchedulingMainPage from './pages/SchedulingMain';
 import LinkRetrievalPage from './pages/linkRetrievalPage';
 import CreateMeeting from './pages/createMeeting';
 import LinkPage from './pages/linkPage';
+import Tester from './pages/testMailer'
 
 function App() {
   return (
@@ -22,8 +23,7 @@ function App() {
         <Route path="/linkretrieval" element={<LinkRetrievalPage />} />
         <Route path='/createMeeting' element={<CreateMeeting />} />
         <Route path='/join/:meetingLink' element={<LinkPage />} />
-
-       
+        <Route path='/testMailer' element={<Tester />}  />   
         
       </Routes>
     </Router>

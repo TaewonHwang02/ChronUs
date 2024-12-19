@@ -7,7 +7,7 @@
     import admin from "./config/firebaseAdmin.js";
     import userRoutes from "./routes/userRoutes.js";
     import meetingRoutes from "./routes/meetingRoutes.js";
-    
+    import mailingRoutes from "./routes/mailingRoutes.js";
 
 
 
@@ -21,7 +21,7 @@
     app.use(express.urlencoded({extended:true}))
     app.use("/api/users", userRoutes);
     app.use("/api/meetings", meetingRoutes);
-
+    app.use("/api/email", mailingRoutes);
     app.get("/",(req,res) => {
         res.send("Server is ready")
     })

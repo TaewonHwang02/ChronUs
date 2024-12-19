@@ -27,7 +27,7 @@ const CreateMeeting = () => {
         try {
             const auth = getAuth();
             const user = auth.currentUser;
-    
+
             if (!user) {
                 throw new Error("User is not authenticated");
             }
