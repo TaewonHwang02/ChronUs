@@ -6,6 +6,10 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        'ph': '315px',  
+        'tablet': '900px',
+      },
       colors: {
         steel_blue: '#3F88C5',
         selective_yellow: '#FFBA08',
