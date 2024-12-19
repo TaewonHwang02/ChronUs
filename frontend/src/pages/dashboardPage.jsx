@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link,useNavigate,useLocation } from 'react-router-dom';
+import axios from "axios"
 
 const DashboardPage = () => {
 
@@ -7,6 +8,27 @@ const DashboardPage = () => {
 
     const location = useLocation();
     const user = location.state?.user || {};  
+    useEffect(() => {
+        const fetchUserMeetings = async () => {
+            try {
+                const token = user?.token; // Assuming token is passed with user state
+                const response = await axios.get(`http://localhost:5001/api/meetings/user-meetings/${user.uid}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Use Firebase token for authentication
+                    },
+                });
+                setMeetings(response.data.meetings);
+            } catch (error) {
+                console.error('Error fetching user meetings:', error.response?.data || error.message);
+            }
+        };
+
+        if (user.uid) {
+            fetchUserMeetings();
+        }
+    }, [user]);
+
+    
     return (
         <div>
             {/* Bottom grey wave */}

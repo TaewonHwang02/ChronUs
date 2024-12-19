@@ -2,13 +2,36 @@ import React, { useState } from 'react';
 import { Link,useNavigate,useLocation,useParams } from 'react-router-dom';
 import registerLogo from "../assets/WhiteLogo.svg"; // Header logo
 import { DraggableSelector } from "react-draggable-selector";
+import axios from "axios"
 
 const LinkPage = () => {
     const {meetingLink} = useParams();
     const [dates, setDates] = useState([new Date()]); 
     const [times, setTimes] = useState([]);
-    // const user = location.state?.user || {}; 
-    const [participantNmae, setParticipantName] = useState("")
+    const user = location.state?.user || {}; 
+    const [participantName, setParticipantName] = useState("")
+    const navigate = useNavigate();
+
+    const handleJoinMeeting = async () => {
+        
+        try {
+            const response = await axios.post("http://localhost:5001/api/meetings/join-meeting", {
+                meetingLink,
+                participantName,
+                times,
+            });
+
+            console.log("Response from backend:", response.data);
+            alert("Successfully joined the meeting!");
+            console.log(participantName)
+            navigate("/schedulingmain", {
+                state: { meetingLink, participantName },
+            });
+        } catch (error) {
+            console.error("Error joining meeting:", error.response?.data || error.message);
+            alert("Failed to join the meeting. Please try again.");
+        }
+    };
 
 
 
@@ -59,8 +82,8 @@ const LinkPage = () => {
                             <input
                             type="text"
                             id="name"
-                            value=""
-                            onChange=""
+                            value={participantName}
+                            onChange={(e) => setParticipantName(e.target.value)}
                             className="bg-[#FBFBFB] shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md p-2 w-72 h-8"
                             />
                         </div>
@@ -88,7 +111,7 @@ const LinkPage = () => {
                         {/* Register Button */}
                         <button
                             className="justify-center w-[6vw] bg-selective_yellow shadow rounded-2xl text-[1.5vw] font-poppins font-normal text-white"
-                            onClick=""
+                            onClick={handleJoinMeeting}
                         >
                             Go!
                         </button>

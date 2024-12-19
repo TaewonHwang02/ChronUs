@@ -105,6 +105,47 @@ router.get("/:meetingLink", async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 });
+router.get("/user-meetings/:userID", verifyFirebaseToken, async (req, res) => {
+  const { userID } = req.params;
+
+  try {
+    const user = await User.findOne({ uid: userID }).populate("meetings");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ meetings: user.meetings });
+  } catch (error) {
+    console.error("Error fetching user meetings:", error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+// Update an existing meeting
+router.put("/update-meeting/:meetingID", verifyFirebaseToken, async (req, res) => {
+  const { meetingID } = req.params; // Meeting ID from the URL
+  const updateFields = req.body; // Fields to update from the request body
+
+  try {
+    // Find the meeting by ID and update it with the provided fields
+    const updatedMeeting = await Meeting.findByIdAndUpdate(
+      meetingID,
+      { $set: updateFields },
+      { new: true, runValidators: true } // Return the updated document and enforce validation
+    );
+
+    if (!updatedMeeting) {
+      return res.status(404).json({ message: "Meeting not found" });
+    }
+
+    res.status(200).json({
+      message: "Meeting updated successfully",
+      meeting: updatedMeeting,
+    });
+  } catch (error) {
+    console.error("Error updating meeting:", error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
 
 
 export default router;
