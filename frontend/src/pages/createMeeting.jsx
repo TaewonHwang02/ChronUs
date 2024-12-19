@@ -96,8 +96,8 @@ const CreateMeeting = () => {
     // };
 
     return (
-        <div className="relative w-full h-screen bg-steel_blue flex items-center justify-center gap-1">
-            <div className="w-2/5 h-4/5 relative">
+        <div className="overflow-auto w-full h-screen bg-steel_blue flex flex-col ph:flex-row ph:items-center ph:justify-center ph:gap-1 space-y-[70px] ph:space-y-0">
+            <div className="space-y-[20px] ph:space-y-2 p-[25px] ph:p-0 w-full h-full ph:w-2/5 ph:h-4/5">
                 <img src={LoginLogo} alt="ChronUs Logo" className="w-20 h-35" />
                 <div
                     className="relative w-2/3 mt-4 font-poppins text-white flex items-center space-x-2 cursor-pointer"
@@ -106,8 +106,11 @@ const CreateMeeting = () => {
                     <img src={returnArr} alt="return" className="w-5 h-5" />
                     <span>Back to Dashboard</span>
                 </div>
-                <h1 className="py-2 font-poppins text-[3vw] font-medium text-white">Set Your Dates</h1>
-                <DatePicker onChange={handleDateChange} />
+                <h1 className="py-2 font-poppins ph:text-[3vw] font-medium text-white">Set Your Dates</h1>
+                <div className=''>
+                    <DatePicker onChange={handleDateChange}  />
+                </div>
+                
                 <div className="mt-2 px-3 w-4/5 left-1/2">
                     <label className="flex items-center space-x-2 text-[#ffffff]">
                         <input
@@ -116,7 +119,7 @@ const CreateMeeting = () => {
                             checked={emailOption}
                             onChange={(e) => setEmailOption(e.target.checked)}
                         />
-                        <span className="px-2 text-l font-poppins">
+                        <span className="px-2 text-[12px] ph:text-l font-poppins">
                             Receive an E-mail of curated dates/times upon the Deadline
                         </span>
                     </label>
@@ -174,13 +177,13 @@ const CreateMeeting = () => {
 
                 </div>
             </div>
-            <div className="w-2/5 h-4/5">
-                <h3 className="py-1 font-poppins text-[1.3vw] font-normal text-[#98BCDA]">Advanced Options</h3>
-                <h2 className="font-poppins text-[2.75vw] font-normal text-[#ffffff]">Select Your Time Frame</h2>
-                <div className="mb-5 w-full left-1/2">
+            <div className="flex flex-col ph:flex-none p-[25px] ph:p-0 w-full h-full ph:w-2/5 ph:h-4/5 space-y-[15px]">
+                <h3 className="py-1 font-poppins text-[15px] ph:text-[1.3vw] font-normal text-[#98BCDA]">Advanced Options</h3>
+                <h2 className="font-poppins text-[20px] ph:text-[2.75vw] font-normal text-[#ffffff]">Select Your Time Frame</h2>
+                <div className=" mb-5 w-full left-1/2">
                     <TimeRangePicker onChange={handleTimeRangeChange} />
                 </div>
-                <div className="py-8">
+                <div className="h-[10%] ph:h-auto py-8">
                     <Accordion
                         title="Default Option"
                         subtext="Participants are free to select their most convenient times"
@@ -198,12 +201,15 @@ const CreateMeeting = () => {
                         <MinRangeSlider onChange={handleTimeRangeChange} />
                     </Accordion>
                 </div>
-                <button
-                    className="relative bottom-0 left-1/2 -translate-x-1/2 bg-selective_yellow text-white font-normal font-poppins py-1 px-12 rounded-[50px] shadow-md w-auto cursor-pointer"
-                    onClick={handleGenerateSchedule}
-                >
-                    Generate Schedule
-                </button>
+
+                <div className='flex justify-center'>
+                    <button
+                        className="translate-y-[350px] ph:translate-y-0 relative bg-selective_yellow text-white font-normal font-poppins py-1 px-12 rounded-[50px] shadow-md w-auto cursor-pointer"
+                        onClick={handleGenerateSchedule}
+                    >
+                        Generate Schedule
+                    </button>
+                </div>
             </div>
         </div>
     );
