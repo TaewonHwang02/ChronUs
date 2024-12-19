@@ -46,6 +46,7 @@ const CreateMeeting = () => {
                 startdate: dateRange.startDate,
                 enddate: dateRange.endDate,
                 deadline: new Date(), // Replace with actual deadline
+                meetingName: "Meeting"
                 //participants: ["user1@example.com", "user2@example.com"], // Replace with actual participants
             };
     

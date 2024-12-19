@@ -10,6 +10,8 @@ const SchedulingMainPage = () => {
     const [times, setTimes] = useState([]);
     const location = useLocation();
     const user = location.state?.user || {};  
+    const participant = location.state?.participantName;
+    console.log(participant)
  
 
 
@@ -34,7 +36,7 @@ const SchedulingMainPage = () => {
 
             {/* Title */}
             <h1 className="absolute w-full h-full top-[20%] left-[1%] font-kulim font-semibold text-[2vw] leading-[3vw] text-white text-center">
-                Welcome {user.name || "User"}, Select Your Time Slots
+                Welcome {participant|| location.state?.user?.name}, Select Your Time Slots
             </h1>
 
             {/* Draggable Selector */}
