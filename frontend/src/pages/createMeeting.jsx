@@ -129,6 +129,7 @@ const CreateMeeting = () => {
                                         <input
                                         type="radio"
                                         value="3"
+                                        name="dayOption" 
                                         onChange={(e) => setSelectedDays(e.target.value)}
                                         />
                                         <span>3</span>
@@ -138,6 +139,7 @@ const CreateMeeting = () => {
                                         <input
                                         type="radio"
                                         value="2"
+                                        name="dayOption" 
                                         onChange={(e) => setSelectedDays(e.target.value)}
                                         />
                                         <span>2</span>
@@ -147,6 +149,7 @@ const CreateMeeting = () => {
                                         <input
                                         type="radio"
                                         value="1"
+                                        name="dayOption" 
                                         onChange={(e) => setSelectedDays(e.target.value)}
                                         />
                                         <span>1</span>
@@ -156,6 +159,7 @@ const CreateMeeting = () => {
                                         <input
                                         type="radio"
                                         onChange={(e) => setSelectedDays(e.target.value)}
+                                        name="dayOption" 
                                         />
                                         <span>Other:</span>
                                         <input
@@ -180,7 +184,22 @@ const CreateMeeting = () => {
                 <div className="mb-5 w-full left-1/2">
                     <TimeRangePicker onChange={handleTimeRangeChange} />
                 </div>
-                <div className="py-8">
+
+                <div className='mt-8'>
+                    <label className="flex items-center space-x-2 text-[#ffffff]">
+                            <input
+                                type="checkbox"
+                                className="form-checkbox"
+                                checked={emailOption}
+                                onChange={(e) => setEmailOption(e.target.checked)}
+                            />
+                            <span className="px-2 text-l font-poppins">
+                                Limit participants to Host's Time Frame
+                            </span>
+                    </label>
+                </div>
+                
+                <div className="py-6">
                     <Accordion
                         title="Default Option"
                         subtext="Participants are free to select their most convenient times"
