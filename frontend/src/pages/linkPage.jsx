@@ -24,7 +24,7 @@ const LinkPage = () => {
             console.log("Response from backend:", response.data);
             alert("Successfully joined the meeting!");
             console.log(participantName)
-            navigate("/schedulingmain", {
+            navigate(`/schedulingmain/${meetingLink}`, {
                 state: { meetingLink, participantName },
             });
         } catch (error) {
