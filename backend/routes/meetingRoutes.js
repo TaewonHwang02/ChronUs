@@ -2,6 +2,7 @@ import express from "express";
 import Meeting from "../models/meetingSchema.js";
 import { v4 as uuidv4 } from "uuid";
 import verifyFirebaseToken from "../middlewares/authMiddleware.js";
+import User from "../models/User.js"
 
 const router = express.Router();
 
@@ -45,6 +46,11 @@ router.post("/create-meeting", verifyFirebaseToken, async (req, res) => {
 
     // Save the meeting
     const savedMeeting = await meeting.save();
+    const user = await User.findOne({ uid: userID });
+    if (user) {
+      user.meetings.push(savedMeeting._id);
+      await user.save();
+    }
 
     res.status(201).json({
       message: "Meeting created successfully",
@@ -105,6 +111,66 @@ router.get("/:meetingLink", async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 });
+router.get("/user-meetings/:userID", verifyFirebaseToken, async (req, res) => {
+  const { userID } = req.params;
+
+  try {
+    const user = await User.findOne({ uid: userID }).populate("meetings");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ meetings: user.meetings });
+  } catch (error) {
+    console.error("Error fetching user meetings:", error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+// Update an existing meeting
+router.put("/update-meeting/:meetingID", verifyFirebaseToken, async (req, res) => {
+  const { meetingID } = req.params; // Meeting ID from the URL
+  const updateFields = req.body; // Fields to update from the request body
+
+  try {
+    // Find the meeting by ID and update it with the provided fields
+    const updatedMeeting = await Meeting.findByIdAndUpdate(
+      meetingID,
+      { $set: updateFields },
+      { new: true, runValidators: true } // Return the updated document and enforce validation
+    );
+
+    if (!updatedMeeting) {
+      return res.status(404).json({ message: "Meeting not found" });
+    }
+
+    res.status(200).json({
+      message: "Meeting updated successfully",
+      meeting: updatedMeeting,
+    });
+  } catch (error) {
+    console.error("Error updating meeting:", error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+router.get("/scheduling/:meetingLink", async (req, res) => {
+  const { meetingLink } = req.params;
+
+  try {
+    const meeting = await Meeting.findOne({ meetingLink });
+
+    if (!meeting) {
+      return res.status(404).json({ message: "Meeting not found" });
+    }
+
+    res.status(200).json({
+      meeting,
+    });
+  } catch (error) {
+    console.error("Error retrieving meeting for scheduling:", error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
 
 
 export default router;

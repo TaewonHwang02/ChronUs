@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ButtonBlue from '../components/ButtonBlue';
 import { DraggableSelector } from 'react-draggable-selector';
+import axios from "axios"
+import {getAuth} from "firebase/auth"
 
 const LinkRetrievalPage = () => {
     const location = useLocation();
@@ -11,6 +13,7 @@ const LinkRetrievalPage = () => {
     const { meetingID, meetingLink } = location.state || {};
     const [dates, setDates] = useState([new Date()]);
     const [times, setTimes] = useState([]);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [inputMeetingName, setInputMeetingName] = useState("");
     const [error, setError] = useState("");
 
@@ -21,28 +24,45 @@ const LinkRetrievalPage = () => {
         }
     }, [meetingID, meetingLink]);
 
-    // Handle finalizing the meeting
-    const handleFinalizeMeeting = () => {
-        console.log("Finalize meeting button clicked");
+    
+    const handleFinalizeMeeting = async () => {
         if (!inputMeetingName) {
-            alert("Please provide a meeting name.");
-            return;
+          alert("Please provide a meeting name.");
+          return;
         }
+      
+        try {
+          // Fetch Firebase token
+          const auth = getAuth();
+          const user = auth.currentUser;
+      
+          if (!user) {
+            throw new Error("User is not authenticated");
+          }
+      
+          const userToken = await user.getIdToken();
+          const uniqueLink = `http://localhost:5173/join/${meetingLink}`;
 
-        const shareableLink = `http://localhost:5173/join/${meetingLink}`;
-        console.log("Generated Shareable Link:", shareableLink);
-        navigator.clipboard.writeText(shareableLink);
-        alert("Link copied to clipboard!");
-        navigate("/dashboard");
-    };
+      
+          // Make the PUT request to update the meeting name
+          const response = await axios.put(
+            `http://localhost:5001/api/meetings/update-meeting/${meetingID}`,
+            { meetingName: inputMeetingName },
+            {
+              headers: { Authorization: `Bearer ${userToken}` }, // Pass token here
+            }
+          );
+      
+          console.log("Meeting name updated:", response.data);
+          navigator.clipboard.writeText(uniqueLink);
+          
+          navigate("/dashboard");
+        } catch (error) {
+          console.error("Error updating meeting:", error.response?.data || error.message);
+        }
+      };
+    
 
-    if (error) {
-        return (
-            <div className="flex items-center justify-center h-screen">
-                <p className="text-red-500">{error}</p>
-            </div>
-        );
-    }
 
     return (
         <div className="relative w-full h-screen bg-[#F5F5F5] overflow-hidden">

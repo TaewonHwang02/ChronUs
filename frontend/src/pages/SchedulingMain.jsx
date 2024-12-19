@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState,useEffect } from 'react';
+import { Link, useLocation,useParams } from 'react-router-dom';
 import registerLogo from "../assets/WhiteLogo.svg"; 
 import { DraggableSelector } from "react-draggable-selector";
 import ButtonBlue from '../components/ButtonBlue';
+import axios from "axios"
 
 
 const SchedulingMainPage = () => {
@@ -10,7 +11,35 @@ const SchedulingMainPage = () => {
     const [times, setTimes] = useState([]);
     const location = useLocation();
     const user = location.state?.user || {};  
- 
+    const participant = location.state?.participantName;
+    const [meetingData, setMeetingData] = useState(null)
+    console.log(participant)
+    const { meetingLink } = useParams();
+    useEffect(() => {
+        const fetchMeetingData = async () => {
+          try {
+            const response = await axios.get(`http://localhost:5001/api/meetings/${meetingLink}`);
+            const meeting = response.data.meeting;
+    
+            setMeetingData(meeting);
+    
+            // Generate all dates in the range
+            const startDate = new Date(meeting.startdate);
+            const endDate = new Date(meeting.enddate);
+            const dateArray = [];
+    
+            for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+              dateArray.push(new Date(d)); 
+            }
+    
+            setDates(dateArray);
+          } catch (error) {
+            console.error("Error fetching meeting data:", error.response?.data || error.message);
+          }
+        };
+    
+        fetchMeetingData();
+      }, [meetingLink]);
 
 
     return (
@@ -34,7 +63,7 @@ const SchedulingMainPage = () => {
 
             {/* Title */}
             <h1 className="absolute w-full h-full top-[20%] left-[1%] font-kulim font-semibold text-[2vw] leading-[3vw] text-white text-center">
-                Welcome {user.name || "User"}, Select Your Time Slots
+                Welcome {participant|| location.state?.user?.name}, Select Your Time Slots
             </h1>
 
             {/* Draggable Selector */}
@@ -50,6 +79,8 @@ const SchedulingMainPage = () => {
                     setTimeSlots={setTimes}  
                     slotHeight={18}
                     slotWidth={55} 
+                    mode = {"date"}
+            
                 />
             </div>
 
@@ -67,6 +98,8 @@ const SchedulingMainPage = () => {
                     setTimeSlots={setTimes}   
                     slotHeight={18}
                     slotWidth={55} 
+                    mode={"date"}
+               
                 />
             </div>
             </div>
