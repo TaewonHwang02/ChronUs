@@ -26,7 +26,7 @@ const Accordion = ({ title, subtext, children, imageSrc, isActive, onToggle }) =
         <span className="text-xs font-poppins">{isActive ? '' : 'select'}</span>
       </div>
       {isActive && (
-        <div className="accordion-content px-4 py-3 bg-white rounded-b-md">
+        <div className="accordion-content px-4 py-0 bg-white rounded-b-md">
           {children}
         </div>
       )}

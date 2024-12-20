@@ -22,8 +22,6 @@ function App() {
         <Route path="/linkretrieval" element={<LinkRetrievalPage />} />
         <Route path='/createMeeting' element={<CreateMeeting />} />
         <Route path='/join/:meetingLink' element={<LinkPage />} />
-
-       
         
       </Routes>
     </Router>

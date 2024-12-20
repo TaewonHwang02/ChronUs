@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       screens: {
-        'ph': '391px',  
+        'ph': '431px',
         'tablet': '900px',
       },
       colors: {
