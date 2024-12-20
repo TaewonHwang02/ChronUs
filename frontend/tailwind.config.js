@@ -8,7 +8,7 @@ export default {
     extend: {
       screens: {
         'ph': '431px', // For Tablet sizes (bigger than phone)
-        'tb': '767px', // For Desktop sizes (bigger than tablet)
+        'tb': '900px', // For Desktop sizes (bigger than tablet)
       },
       colors: {
         steel_blue: '#3F88C5',
