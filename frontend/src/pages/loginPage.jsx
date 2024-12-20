@@ -37,8 +37,11 @@ const LoginPage = () => {
              
 
             const data = await response.json();
-            navigate("/dashboard", { state: { user: data.user } });
-            console.log(data.user.name)
+            const testStr = "death awaits";
+            console.log("LoginPage User's name", data.use);
+            //user: data.use
+            navigate("/dashboard", { state: { user: data, idToken:idToken} });
+            console.log(data.user.name);
         }
         catch (error){
             console.error("Error logging in: ", error.message);

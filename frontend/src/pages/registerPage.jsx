@@ -46,7 +46,7 @@ const RegisterPage = () => {
 
       const data = await response.json();
       console.log("User registered successfully:", data);
-      navigate("/dashboard", { state: { user: data.user } });
+      navigate("/dashboard", { state: { user: data, idToken:idToken} });
     } catch (error) {
       console.error("Error registering user:", error.message);
       setError("Registration failed. Please try again.");
