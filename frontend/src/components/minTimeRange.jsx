@@ -20,7 +20,7 @@ const TimeSlider = ({
     }
   }, [value, max]);
 
-  // Notify parent component of the change
+  // Notify of the change
   useEffect(() => {
     if (onChange) {
       onChange(value);
@@ -29,7 +29,7 @@ const TimeSlider = ({
 
   const handleChange = (e) => {
     const rawValue = Number(e.target.value);
-    const snappedValue = Math.round(rawValue / step) * step; // Snap to nearest 15 minutes
+    const snappedValue = Math.round(rawValue / step) * step; 
     setValue(snappedValue);
   };
 
