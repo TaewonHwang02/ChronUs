@@ -23,6 +23,11 @@ const LinkRetrievalPage = () => {
             setError("Meeting details are missing. Please return to the previous page.");
         }
     }, [meetingID, meetingLink]);
+    useEffect(() => {
+        console.log("Selected time slots:", times);
+    }, [times]);
+
+
 
     
     const handleFinalizeMeeting = async () => {

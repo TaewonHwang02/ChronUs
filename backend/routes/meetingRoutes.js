@@ -7,6 +7,7 @@ import User from "../models/User.js"
 const router = express.Router();
 
 router.post("/create-meeting", verifyFirebaseToken, async (req, res) => {
+  console.log('Received request data:', req.body);
   try {
     const {
       userID,
@@ -18,6 +19,7 @@ router.post("/create-meeting", verifyFirebaseToken, async (req, res) => {
       enddate,
       deadline,
       participants,
+      minimumTimeSlots,
       emailOption,
       emailDate,
     } = req.body;
@@ -44,6 +46,7 @@ router.post("/create-meeting", verifyFirebaseToken, async (req, res) => {
       deadline,
       participants,
       meetingLink: uuidv4(),
+      minimumTimeSlots: minimumTimeSlots || 0,
       emailOption,
       emailDate,
     });
@@ -172,6 +175,71 @@ router.get("/scheduling/:meetingLink", async (req, res) => {
   } catch (error) {
     console.error("Error retrieving meeting for scheduling:", error.message);
     res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+router.post('/:meetingLink/select-time', async (req, res) => {
+  const { meetingLink } = req.params;
+  const { participantName, selectedTimeSlots } = req.body;
+
+  // Validate request body
+  if (!participantName || !selectedTimeSlots || !Array.isArray(selectedTimeSlots)) {
+      return res.status(400).json({ message: 'Missing or invalid data' });
+  }
+
+  try {
+      // Find the meeting by its link
+      const meeting = await Meeting.findOne({ meetingLink });
+
+      if (!meeting) {
+          return res.status(404).json({ message: 'Meeting not found' });
+      }
+        // Minimum required minutes
+        const minMinutesRequired = meeting.minimumTimeSlots || 0;
+
+
+      // Calculate total selected minutes
+      let totalSelectedMinutes = 0;
+      for (const slot of selectedTimeSlots) {
+        const [startH, startM] = slot.minTime.split(':').map(Number);
+        const [endH, endM] = slot.maxTime.split(':').map(Number);
+
+        const startTotal = startH * 60 + startM;
+        const endTotal = endH * 60 + endM;
+        const duration = endTotal - startTotal;
+
+        totalSelectedMinutes += duration;
+      }
+
+    // Check if requirement met
+    if (minMinutesRequired > 0 && totalSelectedMinutes < minMinutesRequired) {
+      return res.status(400).json({
+        message: `You must select at least ${minMinutesRequired} minutes. You selected ${totalSelectedMinutes} minutes.`
+      });
+    }
+
+    
+
+
+      // Add or update the participant's time slots
+      const participantIndex = meeting.participants.findIndex(
+          (p) => p.name === participantName
+      );
+
+      if (participantIndex > -1) {
+          // Update existing participant's time slots
+          meeting.participants[participantIndex].times = selectedTimeSlots;
+      } else {
+          // Add new participant
+          meeting.participants.push({ name: participantName, times: selectedTimeSlots });
+      }
+
+      // Save changes to the database
+      await meeting.save();
+
+      res.status(200).json({ message: 'Time slots submitted successfully', meeting });
+  } catch (error) {
+      console.error('Error updating time slots:', error);
+      res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
 
