@@ -168,17 +168,23 @@ const SchedulingMainPage = () => {
                 Welcome {participant || user?.name}, Select Your Time Slots
             </h1>
 
-            <div className="absolute top-[30%] left-[5%] w-[90%] grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="absolute top-[30%] left-[10%] w-[90%] grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Left side: Grid Overlap Display */}
-                <div className="bg-white p-4 rounded-lg shadow-md w-full max-w-sm mx-auto">
-                    <GridOverlapDisplay timeSlots={aggregatedTimes} timeUnit={30} />
+                <div className="bg-white p-4 rounded-lg shadow-md w-full md:w-3/4" >
+                    <GridOverlapDisplay
+                    startDate={dates[0]}
+                    endDate={dates[dates.length - 1]}
+                    startTime={convertToTimeString(minTime + ":00")}
+                    endTime={convertToTimeString(maxTime + ":00")}
+                    timeSlots={aggregatedTimes}
+                    timeUnit={30}  // 30-minute increments
+                    />
                 </div>
 
                 {/* Right side: User time selection */}
-                <div className="bg-white p-4 rounded-lg shadow-md relative w-full max-w-sm mx-auto">
-                    <div className="absolute -top-6 left-1/2 transform -translate-x-1/2">
-                        
-                    </div>
+                <div className="bg-white p-4 rounded-lg shadow-md relative w-full w-3/4">
+                    <div className="absolute -top-6 left-1/2 transform -translate-x-1/2"></div>
+                    <div className="max-w-full overflow-x-auto">
                     <DraggableSelector
                         minTime={minTime}
                         maxTime={maxTime}
@@ -192,11 +198,15 @@ const SchedulingMainPage = () => {
                         dateFormat="M.D"
                         timeFormat="HH:mm A"
                     />
+                    </div>
                     <div className="absolute py-5 left-1/2 transform -translate-x-1/2">
-                        <ButtonBlue text="Submit" onClick={submitTimeSlots} />
+                    <ButtonBlue text="Submit" onClick={submitTimeSlots} />
                     </div>
                 </div>
             </div>
+
+
+
         </div>
     );
 };

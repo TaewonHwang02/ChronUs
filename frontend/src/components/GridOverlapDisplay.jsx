@@ -14,24 +14,20 @@ function generateTimeIncrements(startMinutes, endMinutes, step = 30) {
 }
 
 function getColorForCount(count) {
-  if (count === 0) return '#ffffff'; // no overlap
-  if (count === 1) return '#b3d9ff'; // light blue
-  if (count === 2) return '#66b3ff'; // medium blue
-  return '#1a8cff'; // dark blue for 3 or more overlaps
-}
-
-function convertToDate(yyyymmdd) {
-  const year = parseInt(yyyymmdd.slice(0,4),10);
-  const month = parseInt(yyyymmdd.slice(4,6),10) - 1;
-  const day = parseInt(yyyymmdd.slice(6,8),10);
-  return new Date(year, month, day);
-}
+    if (count === 0) return '#ffffff'; // No overlap, display as white (empty)
+    if (count === 1) return '#b3d9ff'; // Light blue
+    if (count === 2) return '#66b3ff'; // Medium blue
+    if (count === 3) return '#3399ff'; // Darker blue for 3 overlaps
+    if (count === 4) return '#0073e6'; // Even darker blue for 4 overlaps
+    return '#005bb5'; // Darkest blue for 5 or more overlaps
+  }
+  
 
 function formatDateMMDD(dateStr) {
-  const date = convertToDate(dateStr);
+  const date = new Date(dateStr);
   const mm = String(date.getMonth() + 1).padStart(2, '0');
   const dd = String(date.getDate()).padStart(2, '0');
-  return `${mm}.${dd}`;
+  return `${mm}.${dd}`; // Format as MM.DD
 }
 
 function formatTime(totalMinutes) {
@@ -42,13 +38,29 @@ function formatTime(totalMinutes) {
   return `${hh}:${mm}`;
 }
 
-/**
- * GridOverlapDisplay
- * Shows increments at every 30 minutes.
- * Hour increments (xx:00) have a label, half-hour increments (xx:30) do not.
- * Both hour and half-hour rows have the same fixed height and line-height for consistency.
- */
-const GridOverlapDisplay = ({ timeSlots = [], timeUnit = 30 }) => {
+const GridOverlapDisplay = ({ startDate, endDate, startTime, endTime, timeSlots, timeUnit = 30 }) => {
+  const startMinutes = timeToMinutes(startTime);
+  const endMinutes = timeToMinutes(endTime);
+
+  // Generate time increments (rows)
+  const increments = generateTimeIncrements(startMinutes, endMinutes, timeUnit);
+
+  // Create an array of all days between startDate and endDate
+  const dateRange = [];
+  const currentDate = new Date(startDate);
+  while (currentDate <= endDate) {
+    dateRange.push(new Date(currentDate));
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  // Initialize the grid with empty counts (0)
+  const dayData = dateRange.map((date, dayIndex) => ({
+    day: dayIndex,
+    date: date,
+    counts: Array(increments.length).fill(0),  // Initialize with 0 counts
+  }));
+
+  // Group time slots by day
   const slotsByDay = useMemo(() => {
     const map = new Map();
     for (const slot of timeSlots) {
@@ -60,75 +72,67 @@ const GridOverlapDisplay = ({ timeSlots = [], timeUnit = 30 }) => {
     return Array.from(map.entries()).sort((a, b) => a[0] - b[0]);
   }, [timeSlots]);
 
-  const globalMin = Math.min(...timeSlots.map(s => timeToMinutes(s.minTime)));
-  const globalMax = Math.max(...timeSlots.map(s => timeToMinutes(s.maxTime)));
-
-  const increments = generateTimeIncrements(globalMin, globalMax, timeUnit);
-
-  const dayData = slotsByDay.map(([day, slots]) => {
-    return {
-      day,
-      date: slots[0]?.date,
-      counts: increments.map((inc) => {
+  // Update grid with overlapping counts
+  slotsByDay.forEach(([day, slots]) => {
+    const dayIndex = dayData.findIndex(d => d.day === day);
+    slots.forEach(slot => {
+      const slotStart = timeToMinutes(slot.minTime);
+      const slotEnd = timeToMinutes(slot.maxTime);
+      increments.forEach((inc, idx) => {
         const incEnd = inc + timeUnit;
-        const count = slots.filter(s => {
-          const slotStart = timeToMinutes(s.minTime);
-          const slotEnd = timeToMinutes(s.maxTime);
-          return slotStart < incEnd && slotEnd > inc;
-        }).length;
-        return count;
-      })
-    };
+        if (slotStart < incEnd && slotEnd > inc) {
+          dayData[dayIndex].counts[idx] += 1;  // Increment count for overlapping time slot
+        }
+      });
+    });
   });
 
   const cellStyle = {
     borderBottom: '1px dotted #ccc',
     borderRight: '1px solid #ccc',
     textAlign: 'center',
-
     fontSize: '0.75em',
-    height: '21px',         // fixed height
-    lineHeight: '15px',     // ensure vertical centering
-    whiteSpace: 'nowrap'
+    height: '21px',  // fixed height
+    lineHeight: '15px',  // ensure vertical centering
+    whiteSpace: 'nowrap',
   };
 
   return (
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: `auto repeat(${dayData.length}, 1fr)`,
+        gridTemplateColumns: `auto repeat(${dateRange.length}, 1fr)`,
         border: '1px solid #ccc',
         fontFamily: 'sans-serif',
         maxWidth: '100%',
-        overflow: 'auto'
+        overflow: 'auto',
       }}
     >
       {/* Top-left corner cell (empty) */}
       <div style={{ ...cellStyle, borderBottom: '1px solid #ccc', borderRight: '1px solid #ccc', lineHeight: 'normal', height: 'auto' }}></div>
 
       {/* Date headers */}
-      {dayData.map(({day, date}, idx) => (
+      {dateRange.map((date, idx) => (
         <div
-          key={day}
+          key={date}
           style={{
             ...cellStyle,
             borderBottom: '1px solid #ccc',
-            borderRight: idx === dayData.length - 1 ? 'none' : '1px solid #ccc',
+            borderRight: idx === dateRange.length - 1 ? 'none' : '1px solid #ccc',
             fontWeight: 'bold',
             height: 'auto',
             lineHeight: 'normal',
-            padding: '5px 0'
+            padding: '5px 0',
           }}
         >
-          {date ? formatDateMMDD(date) : ''}
+          {formatDateMMDD(date.toISOString())}
         </div>
       ))}
 
       {/* Time rows (every 30 minutes) */}
       {increments.map((inc, rowIdx) => {
         const minutes = inc % 60;
-        // Label only if it's on the hour
-        const label = (minutes === 0) ? formatTime(inc) : '';
+        const label = minutes === 0 ? formatTime(inc) : '';
 
         return (
           <React.Fragment key={inc}>
@@ -157,10 +161,10 @@ const GridOverlapDisplay = ({ timeSlots = [], timeUnit = 30 }) => {
                     ...cellStyle,
                     borderRight: colIdx === dayData.length - 1 ? 'none' : '1px solid #ccc',
                     background,
-                    color: count > 1 ? '#fff' : '#000'
+                    color: count > 1 ? '#fff' : '#000',
                   }}
                 >
-                  {count > 0 ? count : ''}
+                 
                 </div>
               );
             })}
