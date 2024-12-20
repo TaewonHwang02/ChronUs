@@ -16,14 +16,11 @@ const DashboardPage = () => {
     
     useEffect(() => {
         const fetchUserMeetings = async () => {
-            
             try {
-                //!user?.token
                 if (!idToken) {
                     console.error("Token is missing");
                     return;
-                }
-                //const token = user?.token;                 
+                }             
                 const response = await axios.get(`http://localhost:5001/api/meetings/user-meetings/${user.user.uid}`, {
                     headers: {
                         Authorization: `Bearer ${idToken}`, // Use Firebase token for authentication
@@ -41,11 +38,7 @@ const DashboardPage = () => {
         };
 
         if (user!={}) {
-            console.log("Here is token hoohoo: ", idToken);
-            console.log("Here is user hoohoo: ", user);
             fetchUserMeetings();
-        } else {
-            //setMeeting({});
         }
     }, [user.uid, user.token]);
 
@@ -63,7 +56,7 @@ const DashboardPage = () => {
             {/* On top of grey wave */}
             <div className=''>
                 {/* Logout button */}
-                <div className='tb:absolute ml-[30px] tb:ml-[8.5%] tb:mt-[4%] mt-[30px]'>
+                <div className='tb:absolute ml-[30px] tb:ml-[5%] tb:mt-[2%] mt-[30px]'>
                     <Link to="/" className='flex items-center space-x-[0.75vw]'>
                     <svg width="25" height="auto" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M15.9779 27.6754V31.2629C15.9779 32.2144 16.3591 33.1268 17.0375 33.7996C17.716 34.4724 18.6361 34.8504 19.5956 34.8504L32.2574 34.8504C33.2168 34.8504 34.137 34.4724 34.8154 33.7996C35.4939 33.1268 35.875 32.2144 35.875 31.2629L35.875 9.73789C35.875 8.78643 35.4939 7.87393 34.8154 7.20115C34.137 6.52836 33.2168 6.15039 32.2574 6.15039L19.5956 6.15039C18.6361 6.15039 17.716 6.52836 17.0375 7.20115C16.3591 7.87393 15.9779 8.78643 15.9779 9.73789V13.3254M26.8309 20.5004L5.125 20.5004M5.125 20.5004L10.5515 25.8816M5.125 20.5004L10.5515 15.1191" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -73,7 +66,7 @@ const DashboardPage = () => {
                 </div>
 
                 {/* Logo + Register Heading */}
-                <div className='mt-[15px] tb:mt-auto'>
+                <div className='mt-[15px] tb:mt-[3%]'>
                     {/* Logo */}
                     <div className="flex justify-center pt-8">
                         <svg width="15vh" height="auto" viewBox="0 0 155 110" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -91,7 +84,7 @@ const DashboardPage = () => {
 
                 {/* Meeting Carousel */}
                 
-                <h1 className="ml-[8.5%] mt-[5vh] font-poppins font-semibold text-[4vh] text-white">Recently Scheduled</h1>
+                <h1 className="ml-[8.5%] mt-[65px] tb:mt-[7.5vh] font-poppins font-semibold text-[4vh] text-white">Recently Scheduled</h1>
                 <div className='h-[28vh] ml-[8.5%] flex flex-col items-start overflow-x-auto '>
                     <div className='mt-[2vh] flex space-x-5 '>
                     {meetings.length > 0 ? (
@@ -109,7 +102,7 @@ const DashboardPage = () => {
                 </div>
 
                 {/* Add Meeting Button */}
-                <div className='relative mt-[6vh] mx-auto flex flex-col justify-center items-center py-[4vh] h-[150px] tb:h-[19vh] w-[200px] ph:w-1/3 tb:w-[25vw] bg-white rounded-2xl border-dashed border-[#B3B3B3] border-4'
+                <div className='relative mt-[5vh] mx-auto flex flex-col justify-center items-center py-[4vh] h-[150px] tb:h-[19vh] w-[200px] ph:w-1/3 tb:w-[25vw] bg-white rounded-2xl border-dashed border-[#B3B3B3] border-4'
                 onClick={() => navigate("/createMeeting")}
                 >
                     <svg width="40" height="auto" viewBox="0 0 82 82" fill="none" xmlns="http://www.w3.org/2000/svg">

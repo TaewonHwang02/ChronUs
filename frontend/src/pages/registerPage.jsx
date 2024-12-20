@@ -69,22 +69,22 @@ const RegisterPage = () => {
         {/* Logo + Register Heading */}
         <div>
           {/* Logo */}
-          <div className="flex justify-center mt-[150px]">
+          <div className="flex justify-center mt-[150px] tb:mt-[80px]">
             <img src={registerLogo} alt="ChronUs Logo" className="h-auto w-28" />
           </div>
           {/* Register Heading */}
-          <h1 className="font-kulim font-semibold text-[20px] tb:text-[1.65vw] text-[#032B43] text-center">
+          <h1 className="font-kulim font-semibold text-[30px] tb:text-[1.65vw] text-[#032B43] text-center">
             Register Here
           </h1>
         </div>
         
         {/* All Labels */}
-        <div className="flex flex-col items-center justify-center space-y-4 pt-6">
+        <div className="mt-[20px] ph:mt-[60px] tb:mt-8 flex flex-col items-center justify-center space-y-4 pt-6">
           {/* Full Name */}
           <div className="flex flex-col items-start justify-center space-y-[3px] ">
             <label
               htmlFor="name"
-              className="font-poppins font-normal text-[10px] tb:text-[0.95vw] text-[#0D2D7F]"
+              className="font-poppins font-normal text-[15px] tb:text-[0.95vw] text-[#0D2D7F]"
             >
               Full Name
             </label>
@@ -93,7 +93,7 @@ const RegisterPage = () => {
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="bg-[#FBFBFB] shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md p-2 h-[10px] tb:w-72 h-[23px] tb:h-8"
+              className="bg-[#FBFBFB] shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md w-[275px] tb:w-72 h-[30px] tb:h-8"
             />
           </div>
           
@@ -101,7 +101,7 @@ const RegisterPage = () => {
             {/* Email Address */}
             <label
               htmlFor="email"
-              className="font-poppins font-normal text-[10px] tb:text-[0.95vw] text-[#0D2D7F]"
+              className="font-poppins font-normal text-[15px] tb:text-[0.95vw] text-[#0D2D7F]"
             >
               Email Address
             </label>
@@ -110,7 +110,7 @@ const RegisterPage = () => {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="bg-[#FBFBFB] shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md p-2 h-[10px] tb:w-72 h-[23px] tb:h-8"
+              className="bg-[#FBFBFB] shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md w-[275px] tb:w-72 h-[30px] tb:h-8"
             />
           </div>
           
@@ -118,7 +118,7 @@ const RegisterPage = () => {
             {/* Password */}
             <label
               htmlFor="password"
-              className="font-poppins font-normal text-[10px] tb:text-[0.95vw] text-[#0D2D7F]"
+              className="font-poppins font-normal text-[15px] tb:text-[0.95vw] text-[#0D2D7F]"
             >
               Password
             </label>
@@ -127,7 +127,7 @@ const RegisterPage = () => {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-[#FBFBFB] shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md p-2 h-[10px] tb:w-72 h-[23px] tb:h-8"
+              className="bg-[#FBFBFB] shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md w-[275px] tb:w-72 h-[30px] tb:h-8"
             />
           </div>
 
@@ -135,7 +135,7 @@ const RegisterPage = () => {
             {/* Re-enter Password */}
             <label
               htmlFor="confirmPassword"
-              className="font-poppins font-normal text-[10px] tb:text-[0.95vw] text-[#0D2D7F]"
+              className="font-poppins font-normal text-[15px] tb:text-[0.95vw] text-[#0D2D7F]"
             >
               Re-Enter Password
             </label>
@@ -144,16 +144,16 @@ const RegisterPage = () => {
               id="confirmPassword"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="bg-[#FBFBFB] shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md p-2 h-[10px] tb:w-72 h-[23px] tb:h-8"
+              className="bg-[#FBFBFB] shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md w-[275px] tb:w-72 h-[30px] tb:h-8"
             />
           </div>
         </div>
 
         {/* Buttons */}
-        <div className="flex flex-col items-center justify-center space-y-[20px] tb:space-y-[3%] mt-[8%]">
+        <div className="flex flex-col items-center justify-center space-y-[20px] tb:space-y-[3%] mt-[40px] tb:mt-[8%]">
           {/* Register Button */}
           <button
-            className="justify-center w-28 bg-steel_blue shadow rounded-2xl text-[12px] tb:text-[1.15vw] font-poppins font-normal text-white"
+            className="justify-center w-[125px] tb:w-28 bg-steel_blue shadow rounded-2xl text-[20px] tb:text-[1.15vw] font-poppins font-normal text-white"
             onClick={handleRegister}
           >
             Join Now
