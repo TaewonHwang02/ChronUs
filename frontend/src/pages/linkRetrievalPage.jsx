@@ -61,7 +61,7 @@ const LinkRetrievalPage = () => {
           console.log("Meeting name updated:", response.data);
           navigator.clipboard.writeText(uniqueLink);
           
-          navigate(`/join/${meetingLink}}`);
+          navigate(`/join/${meetingLink}`);
         } catch (error) {
           console.error("Error updating meeting:", error.response?.data || error.message);
         }
