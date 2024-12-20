@@ -99,22 +99,24 @@ const LinkPage = () => {
             <div className='p-0 ph:p-[100px] tb:p-0'>
                 <div className='flex flex-col tb:flex-row tb:items-center translate-y-[40px] tb:translate-y-[5%]'>
                     {/* Left side: Grid Overlap Display */}
-                    <div className="order-2 tb:order-1 mx-[10px] tb:mx-auto tb:ml-[8%] tb:my-[8%] mt-[30px] transform bg-white p-4 rounded-lg shadow-md tb:w-[70%] flex items-center justify-center">
-                        <GridOverlapDisplay
-                            startDate={dates[0]}
-                            endDate={dates[dates.length - 1]}
-                            startTime={convertToTimeString(minTime + ":00")}
-                            endTime={convertToTimeString(maxTime + ":00")}
-                            timeSlots={aggregatedTimes}
-                            timeUnit={30}  // 30-minute increments
-                        />
+                    <div className="order-2 tb:order-1 mx-[10px] tb:mx-auto tb:ml-[8%] tb:my-[8%] mt-[30px] transform bg-white p-4 rounded-lg shadow-md tb:w-[33%] flex items-center justify-center">
+                    <div className="  rounded-lg shadow-md w-full md:w-3/4" >
+                    <GridOverlapDisplay
+                    startDate={dates[0]}
+                    endDate={dates[dates.length - 1]}
+                    startTime={convertToTimeString(minTime + ":00")}
+                    endTime={convertToTimeString(maxTime + ":00")}
+                    timeSlots={aggregatedTimes}
+                    timeUnit={30}  // 30-minute increments
+                    />
+                </div>
                     </div>
                     
                     {/* Right side: Meeting Info */}
                     <div className="order-1 tb:order-2 flex flex-col space-y-[40px] tb:space-y-[10vh] flex-1 translate-y-[-7%]">
                         <div className='space-y-[5vh]'>
                             <div className="flex justify-center">
-                                <img src={registerLogo} alt="ChronUs Logo" className="h-auto w-28" />
+                                <img src={registerLogo} alt="ChronUs Logo" className="h-24 w-auto" />
                             </div>
                             <h1 className="font-poppins font-semibold text-[25px] tb:text-[3vw] text-white text-center">
                                 Join {user.name || "User"}'s ChronUs
@@ -125,7 +127,7 @@ const LinkPage = () => {
                             <div className="flex flex-col items-start justify-center ">
                                 <label
                                     htmlFor="name"
-                                    className="font-poppins font-normal tb:text-[0.95vw] text-white"
+                                    className="font-poppins font-normal mb-2 tb:text-[1vw] text-white"
                                 >
                                     Full Name
                                 </label>
@@ -134,7 +136,7 @@ const LinkPage = () => {
                                     id="name"
                                     value={participantName}
                                     onChange={(e) => setParticipantName(e.target.value)}
-                                    className="bg-[#FBFBFB] shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md p-2 w-72 h-8"
+                                    className="font-poppins bg-[#FBFBFB] shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md p-2 w-72 h-8"
                                 />
                             </div>
 
@@ -143,7 +145,7 @@ const LinkPage = () => {
 
                         <div className="flex flex-col items-center justify-center">
                             <button
-                                className="justify-center h-[25px] tb:h-auto w-[60px] tb:w-[6vw] bg-selective_yellow shadow rounded-2xl tb:text-[1.5vw] font-poppins font-normal text-white"
+                                className="justify-center h-[25px] p-1 tb:h-auto w-[60px] tb:w-[6vw] bg-selective_yellow shadow rounded-2xl tb:text-[1.3vw] font-poppins font-normal text-white"
                                 onClick={handleJoinMeeting}
                             >
                                 Go!
