@@ -37,11 +37,11 @@ const TimeSlider = ({
     <div className="relative w-full h-[100px] bg-white rounded-md">
       <div className="absolute top-0 w-5/6 h-full left-1/2 -translate-x-1/2">
         {/* Title */}
-        <div className="absolute py-0 top-0 w-full text-center font-poppins text-[30px] text-[#0B1354]">
+        <div className="absolute py-0 top-0 w-full text-center font-poppins text-2xl text-[#0B1354]">
           {`${Math.floor(value / 60)} hrs ${value % 60} mins`}
         </div>
 
-        <div className="py-6">
+        <div className="py-4">
           <div className="relative mt-9 h-[9px]">
             <div
               className="absolute h-full w-full rounded-md z-[1]"
@@ -52,7 +52,7 @@ const TimeSlider = ({
               className="absolute h-full rounded-md z-[2]"
               style={{ backgroundColor: sliderColor }}
             />
-            <div className="absolute bottom-0 w-full h-0 text-[#A3A3A3] text-[16px] font-poppins">
+            <div className="absolute bottom-0 w-full h-0 text-[#A3A3A3] text-xs font-poppins">
               <span className="absolute left-0">0 Mins</span>
               <span className="absolute left-1/2 -translate-x-1/2">3Hrs</span>
               <span className="absolute right-0">6Hrs</span>

@@ -12,9 +12,10 @@ const meetingSchema = new mongoose.Schema({
   deadline: { type: Date, required: true },
   participants: [participantSchema],
   meetingLink: { type: String, unique: true, required: true },
-  meetingName: {type:String},
+  meetingName: {type:String, required: false},
   emailOption: {type:Boolean, required: true},
   emailDate: {type:Date},
+  minimumTimeSlots: { type: Number, default: 0 }
 });
 
 export default mongoose.model("Meeting", meetingSchema);
