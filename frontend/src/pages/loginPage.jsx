@@ -76,7 +76,7 @@ const LoginPage = () => {
         <div className="">
         <div className='absolute w-full h-screen bg-[#F5F5F5] z-[-2]'></div>
         {/* Background Rectangle */}
-        <div className="absolute bottom-0 right-0 w-[60%] h-full bg-pine_green rounded-bl-[432px] z-[-1]"></div>
+        <div className="invisible tb:visible absolute bottom-0 right-0 w-[60%] h-full bg-pine_green rounded-bl-[432px] z-[-1]"></div>
 
         {/* left-Side */}
         <div className=' absolute w-full h-full flex items-center justify-center tb:bottom-0 tb:left-0 tb:w-[40%]'>
@@ -99,7 +99,7 @@ const LoginPage = () => {
                     <div className="flex flex-col items-start justify-center space-y-[1vh]">
                         <label
                         htmlFor="email"
-                        className="font-poppins font-normal text-[#0D2D7F] text-[10px] tb:text-[1.15vw]"
+                        className="font-poppins font-normal text-[#0D2D7F] text-[11px] tb:text-[1.15vw]"
                         >
                         Email Address
                         </label>
@@ -108,7 +108,7 @@ const LoginPage = () => {
                         id="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="bg-[#FBFBFB] shadow-inner rounded-[1.5%] p-2"
+                        className="bg-[#FBFBFB] font-poppins shadow-inner rounded-[1.5%] p-2 shadow-[inset_0_3px_4px_0px_rgba(0,0,0,0.2)]"
                         />
                     </div>
 
@@ -116,7 +116,7 @@ const LoginPage = () => {
                     <div className="flex flex-col items-start justify-center space-y-[1vh]">
                         <label
                         htmlFor="password"
-                        className="font-poppins font-normal text-[#0D2D7F] text-[10px] tb:text-[1.15vw]"
+                        className="font-poppins font-normal text-[#0D2D7F] text-[11px] tb:text-[1.15vw]"
                         >
                         Password
                         </label>
@@ -125,7 +125,7 @@ const LoginPage = () => {
                         id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="bg-[#FBFBFB] shadow-inner rounded-[1.5%] p-2"
+                        className="bg-[#FBFBFB] font-poppins shadow-inner rounded-[1.5%] p-2 shadow-[inset_0_3px_4px_0px_rgba(0,0,0,0.2)]"
                         />
                     </div>
                 </div>
@@ -133,7 +133,7 @@ const LoginPage = () => {
                 {/* buttons */}
                 <div className="flex flex-col space-y-[1vh] items-center justify-center">
                     {/* Sign In Button */}
-                    <button className="bg-selective_yellow shadow rounded-[2.7%] font-poppins font-normal leading-[2vw] text-[#000000] text-[15px] h-[15px] tb:h-auto w-[100px] tb:text-[1.15vw]"
+                    <button className="bg-selective_yellow rounded-lg shadow rounded-[2.7%] font-poppins font-normal leading-[2vw] text-[#000000] text-[14px] h-[15px] tb:h-auto w-[100px] tb:text-[1.4vw]"
                             onClick={handleEmailLogin}
                     >
                     Sign In

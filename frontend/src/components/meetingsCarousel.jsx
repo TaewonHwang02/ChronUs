@@ -52,12 +52,12 @@ const MeetingsCarousel = ({meeting}) => {
                 {/* Title + Date */}
                 <div className='relative flex flex-col tb:flex-row tb:space-x-[5%] '>
                     <h1 className='font-poppins font-semibold text-[17px] tb:text-[2.75vh] text-black tb:text-nowrap'>{meeting.meetingName}</h1>
-                    <p className='mt-[10px] tb:mt-auto tb:pr-[3.5vh] font-poppins font-semibold text-[13px] tb:text-[2.25vh] text-[#B3B3B3] tb:text-nowrap'>{dateRange}</p>
+                    <p className='mt-[10px] tb:mt-auto tb:pr-[3.5vh] font-poppins font-semibold text-[13px] tb:text-[2vh] text-[#B3B3B3] tb:text-nowrap'>{dateRange}</p>
                 </div>
                 {/* Time Slot + Min Time Slot */}
-                <div className='absolute tb:pb-[3.5vh] pl-[13px] tb:pl-[3.5vh] inset-x-0 bottom-0 mt-[30px] tb:mt-auto'>
+                <div className='absolute pb-[13px] tb:pb-[3.5vh] pl-[13px] tb:pl-[3.5vh] inset-x-0 bottom-0 mt-[30px] tb:mt-auto'>
                     <h1 className='font-poppins text-[14px] tb:text-[2vh] text-black'>Time Slot: {timeSlot}</h1>
-                    <h1 className='font-poppins text-[2vh] text-black mt-[0.25vh]'>Minimum Time Slot: {meeting.minimumTimeSlots} Minutes</h1>
+                    <h1 className='font-poppins text-[15px] tb:text-[2vh] text-black mt-[0.25vh]'>Minimum Time Slot: {meeting.minimumTimeSlots} Minutes</h1>
                 </div>
                 {/* 'Reuse this schedule' button */}
                 <button

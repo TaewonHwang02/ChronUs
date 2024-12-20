@@ -61,7 +61,7 @@ const LinkRetrievalPage = () => {
           console.log("Meeting name updated:", response.data);
           navigator.clipboard.writeText(uniqueLink);
           
-          navigate("/dashboard");
+          navigate(`/join/${meetingLink}}`);
         } catch (error) {
           console.error("Error updating meeting:", error.response?.data || error.message);
         }
@@ -74,7 +74,7 @@ const LinkRetrievalPage = () => {
           <div className='absolute w-full h-full bg-grey_background z-[-2]'></div>
           {/* Background Ellipse */}
           <div className="absolute w-full h-[84%] bg-selective_yellow rounded-br-[600px] z-[-1]"></div>
-        <div className="p-0 ph:p-[50px] tb:p-0 relative w-screen h-screen overflow-y-auto overflow-x-hidden">
+        <div className="p-0 tb:p-0 relative w-screen h-screen overflow-y-auto overflow-x-hidden">
           {/* ChronUs Text */}
           <div className="px-[10px] tb:px-auto text-white text-center mt-[7%]">
               <h4 className="text-4xl font-poppins font-semibold mb-2">Thank you for choosing</h4>
@@ -107,10 +107,7 @@ const LinkRetrievalPage = () => {
               {/* Deadline and Information */}
               <div className="mt-[50px] text-steel_blue tb:text-white">
                   <h3 className="text-[20px] tb:text-3xl font-poppins mb-2">You will be notified of the most</h3>
-                  <h3 className="text-[20px] tb:text-3xl font-poppins mb-8">optimal time slots upon</h3>
-                  <h3 className="text-[20px] tb:text-3xl font-poppins mb-2">
-                      Deadline
-                  </h3>
+                  <h3 className="text-[20px] tb:text-3xl font-poppins mb-8">optimal time slots upon deadline</h3>
               </div>
 
               {/* Meeting Link Section */}
@@ -121,10 +118,10 @@ const LinkRetrievalPage = () => {
                   
                       value={inputMeetingName}
                       onChange={(e) => setInputMeetingName(e.target.value)}
-                      className="mb-[10px] tb:mb-0 flex-grow w-[300px] tb:w-[15vw] p-2 text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-steel_blue"
+                      className="font-poppins mb-[10px] tb:mb-0 flex-grow w-[300px] tb:w-[15vw] p-1 text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-steel_blue"
                   />
                   {/* Blue Button Finalizes Meeting */}
-                  <ButtonBlue className='' text="Submit and Retrieve Link" onClick={handleFinalizeMeeting} />
+                  <ButtonBlue className='' text="Retrieve Link" onClick={handleFinalizeMeeting} />
               </div>
             </div>
           </div>

@@ -12,9 +12,9 @@ const LandingPage = () => {
       <div className="absolute bottom-0 left-0 w-[88%] h-full bg-steel_blue rounded-br-[700px] z-[-1]"></div>
 
       {/* Left Side */}
-      <div className="flex flex-col justify-center space-y-[40px] px-[45px] ph:px-[20%] tb:px-[5%] w-full tb:w-1/2">
+      <div className="flex flex-col justify-center space-y-[40px] px-[45px] tb:px-[5%] w-full tb:w-1/2">
         <div>
-          <img src={landingLogo} alt="ChronUs Logo" className="w-20 h-20" />
+          <img src={landingLogo} alt="ChronUs Logo" className="w-[120px] h-[120px]" />
         </div>
 
         <div className="text-white">

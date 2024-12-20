@@ -119,13 +119,13 @@ const CreateMeeting = () => {
             <div className="space-y-[20px] lg:space-y-2 p-[25px] lg:p-0 w-full h-full lg:w-2/5 lg:h-4/5">
                 <img src={LoginLogo} alt="ChronUs Logo" className="w-20 h-35" />
                 <div
-                    className="relative w-2/3 mt-4 font-poppins text-white text-xs flex items-center space-x-2 cursor-pointer"
+                    className="relative w-2/3 mt-4 font-poppins text-white text-[15px] lg:text-xs flex items-center space-x-2 cursor-pointer"
                     onClick={() => navigate("/dashboard")}
                 >
                     <img src={returnArr} alt="return" className=" w-3 h-3" />
                     <span>Back to Dashboard</span>
                 </div>
-                <h1 className="py-2 font-poppins text-3xl lg:text-[3vw] font-medium text-white">Set Your Dates</h1>
+                <h1 className="py-2 font-poppins text-[40px] lg:text-3xl lg:text-[3vw] font-medium text-white">Set Your Dates</h1>
                 <div className='flex items-center'>
                     <DatePicker onChange={handleDateChange}  />
                 </div>
@@ -138,7 +138,7 @@ const CreateMeeting = () => {
                             checked={emailOption}
                             onChange={(e) => setEmailOption(e.target.checked)}
                         />
-                        <span className="px-2 lg:text-sm text-xs lg:text-l font-poppins">
+                        <span className="px-2 lg:text-sm text-[15px] lg:text-xs lg:text-l font-poppins">
                             Receive an E-mail of curated dates/times
                         </span>
                     </label>

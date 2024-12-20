@@ -99,7 +99,7 @@ const LinkPage = () => {
             <div className='p-0 ph:p-[100px] tb:p-0'>
                 <div className='flex flex-col tb:flex-row tb:items-center translate-y-[40px] tb:translate-y-[5%]'>
                     {/* Left side: Grid Overlap Display */}
-                    <div className="order-2 tb:order-1 mx-[10px] tb:mx-auto tb:ml-[8%] tb:my-[8%] mt-[30px] transform bg-white p-4 rounded-lg shadow-md tb:w-[33%] flex items-center justify-center">
+                    <div className="order-2 tb:order-1 mx-[30px] tb:mx-auto tb:ml-[8%] tb:my-[8%] mt-[30px] transform bg-white p-4 rounded-lg shadow-md tb:w-[33%] flex items-center justify-center">
                     <div className="  rounded-lg shadow-md w-full md:w-3/4" >
                     <GridOverlapDisplay
                     startDate={dates[0]}

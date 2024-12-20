@@ -157,20 +157,25 @@ const SchedulingMainPage = () => {
     console.log("Aggregated Times before passing to GridOverlapDisplay:", aggregatedTimes);
 
     return (
-        <div className="relative w-full h-screen bg-[#F5F5F5] overflow-hidden">
-            <div className="absolute w-[95%] h-[422.6px] bg-selective_yellow rounded-br-[700px]"></div>
+        <div className="w-full h-full flex flex-col relative overflow-hidden">
+            <div className='absolute w-full h-full bg-grey_background z-[-3]'></div>
+            <div className="absolute w-[95%] h-[422.6px] bg-selective_yellow rounded-br-[700px] z-[-2]"></div>
 
-            <div className="absolute top-[10%] right-[47.5%]">
-                <img src={registerLogo} alt="ChronUs Logo" className="w-20 h-20" />
+            {/* Logo + Heading */}
+            <div className='flex flex-col mt-[4%]'>
+                <div className="flex justify-center">
+                    <img src={registerLogo} alt="ChronUs Logo" className="w-[125px] h-[125px]" />
+                </div>
+                <h1 className="font-kulim font-semibold text-[23px] tb:text-[3vw] leading-[4vw] text-white text-center">
+                    Welcome {participant || user?.name}, Select Your Time Slots
+                </h1>
             </div>
 
-            <h1 className="absolute w-full top-[20%] left-[1%] font-kulim font-semibold text-[2vw] leading-[3vw] text-white text-center">
-                Welcome {participant || user?.name}, Select Your Time Slots
-            </h1>
-
-            <div className="absolute top-[30%] left-[10%] w-[90%] grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            {/* boxes */}
+            <div className="flex flex-col tb:flex-row justify-center">
                 {/* Left side: Grid Overlap Display */}
-                <div className="bg-white p-4 rounded-lg shadow-md w-full md:w-3/4" >
+                <div className="m-[30px] ph:m-[20%] tb:m-[5%] bg-white p-[5px] tb:p-4 rounded-lg shadow-md tb:w-[30%]" >
                     <GridOverlapDisplay
                     startDate={dates[0]}
                     endDate={dates[dates.length - 1]}
@@ -182,8 +187,7 @@ const SchedulingMainPage = () => {
                 </div>
 
                 {/* Right side: User time selection */}
-                <div className="bg-white p-4 rounded-lg shadow-md relative w-full w-3/4">
-                    <div className="absolute -top-6 left-1/2 transform -translate-x-1/2"></div>
+                <div className="m-[30px] ph:m-[20%] tb:m-[5%] flex flex-row justify-center bg-white p-4 px-[5%] rounded-lg shadow-md relative w-auto">
                     <div className="max-w-full overflow-x-auto">
                     <DraggableSelector
                         minTime={minTime}
@@ -199,7 +203,7 @@ const SchedulingMainPage = () => {
                         timeFormat="HH:mm A"
                     />
                     </div>
-                    <div className="absolute py-5 left-1/2 transform -translate-x-1/2">
+                    <div className="absolute bottom-[-10%] tb:bottom-0 py-5 left-1/2 transform -translate-x-1/2">
                     <ButtonBlue text="Submit" onClick={submitTimeSlots} />
                     </div>
                 </div>
