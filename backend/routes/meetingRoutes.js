@@ -170,6 +170,45 @@ router.get("/scheduling/:meetingLink", async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 });
+router.post('/:meetingLink/select-time', async (req, res) => {
+  const { meetingLink } = req.params;
+  const { participantName, selectedTimeSlots } = req.body;
+
+  // Validate request body
+  if (!participantName || !selectedTimeSlots || !Array.isArray(selectedTimeSlots)) {
+      return res.status(400).json({ message: 'Missing or invalid data' });
+  }
+
+  try {
+      // Find the meeting by its link
+      const meeting = await Meeting.findOne({ meetingLink });
+
+      if (!meeting) {
+          return res.status(404).json({ message: 'Meeting not found' });
+      }
+
+      // Add or update the participant's time slots
+      const participantIndex = meeting.participants.findIndex(
+          (p) => p.name === participantName
+      );
+
+      if (participantIndex > -1) {
+          // Update existing participant's time slots
+          meeting.participants[participantIndex].times = selectedTimeSlots;
+      } else {
+          // Add new participant
+          meeting.participants.push({ name: participantName, times: selectedTimeSlots });
+      }
+
+      // Save changes to the database
+      await meeting.save();
+
+      res.status(200).json({ message: 'Time slots submitted successfully', meeting });
+  } catch (error) {
+      console.error('Error updating time slots:', error);
+      res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
 
 
 
