@@ -7,6 +7,7 @@ import User from "../models/User.js"
 const router = express.Router();
 
 router.post("/create-meeting", verifyFirebaseToken, async (req, res) => {
+  console.log('Received request data:', req.body);
   try {
     const {
       userID,
@@ -18,6 +19,8 @@ router.post("/create-meeting", verifyFirebaseToken, async (req, res) => {
       enddate,
       deadline,
       participants,
+      minimumTimeSlots
+      
     } = req.body;
 
     // Validate required fields
@@ -42,6 +45,7 @@ router.post("/create-meeting", verifyFirebaseToken, async (req, res) => {
       deadline,
       participants,
       meetingLink: uuidv4(),
+      minimumTimeSlots: minimumTimeSlots || 0
     });
 
     // Save the meeting
@@ -186,6 +190,32 @@ router.post('/:meetingLink/select-time', async (req, res) => {
       if (!meeting) {
           return res.status(404).json({ message: 'Meeting not found' });
       }
+        // Minimum required minutes
+        const minMinutesRequired = meeting.minimumTimeSlots || 0;
+
+
+      // Calculate total selected minutes
+      let totalSelectedMinutes = 0;
+      for (const slot of selectedTimeSlots) {
+        const [startH, startM] = slot.minTime.split(':').map(Number);
+        const [endH, endM] = slot.maxTime.split(':').map(Number);
+
+        const startTotal = startH * 60 + startM;
+        const endTotal = endH * 60 + endM;
+        const duration = endTotal - startTotal;
+
+        totalSelectedMinutes += duration;
+      }
+
+    // Check if requirement met
+    if (minMinutesRequired > 0 && totalSelectedMinutes < minMinutesRequired) {
+      return res.status(400).json({
+        message: `You must select at least ${minMinutesRequired} minutes. You selected ${totalSelectedMinutes} minutes.`
+      });
+    }
+
+    
+
 
       // Add or update the participant's time slots
       const participantIndex = meeting.participants.findIndex(

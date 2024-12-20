@@ -4,10 +4,8 @@ import registerLogo from "../assets/WhiteLogo.svg";
 import { DraggableSelector } from "react-draggable-selector";
 import ButtonBlue from '../components/ButtonBlue';
 import axios from "axios";
-// Import the new GridOverlapDisplay component
 import GridOverlapDisplay from '../components/GridOverlapDisplay';
 
-// Converts "YYYYMMDD" string to Date object
 const convertToDate = (dateString) => {
     const year = parseInt(dateString.slice(0, 4), 10);
     const month = parseInt(dateString.slice(4, 6), 10) - 1;
@@ -15,7 +13,6 @@ const convertToDate = (dateString) => {
     return new Date(year, month, day);
 };
 
-// Ensures time in "HH:mm" format
 const convertToTimeString = (time) => {
     const [hours, minutes] = time.split(':');
     return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`;
@@ -27,6 +24,7 @@ const SchedulingMainPage = () => {
     const [aggregatedTimes, setAggregatedTimes] = useState([]);
     const [minTime, setMinTime] = useState(9);
     const [maxTime, setMaxTime] = useState(18);
+    const [minimumTimeSlots, setMinimumTimeSlots] = useState(0); // store required minutes
 
     const location = useLocation();
     const user = location.state?.user || {};
@@ -43,11 +41,9 @@ const SchedulingMainPage = () => {
                 const response = await axios.get(`http://localhost:5001/api/meetings/${meetingLink}`);
                 const meeting = response.data.meeting;
 
-                // Convert timeframe from minutes to hours
                 setMinTime(meeting.begTimeFrame / 60);
                 setMaxTime(meeting.endTimeFrame / 60);
 
-                // Create a date array from startdate to enddate (inclusive)
                 const startDate = new Date(meeting.startdate);
                 const endDate = new Date(meeting.enddate);
                 const dateArray = [];
@@ -56,10 +52,10 @@ const SchedulingMainPage = () => {
                 }
                 setDates(dateArray);
 
-                // Extract participant times
-                const allParticipantsTimes = meeting.participants.flatMap((p) => p.times);
+                // Store minimum required minutes
+                setMinimumTimeSlots(meeting.minimumTimeSlots || 0);
 
-                // Format times for GridOverlapDisplay
+                const allParticipantsTimes = meeting.participants.flatMap((p) => p.times);
                 const formattedTimes = allParticipantsTimes.map((timeSlot) => {
                     const slotDate = convertToDate(timeSlot.date);
                     const dayIndex = dateArray.findIndex(d => d.toDateString() === slotDate.toDateString());
@@ -91,6 +87,23 @@ const SchedulingMainPage = () => {
     const submitTimeSlots = async () => {
         if (times.length === 0) {
             alert("Please select time slots before submitting");
+            return;
+        }
+
+        // Calculate total selected minutes
+        let totalSelectedMinutes = 0;
+        for (const slot of times) {
+            const [startH, startM] = slot.minTime.split(':').map(Number);
+            const [endH, endM] = slot.maxTime.split(':').map(Number);
+            const startTotal = startH * 60 + startM;
+            const endTotal = endH * 60 + endM;
+            const duration = endTotal - startTotal;
+            totalSelectedMinutes += duration;
+        }
+
+        // Check if participant meets the minimum minute requirement
+        if (minimumTimeSlots > 0 && totalSelectedMinutes < minimumTimeSlots) {
+            alert(`You must select at least ${minimumTimeSlots} minutes. You selected ${totalSelectedMinutes} minutes.`);
             return;
         }
 
@@ -158,7 +171,6 @@ const SchedulingMainPage = () => {
             <div className="absolute top-[30%] left-[5%] w-[90%] grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Left side: Grid Overlap Display */}
                 <div className="bg-white p-4 rounded-lg shadow-md w-full max-w-sm mx-auto">
-                    {/* Replace OverlapTimeSlotsDisplay with GridOverlapDisplay */}
                     <GridOverlapDisplay timeSlots={aggregatedTimes} timeUnit={30} />
                 </div>
 

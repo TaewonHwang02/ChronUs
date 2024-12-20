@@ -21,6 +21,7 @@ const CreateMeeting = () => {
     const [emailOption, setEmailOption] = useState(false);
     const [timeRange, setTimeRange] = useState({ start: 480, end: 1020 });
     const [activeIndex, setActiveIndex] = useState(null);
+    const [minimumTimeSlots, setMinimumTimeSlots] = useState(0);
     const navigate = useNavigate();
 
     const handleDateChange = (selectedDates) => {
@@ -42,7 +43,10 @@ const CreateMeeting = () => {
         setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
     };
  
-   
+    const handleMinTimeSlotsChange = (value) => {
+        console.log("MinRangeSlider value:", value);
+        setMinimumTimeSlots(value);
+    };
 
     const handleGenerateSchedule = async () => {
         try {
@@ -71,6 +75,13 @@ const CreateMeeting = () => {
                 meetingName: "Meeting"
                 //participants: ["user1@example.com", "user2@example.com"], // Replace with actual participants
             };
+            console.log("ActiveIndex before sending:", activeIndex);
+            console.log("Current minimumTimeSlots value:", minimumTimeSlots);
+            if (activeIndex === 1) {
+                meetingData.minimumTimeSlots = minimumTimeSlots;
+            }
+            console.log("MinimumTimeSlots before sending:", meetingData.minimumTimeSlots);
+
     
             // Make the POST request
             const response = await axios.post("http://localhost:5001/api/meetings/create-meeting", meetingData, {
@@ -221,7 +232,7 @@ const CreateMeeting = () => {
                         isActive={activeIndex === 1}
                         onToggle={() => handleToggle(1)}
                     >
-                        <MinRangeSlider onChange={handleTimeRangeChange} />
+                        <MinRangeSlider onChange={handleMinTimeSlotsChange} />
                     </Accordion>
                 </div>
 
