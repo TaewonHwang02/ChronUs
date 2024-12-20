@@ -28,17 +28,61 @@ const sendEmail = async ({ to, subject, text }) => {
   }
 };
 
+const formatTimeSlotTable = (aggregatedSlots) => {
+  if (aggregatedSlots.length === 0) {
+    return "No time slots available.";
+  }
+
+  let table = "\n\nTime Slots:\n";
+  table += "Date         | Start Time | End Time  | Participants\n";
+  table += "-------------|------------|-----------|---------------------\n";
+
+  aggregatedSlots.forEach((slot) => {
+    const participantNames = slot.participants.join(", ");
+    table += `${slot.date} | ${slot.minTime}   | ${slot.maxTime}  | ${participantNames}\n`;
+  });
+
+  return table;
+};
+
+const aggregateAndPrioritizeTimeSlots = (participants) => {
+  const timeSlotMap = new Map();
+
+  participants.forEach((participant) => {
+    (participant.times || []).forEach((timeSlot) => {
+      const slotKey = `${timeSlot.date}-${timeSlot.minTime}-${timeSlot.maxTime}`;
+      if (!timeSlotMap.has(slotKey)) {
+        timeSlotMap.set(slotKey, {
+          date: timeSlot.date,
+          minTime: timeSlot.minTime,
+          maxTime: timeSlot.maxTime,
+          participants: [],
+        });
+      }
+      timeSlotMap.get(slotKey).participants.push(participant.name);
+    });
+  });
+
+  // Convert the map into an array
+  const aggregatedSlots = Array.from(timeSlotMap.values());
+
+  // Determine the maximum number of participants
+  const maxParticipants = Math.max(...aggregatedSlots.map(slot => slot.participants.length));
+
+  // Filter slots to include only those with the maximum participants
+  return aggregatedSlots.filter(slot => slot.participants.length === maxParticipants);
+};
+
 // Function to check and send emails for meetings with emailOption true
 const checkAndSendEmails = async () => {
   try {
-    // Get current date and time
     const now = new Date();
 
     // Fetch all meetings with `emailOption: true` and `emailDate` that are due
     const meetings = await Meeting.find({
       emailOption: true,
-      emailDate: { $lte: now }, // Emails scheduled up to the current time
-    });
+      emailDate: { $lte: now },
+    }).populate("participants");
 
     for (const meeting of meetings) {
       const user = await User.findOne({ uid: meeting.userID });
@@ -47,10 +91,15 @@ const checkAndSendEmails = async () => {
         continue;
       }
 
+      // Aggregate and prioritize time slots (only max participant slots)
+      const maxAggregatedSlots = aggregateAndPrioritizeTimeSlots(meeting.participants);
+
+      const tableContent = formatTimeSlotTable(maxAggregatedSlots);
+
       const emailContent = {
         to: user.email,
         subject: "Your Meeting Reminder",
-        text: `Hello ${user.name},\n\nThis is a reminder for your scheduled meeting:\nMeeting Name: ${meeting.meetingName}\nStart Date: ${meeting.startdate}\nEnd Date: ${meeting.enddate}\n\nBest regards,\nChronUs`,
+        text: `Hello ${user.name},\n\nThis is a reminder for your scheduled meeting:\n\nMeeting Name: ${meeting.meetingName}\n${tableContent}\n\nBest regards,\n\nChronUs Team`,
       };
 
       await sendEmail(emailContent);
@@ -64,6 +113,7 @@ const checkAndSendEmails = async () => {
     console.error("Error checking and sending emails:", error.message);
   }
 };
+
 
 // Schedule the `checkAndSendEmails` function to run every minute
 schedule.scheduleJob("*/1 * * * *", checkAndSendEmails);
