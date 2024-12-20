@@ -77,7 +77,6 @@ const CreateMeeting = () => {
                 meetingName: "Meeting",
                 emailOption,
                 emailDate,
-                //participants: ["user1@example.com", "user2@example.com"], // Replace with actual participants
             };
             console.log("ActiveIndex before sending:", activeIndex);
             console.log("Current minimumTimeSlots value:", minimumTimeSlots);
@@ -87,19 +86,18 @@ const CreateMeeting = () => {
             console.log("MinimumTimeSlots before sending:", meetingData.minimumTimeSlots);
 
     
-            // Make the POST request
+            // Make POST request to load our meeting schema data onto mongoDB
             const response = await axios.post("http://localhost:5001/api/meetings/create-meeting", meetingData, {
                 headers: {
-                    Authorization: `Bearer ${token}`, // Pass Firebase token
+                    Authorization: `Bearer ${token}`, 
                 },
             });
     
             console.log("Raw response from backend:", response.data);
-            const { meeting, meetingLink } = response.data; // Correct destructuring
-    
+            const { meeting, meetingLink } = response.data; 
             console.log("State being passed to navigate:", { meetingID: meeting, meetingLink });
     
-            // Navigate to the link retrieval page
+            // Once all of the Posting complete, move to the link retrieval page
             navigate("/linkretrieval", {
                 state: { meetingID: meeting, meetingLink },
             });

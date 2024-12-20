@@ -1,9 +1,13 @@
+// Dana Lee 261054107
+// Component brought from utility library date-fns
+
 import React, {useState} from 'react';
 import { addDays } from 'date-fns';
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; 
 import 'react-date-range/dist/theme/default.css'; 
 
+// Default date set to present date and end date to 3 days from today
 const DateSelector = ({ onChange }) => {
   const [state, setState] = useState([
     {
@@ -13,12 +17,15 @@ const DateSelector = ({ onChange }) => {
     }
   ]);
 
+  // Notifying parent (state) of the changes made from the component
   const handleDateChange = (item) => {
     const newSelection = item.selection;
     setState([newSelection]);
     onChange && onChange(newSelection);
   };
 
+
+  // Structure of component, tweaking options to make a simple date picker
   return (
     <div className="date-selector-container font-poppins w-full rounded-md p-2  flex items-center justify-center ">
       <div className="date-range-wrapper flex justify-center rounded-md  items-center w-full h-full ">
@@ -35,6 +42,7 @@ const DateSelector = ({ onChange }) => {
           className="daterange-component"
         />
       </div>
+    {/* Resizing of the component */}
     <style>
       {`
       .date-selector-container {

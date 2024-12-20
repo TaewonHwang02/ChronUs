@@ -6,6 +6,7 @@ import User from "../models/User.js";
 
 const router = express.Router();
 
+// Setting-up stage of emailing function, and Gmail 2factor authentication password
 const sendEmail = async ({ to, subject, text }) => {
   const transporter = nodemailer.createTransport({
     service: "Gmail",
@@ -15,7 +16,7 @@ const sendEmail = async ({ to, subject, text }) => {
     },
   });
 
-  try {
+  try { 
     const info = await transporter.sendMail({
       from: process.env.USER,
       to,
@@ -28,6 +29,8 @@ const sendEmail = async ({ to, subject, text }) => {
   }
 };
 
+// Later when sending the email, we need a template table to input the maximum participant slots
+// Essentially what we'll send in the email
 const formatTimeSlotTable = (aggregatedSlots) => {
   if (aggregatedSlots.length === 0) {
     return "No time slots available.";
@@ -45,9 +48,13 @@ const formatTimeSlotTable = (aggregatedSlots) => {
   return table;
 };
 
+
+// Function to find the maximum number of participants in a block and only filter those
+// For other emailing options, we could maybe implement other aggregations, but just this for noww
 const aggregateAndPrioritizeTimeSlots = (participants) => {
   const timeSlotMap = new Map();
-
+  // Grouping of overlapping slots
+  // Merge date time and max time into slotKey to compare identical periods
   participants.forEach((participant) => {
     (participant.times || []).forEach((timeSlot) => {
       const slotKey = `${timeSlot.date}-${timeSlot.minTime}-${timeSlot.maxTime}`;
@@ -63,22 +70,18 @@ const aggregateAndPrioritizeTimeSlots = (participants) => {
     });
   });
 
-  // Convert the map into an array
+  // Find slots with max number of participants and return those
   const aggregatedSlots = Array.from(timeSlotMap.values());
-
-  // Determine the maximum number of participants
   const maxParticipants = Math.max(...aggregatedSlots.map(slot => slot.participants.length));
-
-  // Filter slots to include only those with the maximum participants
   return aggregatedSlots.filter(slot => slot.participants.length === maxParticipants);
 };
 
-// Function to check and send emails for meetings with emailOption true
+// For scheduled emailing to work, we need to check regularly for emailOption true and also emailDate has to be today
 const checkAndSendEmails = async () => {
   try {
     const now = new Date();
 
-    // Fetch all meetings with `emailOption: true` and `emailDate` that are due
+    // All meetings that satisfy our needs
     const meetings = await Meeting.find({
       emailOption: true,
       emailDate: { $lte: now },
@@ -91,11 +94,11 @@ const checkAndSendEmails = async () => {
         continue;
       }
 
-      // Aggregate and prioritize time slots (only max participant slots)
+      // Prioritize only max participant slots
       const maxAggregatedSlots = aggregateAndPrioritizeTimeSlots(meeting.participants);
-
       const tableContent = formatTimeSlotTable(maxAggregatedSlots);
 
+      // Email format (to fill in with actual user data)
       const emailContent = {
         to: user.email,
         subject: "Your Meeting Reminder",
@@ -104,7 +107,7 @@ const checkAndSendEmails = async () => {
 
       await sendEmail(emailContent);
 
-      // Mark the meeting's emailOption as false to prevent re-sending
+      // ***** Scheduler runs every minute so once we send, we tick emailOption to false to avoid spamming!!!
       meeting.emailOption = false;
       await meeting.save();
       console.log(`Email sent and emailOption updated for meeting ID: ${meeting._id}`);
@@ -115,7 +118,7 @@ const checkAndSendEmails = async () => {
 };
 
 
-// Schedule the `checkAndSendEmails` function to run every minute
+// Scheduling to check the meeting schema every minute ("*/1 * * * *")
 schedule.scheduleJob("*/1 * * * *", checkAndSendEmails);
 
 export default router;
