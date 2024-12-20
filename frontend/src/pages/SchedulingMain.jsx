@@ -177,7 +177,7 @@ const SchedulingMainPage = () => {
                 {/* Right side: User time selection */}
                 <div className="bg-white p-4 rounded-lg shadow-md relative w-full max-w-sm mx-auto">
                     <div className="absolute -top-6 left-1/2 transform -translate-x-1/2">
-                        <ButtonBlue text="Reset Times" onClick={() => setTimes([])} />
+                        
                     </div>
                     <DraggableSelector
                         minTime={minTime}
