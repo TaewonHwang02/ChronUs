@@ -20,9 +20,9 @@ const DateSelector = ({ onChange }) => {
   };
 
   return (
-    <div className="relative w-5/6 h-1/2 bg-white rounded-md p-2 font-poppins flex items-center justify-center overflow-hidden">
-      <div className="flex justify-center items-center w-full h-full">
-      <DateRange
+    <div className="date-selector-container font-poppins w-full rounded-md p-2  flex items-center justify-center ">
+      <div className="date-range-wrapper flex justify-center rounded-md  items-center w-full h-full ">
+        <DateRange
           editableDateInputs={true}
           onChange={handleDateChange}
           moveRangeOnFirstSelection={false}
@@ -32,11 +32,45 @@ const DateSelector = ({ onChange }) => {
           maxDate={addDays(new Date(), 900)}
           direction="vertical"
           scroll={{ enabled: false }}
-          className="w-auto h-auto"
+          className="daterange-component"
         />
       </div>
+    <style>
+      {`
+      .date-selector-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+      }
+
+      .date-range-wrapper {
+        transform: scale(1); 
+        transform-origin: top left; 
+        transition: transform 0.3s ease-in-out;
+      }
+
+      @media (max-width: 768px) {
+        .date-range-wrapper {
+          transform: scale(1); 
+          transition: transform 0.3s ease-in-out;
+        }
+      }
+
+      @media (max-width: 430px) {
+        .date-range-wrapper {
+          transform: scale(0.8); 
+          transform-origin: top center; 
+          transition: transform 0.3s ease-in-out;
+        }
+      }
+
+      `}
+    </style>
     </div>
+    
   );
 };
+
 
 export default DateSelector;
