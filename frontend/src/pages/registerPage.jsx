@@ -13,11 +13,32 @@ const RegisterPage = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
+  const validateInputs = () => {
+    const newErrors = {};
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      newErrors.email = "Please enter a valid email address.";
+    }
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      newErrors.passwordMatch = "Passwords do not match.";
+    }
+
+    if (password.length < 8) {
+      newErrors.passwordLength = "Password must be at least 8 characters long.";
+    }
+
+    return newErrors;
+  };
+  
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    const validationErrors = validateInputs();
+    if (Object.keys(validationErrors).length > 0) {
+      setError(validationErrors);
       return;
     }
 
@@ -55,7 +76,7 @@ const RegisterPage = () => {
 
   return (
     <div className="">
-      <div className="absolute w-full h-screen bg-grey_background overflow-hidden z-[-2]"></div>
+      <div className="absolute top-0 left-0 w-full min-h-screen bg-grey_background z-[-2]"></div>
 
       {/* Yellow Background */}
       <div className="invisible tb:visible absolute bottom-0 left-0 w-[58%] h-full bg-selective_yellow flex justify-center tb:items-center z-[-1]">
@@ -65,20 +86,18 @@ const RegisterPage = () => {
       </div>
 
       {/* right side rectangle */}
-      <div className="flex flex-col tb:absolute tb:bottom-0 tb:right-0 tb:w-[42%] h-full w-full">
+      <div className="flex flex-col justify-center tb:absolute tb:right-0 tb:w-[42%] min-h-screen h-auto w-auto">
         {/* Logo + Register Heading */}
         <div>
           {/* Logo */}
-          <div className="flex justify-center mt-[150px] tb:mt-[80px]">
-            <img src={registerLogo} alt="ChronUs Logo" className="h-auto w-28" />
+          <div className="flex justify-center ">
+            <img src={registerLogo} alt="ChronUs Logo" className="mb-3 h-auto w-24" />
           </div>
           {/* Register Heading */}
-          <h1 className="font-kulim font-semibold text-[30px] tb:text-[1.65vw] text-[#032B43] text-center">
+          <h1 className="font-kulim font-semibold text-[30px] tb:text-[2vw] text-[#032B43] text-center">
             Register Here
           </h1>
-        </div>
-        
-        {/* All Labels */}
+          {/* All Labels */}
         <div className="mt-[20px] ph:mt-[60px] tb:mt-8 flex flex-col items-center justify-center space-y-4 pt-6">
           {/* Full Name */}
           <div className="flex flex-col items-start justify-center space-y-[3px] ">
@@ -93,7 +112,7 @@ const RegisterPage = () => {
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="bg-[#FBFBFB] shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md w-[275px] tb:w-72 h-[30px] tb:h-8"
+              className="bg-[#FBFBFB] font-poppins shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md w-[275px] tb:w-72 h-[30px] tb:h-8"
             />
           </div>
           
@@ -110,7 +129,7 @@ const RegisterPage = () => {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="bg-[#FBFBFB] shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md w-[275px] tb:w-72 h-[30px] tb:h-8"
+              className="bg-[#FBFBFB] font-poppins shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md w-[275px] tb:w-72 h-[30px] tb:h-8"
             />
           </div>
           
@@ -127,7 +146,7 @@ const RegisterPage = () => {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-[#FBFBFB] shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md w-[275px] tb:w-72 h-[30px] tb:h-8"
+              className="bg-[#FBFBFB] font-poppins shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md w-[275px] tb:w-72 h-[30px] tb:h-8"
             />
           </div>
 
@@ -144,32 +163,36 @@ const RegisterPage = () => {
               id="confirmPassword"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="bg-[#FBFBFB] shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md w-[275px] tb:w-72 h-[30px] tb:h-8"
+              className="bg-[#FBFBFB] font-poppins shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md w-[275px] tb:w-72 h-[30px] tb:h-8"
             />
           </div>
+
+          {error && (
+            <p className="text-red-500 font-poppins text-sm mt-2 text-center">{error}</p>
+          )}
         </div>
 
         {/* Buttons */}
         <div className="flex flex-col items-center justify-center space-y-[20px] tb:space-y-[3%] mt-[40px] tb:mt-[8%]">
           {/* Register Button */}
           <button
-            className="justify-center w-[125px] tb:w-28 bg-steel_blue shadow rounded-2xl text-[20px] tb:text-[1.15vw] font-poppins font-normal text-white"
+            className="justify-center p-1 w-[125px] tb:w-28 bg-steel_blue shadow rounded-2xl ph:text-[vw] tb:text-[1.15vw] font-poppins font-normal text-white"
             onClick={handleRegister}
           >
             Join Now
           </button>
+        </div>
 
-          {/* Lines */}
-          <div className="invisible flex row">
+          
+          {/* <div className="invisible flex row">
             <hr className="block h-[10px] border-t-black w-[110px] tb:w-36 mr-16"/>
             <hr className="block h-[10px] border-t-black w-[110px] tb:w-36"/>
           </div>  
           
-          {/* Google Button */}
           <div className="invisible flex justify-center items-center w-48 h-6 bg-white shadow rounded-2xl">
             <img src={googleLogo} alt="ChronUs Logo" className="h-auto w-5 pr-[3%]" />
             <span className="text-[12px] tb:text-[1.15vw] font-poppins font-normal text-black">Sign up with Google</span>
-          </div>
+          </div> */}
         </div>
       </div>
       

@@ -86,7 +86,7 @@ const LoginPage = () => {
                 <div>
                     {/* Placeholder Shapes */}
                     <div className="flex justify-center">
-                        <img src={LoginLogo} alt="ChronUs Logo" className="w-20 h-20" />
+                        <img src={LoginLogo} alt="ChronUs Logo" className="my-8 w-30 h-20" />
                     </div>
                     <h1 className='font-kulim font-semibold text-black text-center text-[25px] tb:text-[3vw]'>
                         Log In
@@ -94,7 +94,7 @@ const LoginPage = () => {
                 </div>
 
                 {/* labels */}
-                <div className="flex flex-col items-center justify-center space-y-5">
+                <div className="flex flex-col items-center justify-center space-y-6 ">
                     {/* Email Address */}
                     <div className="flex flex-col items-start justify-center space-y-[1vh]">
                         <label
@@ -129,6 +129,10 @@ const LoginPage = () => {
                         />
                     </div>
                 </div>
+
+                {error && (
+                    <p className="text-red-500 font-poppins text-sm mt-2 text-center">{error}</p>
+                )}
 
                 {/* buttons */}
                 <div className="flex flex-col space-y-[1vh] items-center justify-center">

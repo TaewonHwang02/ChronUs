@@ -138,7 +138,7 @@ const CreateMeeting = () => {
                             checked={emailOption}
                             onChange={(e) => setEmailOption(e.target.checked)}
                         />
-                        <span className="px-2 lg:text-sm text-[15px] lg:text-xs lg:text-l font-poppins">
+                        <span className="px-2 lg:text-sm text-[15px] lg:text-l font-poppins">
                             Receive an E-mail of curated dates/times
                         </span>
                     </label>
