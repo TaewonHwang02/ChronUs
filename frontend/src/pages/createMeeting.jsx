@@ -115,22 +115,22 @@ const CreateMeeting = () => {
    
 
     return (
-        <div className="overflow-auto w-full h-screen bg-steel_blue flex flex-col ph:flex-row ph:items-center ph:justify-center ph:gap-1 space-y-[70px] ph:space-y-0">
-            <div className="space-y-[20px] ph:space-y-2 p-[25px] ph:p-0 w-full h-full ph:w-2/5 ph:h-4/5">
+        <div className="overflow-auto w-full h-screen bg-steel_blue flex flex-col lg:flex-row lg:items-center lg:justify-center lg:gap-1 space-y-[70px] lg:space-y-0">
+            <div className="space-y-[20px] lg:space-y-2 p-[25px] lg:p-0 w-full h-full lg:w-2/5 lg:h-4/5">
                 <img src={LoginLogo} alt="ChronUs Logo" className="w-20 h-35" />
                 <div
-                    className="relative w-2/3 mt-4 font-poppins text-white flex items-center space-x-2 cursor-pointer"
+                    className="relative w-2/3 mt-4 font-poppins text-white text-xs flex items-center space-x-2 cursor-pointer"
                     onClick={() => navigate("/dashboard")}
                 >
-                    <img src={returnArr} alt="return" className="w-5 h-5" />
+                    <img src={returnArr} alt="return" className=" w-3 h-3" />
                     <span>Back to Dashboard</span>
                 </div>
-                <h1 className="py-2 font-poppins ph:text-[3vw] font-medium text-white">Set Your Dates</h1>
-                <div className=''>
+                <h1 className="py-2 font-poppins text-3xl lg:text-[3vw] font-medium text-white">Set Your Dates</h1>
+                <div className='flex items-center'>
                     <DatePicker onChange={handleDateChange}  />
                 </div>
                 
-                <div className="mt-4 px-3 w-4/5 left-1/2">
+                <div className="px-3 w-full left-1/2">
                     <label className="flex items-center space-x-2 text-[#ffffff]">
                         <input
                             type="checkbox"
@@ -138,7 +138,7 @@ const CreateMeeting = () => {
                             checked={emailOption}
                             onChange={(e) => setEmailOption(e.target.checked)}
                         />
-                        <span className="px-2 text-sm ph:text-l font-poppins">
+                        <span className="px-2 lg:text-sm text-xs lg:text-l font-poppins">
                             Receive an E-mail of curated dates/times
                         </span>
                     </label>
@@ -164,28 +164,15 @@ const CreateMeeting = () => {
 
                 </div>
             </div>
-            <div className="flex flex-col ph:flex-none p-[25px] ph:p-0 w-full h-full ph:w-2/5 ph:h-4/5 space-y-[15px]">
-                <h3 className="py-1 font-poppins text-[15px] ph:text-[1.3vw] font-normal text-[#98BCDA]">Advanced Options</h3>
-                <h2 className="font-poppins text-[20px] ph:text-[2.75vw] font-normal text-[#ffffff]">Select Your Time Frame</h2>
+            <div className="flex flex-col lg:flex-none p-[25px] lg:p-0 w-full h-full lg:w-2/5 lg:h-4/5 space-y-[15px]">
+                <h3 className="py-1 font-poppins text-[15px] lg:text-[1.3vw] font-normal text-[#98BCDA]">Advanced Options</h3>
+                <h2 className="font-poppins text-[18px] lg:text-2xl font-normal text-[#ffffff]">Select Your Time Frame</h2>
                 <div className=" mb-5 w-full left-1/2">
                     <TimeRangePicker onChange={handleTimeRangeChange} />
                 </div>
 
-                <div className='mt-8'>
-                    <label className="mt-2 flex items-center space-x-2 text-[#ffffff]">
-                            <input
-                                type="checkbox"
-                                className="form-checkbox"
-                                checked={HostTime}
-                                onChange={(e) => setHostTime(e.target.checked)}
-                            />
-                            <span className="px-2 text-l font-poppins">
-                                Limit participants to Host's Time Frame
-                            </span>
-                    </label>
-                </div>
-                
-                <div className="py-6">
+                <div className="py-3">
+                    <h2 className="py-2 font-poppins text-[15px] lg:text-2xl font-normal text-[#ffffff]">Select Your Scheduling Options</h2>
                     <Accordion
                         title="Default Option"
                         subtext="Participants are free to select their most convenient times"
@@ -206,7 +193,7 @@ const CreateMeeting = () => {
 
                 <div className='flex justify-center'>
                     <button
-                        className="translate-y-[350px] ph:translate-y-0 relative bg-selective_yellow text-white font-normal font-poppins py-1 px-12 rounded-[50px] shadow-md w-auto cursor-pointer"
+                        className="mb-8 relative bg-selective_yellow text-white font-normal font-poppins py-1 px-12 rounded-[50px] shadow-lg w-auto cursor-pointer"
                         onClick={handleGenerateSchedule}
                     >
                         Generate Schedule

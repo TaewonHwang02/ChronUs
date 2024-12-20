@@ -46,23 +46,23 @@ const TimeRangePicker = ({
   }, [minVal, maxVal, onChange]);
 
   return (
-    <div className="relative top-3 w-full h-[160px] bg-white rounded-md">
+    <div className="relative top-3 w-full h-[120px] bg-white rounded-md">
       <div className="absolute top-5 w-5/6 h-full left-1/2 -translate-x-1/2">
-        <div className="absolute top-0 w-full text-center font-poppins text-[30px] text-[#0B1354]">
+        <div className="absolute top-0 w-full text-center font-poppins text-2xl text-[#0B1354]">
           {`${minVal > 12 ? minVal - 12 : minVal} ${
             minVal < 12 ? "AM" : "PM"
           } to ${maxVal > 12 ? maxVal - 12 : maxVal} ${
             maxVal >= 12 ? "PM" : "AM"
           }`}
         </div>
-        <div className="absolute bottom-7 w-full h-[40px] text-[#A3A3A3] text-[16px] font-poppins">
+        <div className="absolute bottom-7 w-full h-[26px] text-[#A3A3A3] text-xs font-poppins">
           <span className="absolute left-0">8 AM</span>
           <span className="absolute left-1/2 -translate-x-1/2">3 PM</span>
           <span className="absolute right-0">10 PM</span>
         </div>
 
         {/* Slider Container */}
-        <div className="relative mt-[74px] h-[9px]">
+        <div className="relative mt-[56px] h-[8px]">
           {/* Gray track */}
           <div
             className="absolute h-full w-full z-[1]"
