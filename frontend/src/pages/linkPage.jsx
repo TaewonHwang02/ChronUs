@@ -34,16 +34,17 @@ const LinkPage = () => {
     };
 
 
-
     
     return (
         <div>
-            {/* Background Ellipse */}
             <div className="absolute w-full h-[84%] bg-steel_blue rounded-br-[600px] z-[-1]"></div>
+        <div className='p-0 ph:p-[100px] tb:p-0'>
+            {/* Background Ellipse */}
+            
 
-            <div className='flex flex-row items-center'>
+            <div className='flex flex-col flex-col tb:flex-row tb:items-center translate-y-[40px] tb:translate-y-[5%]'>
                 {/* time Box */}
-                <div className="ml-[8%] my-[8%] transform bg-white p-4 rounded-lg shadow-md w-[33%] flex items-center justify-center ">
+                <div className="order-2 tb:order-1 mx-[10px] tb:mx-auto tb:ml-[8%] tb:my-[8%] mt-[30px] transform bg-white p-4 rounded-lg shadow-md tb:w-[33%] flex items-center justify-center ">
                     <DraggableSelector
                         minTime={8}
                         maxTime={19}
@@ -58,14 +59,14 @@ const LinkPage = () => {
                 </div>
                 
                 {/* Right-Side */}
-                <div className="flex flex-col justify-center space-y-[10vh] flex-1 translate-y-[-7%]">
+                <div className="order-1 tb:order-2 flex flex-col space-y-[40px] tb:space-y-[10vh] flex-1 translate-y-[-7%]">
                     <div className='space-y-[5vh]'>
                         {/* Logo */}
                         <div className="flex justify-center">
                             <img src={registerLogo} alt="ChronUs Logo" className="h-auto w-28" />
                         </div>
                         {/* Register Heading */}
-                        <h1 className="font-poppins font-semibold text-[3vw] text-white text-center">
+                        <h1 className="font-poppins font-semibold text-[25px] tb:text-[3vw] text-white text-center">
                             Join {user.name || "User"}'s ChronUs
                         </h1>
                     </div>
@@ -75,7 +76,7 @@ const LinkPage = () => {
                         <div className="flex flex-col items-start justify-center ">
                             <label
                             htmlFor="name"
-                            className="font-poppins font-normal text-[0.95vw] text-white"
+                            className="font-poppins font-normal tb:text-[0.95vw] text-white"
                             >
                             Full Name
                             </label>
@@ -92,7 +93,7 @@ const LinkPage = () => {
                         <div className="flex flex-col items-start justify-center ">
                             <label
                             htmlFor="password"
-                            className="font-poppins font-normal text-[0.95vw] text-white"
+                            className="font-poppins font-normal tb:text-[0.95vw] text-white"
                             >
                             Password
                             </label>
@@ -110,7 +111,7 @@ const LinkPage = () => {
                     <div className="flex flex-col items-center justify-center">
                         {/* Register Button */}
                         <button
-                            className="justify-center w-[6vw] bg-selective_yellow shadow rounded-2xl text-[1.5vw] font-poppins font-normal text-white"
+                            className="justify-center h-[25px] tb:h-auto w-[60px] tb:w-[6vw] bg-selective_yellow shadow rounded-2xl tb:text-[1.5vw] font-poppins font-normal text-white"
                             onClick={handleJoinMeeting}
                         >
                             Go!
@@ -119,6 +120,7 @@ const LinkPage = () => {
 
                 </div>
             </div>
+        </div>
         </div>
     );
 };

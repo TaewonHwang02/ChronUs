@@ -79,7 +79,7 @@ const LoginPage = () => {
         <div className="absolute bottom-0 right-0 w-[60%] h-full bg-pine_green rounded-bl-[432px] z-[-1]"></div>
 
         {/* left-Side */}
-        <div className=' absolute w-full h-full flex items-center justify-center ph:bottom-0 ph:left-0 ph:w-[40%]'>
+        <div className=' absolute w-full h-full flex items-center justify-center tb:bottom-0 tb:left-0 tb:w-[40%]'>
             {/* Elements-div */}
             <div className='flex flex-col space-y-[5vh]'>
                 {/* Logo + heading */}
@@ -88,7 +88,7 @@ const LoginPage = () => {
                     <div className="flex justify-center">
                         <img src={LoginLogo} alt="ChronUs Logo" className="w-20 h-20" />
                     </div>
-                    <h1 className='font-kulim font-semibold text-black text-center text-[25px] ph:text-[3vw]'>
+                    <h1 className='font-kulim font-semibold text-black text-center text-[25px] tb:text-[3vw]'>
                         Log In
                     </h1>
                 </div>
@@ -99,7 +99,7 @@ const LoginPage = () => {
                     <div className="flex flex-col items-start justify-center space-y-[1vh]">
                         <label
                         htmlFor="email"
-                        className="font-poppins font-normal text-[#0D2D7F] text-[10px] ph:text-[1.15vw]"
+                        className="font-poppins font-normal text-[#0D2D7F] text-[10px] tb:text-[1.15vw]"
                         >
                         Email Address
                         </label>
@@ -116,7 +116,7 @@ const LoginPage = () => {
                     <div className="flex flex-col items-start justify-center space-y-[1vh]">
                         <label
                         htmlFor="password"
-                        className="font-poppins font-normal text-[#0D2D7F] text-[10px] ph:text-[1.15vw]"
+                        className="font-poppins font-normal text-[#0D2D7F] text-[10px] tb:text-[1.15vw]"
                         >
                         Password
                         </label>
@@ -133,14 +133,14 @@ const LoginPage = () => {
                 {/* buttons */}
                 <div className="flex flex-col space-y-[1vh] items-center justify-center">
                     {/* Sign In Button */}
-                    <button className="bg-selective_yellow shadow rounded-[2.7%] font-poppins font-normal leading-[2vw] text-[#000000] text-[15px] h-[15px] ph:h-auto ph:text-[1.15vw]"
+                    <button className="bg-selective_yellow shadow rounded-[2.7%] font-poppins font-normal leading-[2vw] text-[#000000] text-[15px] h-[15px] tb:h-auto w-[100px] tb:text-[1.15vw]"
                             onClick={handleEmailLogin}
                     >
                     Sign In
                     </button>
 
                     {/* 'Or' Text */}
-                    <p className="font-poppins text-[1.15vw] text-[#0D2D7F]">
+                    <p className="invisible font-poppins text-[1.15vw] text-[#0D2D7F]">
                     or
                     </p>
 
@@ -153,7 +153,7 @@ const LoginPage = () => {
                     {/* Google's Sign In Button. Code for google sign-in button proivded by Google */}
                     <div>
                         <button
-                            className="gsi-material-button"
+                            className="invisible gsi-material-button"
                             onClick={handleGoogleLogin}
                         >
                             <div className="gsi-material-button-state"></div>
@@ -195,7 +195,7 @@ const LoginPage = () => {
         </div>
 
         {/* Register Link */}
-        <p className="absolute bottom-0 ph:right-0 text-center font-poppins text-[10px] ph:text-[0.93vw] font-light p-[1.5vh] text-black ph:text-[#FFFFFF]">
+        <p className="absolute bottom-0 tb:right-0 text-center font-poppins text-[10px] tb:text-[0.93vw] font-light p-[1.5vh] text-black tb:text-[#FFFFFF]">
             Not registered yet?{' '}
             <a href="/register" className="underline">
             Register Now

@@ -7,8 +7,8 @@ export default {
   theme: {
     extend: {
       screens: {
-        'ph': '391px',  
-        'tablet': '900px',
+        'ph': '431px',  
+        'tb': '769px',
       },
       colors: {
         steel_blue: '#3F88C5',
