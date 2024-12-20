@@ -18,6 +18,8 @@ router.post("/create-meeting", verifyFirebaseToken, async (req, res) => {
       enddate,
       deadline,
       participants,
+      emailOption,
+      emailDate,
     } = req.body;
 
     // Validate required fields
@@ -42,6 +44,8 @@ router.post("/create-meeting", verifyFirebaseToken, async (req, res) => {
       deadline,
       participants,
       meetingLink: uuidv4(),
+      emailOption,
+      emailDate,
     });
 
     // Save the meeting

@@ -7,8 +7,13 @@ export default {
   theme: {
     extend: {
       screens: {
+<<<<<<< HEAD
         'ph': '431px',  
         'tb': '769px',
+=======
+        'ph': '431px',
+        'tablet': '900px',
+>>>>>>> f7340be7974fd0c353667dcc1abce076bb4bf286
       },
       colors: {
         steel_blue: '#3F88C5',

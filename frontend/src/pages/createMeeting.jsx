@@ -19,8 +19,10 @@ const CreateMeeting = () => {
     });
 
     const [emailOption, setEmailOption] = useState(false);
+    const [HostTime, setHostTime] = useState(false);
     const [timeRange, setTimeRange] = useState({ start: 480, end: 1020 });
     const [activeIndex, setActiveIndex] = useState(null);
+    const [emailDate, setEmailDate] = useState(null);
     const navigate = useNavigate();
 
     const handleDateChange = (selectedDates) => {
@@ -48,8 +50,7 @@ const CreateMeeting = () => {
         try {
             const auth = getAuth();
             const user = auth.currentUser;
-            
-    
+
             if (!user) {
                 throw new Error("User is not authenticated");
             }
@@ -57,6 +58,7 @@ const CreateMeeting = () => {
             // Fetch Firebase token
             const token = await user.getIdToken();
             console.log("Firebase Token:", token); // Debugging: Ensure token is retrieved
+
     
             // Prepare meeting data
             const meetingData = {
@@ -67,8 +69,10 @@ const CreateMeeting = () => {
                 endTimeFrame: timeRange.end,
                 startdate: dateRange.startDate,
                 enddate: dateRange.endDate,
-                deadline: new Date(), // Replace with actual deadline
-                meetingName: "Meeting"
+                deadline: new Date(), 
+                meetingName: "Meeting",
+                emailOption,
+                emailDate,
                 //participants: ["user1@example.com", "user2@example.com"], // Replace with actual participants
             };
     
@@ -115,7 +119,7 @@ const CreateMeeting = () => {
                     <DatePicker onChange={handleDateChange}  />
                 </div>
                 
-                <div className="mt-2 px-3 w-4/5 left-1/2">
+                <div className="mt-4 px-3 w-4/5 left-1/2">
                     <label className="flex items-center space-x-2 text-[#ffffff]">
                         <input
                             type="checkbox"
@@ -123,60 +127,24 @@ const CreateMeeting = () => {
                             checked={emailOption}
                             onChange={(e) => setEmailOption(e.target.checked)}
                         />
-                        <span className="px-2 text-[12px] ph:text-l font-poppins">
-                            Receive an E-mail of curated dates/times upon the Deadline
+                        <span className="px-2 text-sm ph:text-l font-poppins">
+                            Receive an E-mail of curated dates/times
                         </span>
                     </label>
 
                     {emailOption && (
-                        <div className="mt-4 space-y-2">
+                        <div className="mt-2 space-y-0">
                             <div className="font-poppins text-[#ffffff]">
-                                <label className="py-2 px-2 flex items-center space-x-2 text-[#ffffff] font-poppins text-m">
-                                    <div className="flex items-center space-x-1 px-2">
-                                        <input
-                                        type="radio"
-                                        value="3"
-                                        name="dayOption" 
-                                        onChange={(e) => setSelectedDays(e.target.value)}
-                                        />
-                                        <span>3</span>
-                                    </div>
-
-                                    <div className="flex items-center space-x-1 px-2">
-                                        <input
-                                        type="radio"
-                                        value="2"
-                                        name="dayOption" 
-                                        onChange={(e) => setSelectedDays(e.target.value)}
-                                        />
-                                        <span>2</span>
-                                    </div>
-
-                                    <div className="flex items-center space-x-1 px-2">
-                                        <input
-                                        type="radio"
-                                        value="1"
-                                        name="dayOption" 
-                                        onChange={(e) => setSelectedDays(e.target.value)}
-                                        />
-                                        <span>1</span>
-                                    </div>
-
-                                    <div className="flex items-center space-x-2 px-2">
-                                        <input
-                                        type="radio"
-                                        onChange={(e) => setSelectedDays(e.target.value)}
-                                        name="dayOption" 
-                                        />
-                                        <span>Other:</span>
-                                        <input
-                                        type="number"
-                                        className="form-input text-center text-black font-poppins text-sm w-10"
-                                        min="1"
-                                        onChange={(e) => setDays(e.target.value)}
-                                        />
-                                        <span className='px-4'>days before the end date</span>
-                                    </div>                                
+                                <label className="py-0 px-0 flex items-center space-x-2 text-[#ffffff] font-poppins text-xs">
+                                <h2>Select date and time:</h2>
+                                <input 
+                                    type="datetime-local" 
+                                    id="email-date"
+                                    name="email-date"
+                                    min="2024-12-19T08:30"
+                                    className='font-poppins text-blue-950 w-3/5' 
+                                    onChange={(e) => setEmailDate(e.target.value)}
+                                    />                   
                                 </label> 
                             </div>
 
@@ -193,12 +161,12 @@ const CreateMeeting = () => {
                 </div>
 
                 <div className='mt-8'>
-                    <label className="flex items-center space-x-2 text-[#ffffff]">
+                    <label className="mt-2 flex items-center space-x-2 text-[#ffffff]">
                             <input
                                 type="checkbox"
                                 className="form-checkbox"
-                                checked={emailOption}
-                                onChange={(e) => setEmailOption(e.target.checked)}
+                                checked={HostTime}
+                                onChange={(e) => setHostTime(e.target.checked)}
                             />
                             <span className="px-2 text-l font-poppins">
                                 Limit participants to Host's Time Frame
