@@ -1,3 +1,4 @@
+// Wendy Kuang 261111975
 import React, {useEffect, useState} from 'react';
 
 const MeetingsCarousel = ({meeting}) => {
@@ -8,7 +9,7 @@ const MeetingsCarousel = ({meeting}) => {
         const [startAMPM, setStartAMPM] = useState([]);
         const [endAMPM, setEndAMPM] = useState([]);
         const [timeSlot, setTimeSlot] = useState([]);
-        const [meetingLink, setMeetingLink] = useState([]);
+        const [meetingRealLink, setMeetingLink] = useState([]);
         
         useEffect(() => {
             const processMeetingsData = async () => {
@@ -34,7 +35,7 @@ const MeetingsCarousel = ({meeting}) => {
                     setDateRange(`${newStartDate} to ${newEndDate}`);
 
                     //meetingLink
-                    setMeetingLink(`http://localhost:5174/schedulingmain/${meeting.meetingLink}`);
+                    setMeetingLink(`http://localhost:5174/join/${meeting.meetingLink}`);
 
                 } catch (error) {
                     console.error('Error fetching user meetings:', error.response?.data || error.message);
@@ -46,7 +47,7 @@ const MeetingsCarousel = ({meeting}) => {
         });
         
         return(
-            <a href = {meetingLink}>
+            <a href = {meetingRealLink}>
             <div className='relative h-[21vh] w-[200px] tb:w-auto bg-white rounded p-[13px] tb:p-[3.5vh] ' onclick=''>
                 {/* Meeting 1 */}
                 {/* Title + Date */}

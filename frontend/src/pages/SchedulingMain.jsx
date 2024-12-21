@@ -1,3 +1,4 @@
+// Wendy Kuang 261111975 (responsive design)
 import React, { useState, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import registerLogo from "../assets/WhiteLogo.svg";
@@ -157,14 +158,14 @@ const SchedulingMainPage = () => {
     console.log("Aggregated Times before passing to GridOverlapDisplay:", aggregatedTimes);
 
     return (
-        <div className="w-full h-full flex flex-col relative overflow-hidden">
-            <div className='absolute w-full h-full bg-grey_background z-[-3]'></div>
+        <div className="w-full h-full flex flex-col relative overflow-y-auto">
+            <div className='fixed w-full h-full bg-grey_background z-[-3]'></div>
             <div className="absolute w-[95%] h-[422.6px] bg-selective_yellow rounded-br-[700px] z-[-2]"></div>
 
             {/* Logo + Heading */}
-            <div className='flex flex-col mt-[4%]'>
+            <div className='flex flex-col mt-[4%] tb:mt-[5px]'>
                 <div className="flex justify-center">
-                    <img src={registerLogo} alt="ChronUs Logo" className="w-[125px] h-[125px]" />
+                    <img src={registerLogo} alt="ChronUs Logo" className="w-[80px] h-[80px]" />
                 </div>
                 <h1 className="font-kulim font-semibold text-[23px] tb:text-[3vw] leading-[4vw] text-white text-center">
                     Welcome {participant || user?.name}, Select Your Time Slots
@@ -175,7 +176,7 @@ const SchedulingMainPage = () => {
             {/* boxes */}
             <div className="flex flex-col tb:flex-row justify-center">
                 {/* Left side: Grid Overlap Display */}
-                <div className="m-[30px] ph:m-[20%] tb:m-[5%] bg-white p-[5px] tb:p-4 rounded-lg shadow-md tb:w-[30%]" >
+                <div className="m-[30px] ph:m-[20%] tb:m-[1%] bg-white p-[5px] tb:p-4 rounded-lg shadow-md tb:w-[30%]" >
                     <GridOverlapDisplay
                     startDate={dates[0]}
                     endDate={dates[dates.length - 1]}
@@ -187,7 +188,7 @@ const SchedulingMainPage = () => {
                 </div>
 
                 {/* Right side: User time selection */}
-                <div className="m-[30px] ph:m-[20%] tb:m-[5%] flex flex-row justify-center bg-white p-4 px-[5%] rounded-lg shadow-md relative w-auto">
+                <div className="m-[30px] ph:m-[20%] tb:m-[1%] flex flex-row justify-center bg-white p-4 px-[5%] rounded-lg shadow-md relative w-auto">
                     <div className="max-w-full overflow-x-auto">
                     <DraggableSelector
                         minTime={minTime}

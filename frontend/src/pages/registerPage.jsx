@@ -1,3 +1,5 @@
+// Wendy Kuang 261111975 (part of the responsive design)
+
 import React, { useState } from "react";
 import registerLogo from "../assets/YellowLogo.svg"; // Header logo
 import googleLogo from "../assets/GoogleLogo.svg";

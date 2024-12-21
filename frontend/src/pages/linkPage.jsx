@@ -1,3 +1,5 @@
+// Wendy Kuang 261111975 (part of the responsive design)
+
 import React, { useState, useEffect } from 'react';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import registerLogo from "../assets/WhiteLogo.svg";

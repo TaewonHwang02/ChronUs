@@ -1,4 +1,5 @@
 // Dana Lee 261054107
+// Wendy Kuang 261111975 (part of the responsive design)
 
 import React from 'react';
 import landingLogo from '../assets/Group 76.svg'; // Header logo

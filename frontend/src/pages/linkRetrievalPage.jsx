@@ -1,3 +1,5 @@
+// Wendy Kuang 261111975 (responsive design)
+
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ButtonBlue from '../components/ButtonBlue';
