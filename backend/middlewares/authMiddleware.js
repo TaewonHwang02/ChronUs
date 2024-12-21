@@ -9,7 +9,7 @@ const verifyFirebaseToken = async (req, res, next) => {
   try {
       const decodedToken = await admin.auth().verifyIdToken(token);
 
-      // Ensure `uid` and `email` exist in the decoded token
+
       if (!decodedToken.uid || !decodedToken.email) {
           console.error("Invalid token: Missing uid or email");
           return res.status(400).json({ message: "Invalid token: Missing uid or email" });

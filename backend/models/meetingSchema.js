@@ -1,3 +1,4 @@
+// Taewon Hwang 261013091
 import mongoose from "mongoose";
 import participantSchema from "./participantSchema.js";
 

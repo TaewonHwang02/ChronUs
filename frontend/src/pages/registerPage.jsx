@@ -1,4 +1,5 @@
 // Wendy Kuang 261111975 (part of the responsive design)
+// Taewon Hwang 261013091
 
 import React, { useState } from "react";
 import registerLogo from "../assets/YellowLogo.svg"; // Header logo

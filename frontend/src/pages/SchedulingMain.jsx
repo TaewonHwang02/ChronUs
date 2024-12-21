@@ -1,4 +1,5 @@
 // Wendy Kuang 261111975 (responsive design)
+// Taewon Hwang 261013091
 import React, { useState, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import registerLogo from "../assets/WhiteLogo.svg";

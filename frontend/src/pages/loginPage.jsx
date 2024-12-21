@@ -1,4 +1,5 @@
 // Wendy Kuang 261111975 (responsive design)
+// Taewon Hwang 261013091
 import React, { useEffect,useState } from 'react';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import {auth,googleProvider} from "../firebase"

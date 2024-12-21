@@ -1,3 +1,4 @@
+// Taewon Hwang 261013091
 import express from "express";
 import Meeting from "../models/meetingSchema.js";
 import { v4 as uuidv4 } from "uuid";
@@ -29,7 +30,7 @@ router.post("/create-meeting", verifyFirebaseToken, async (req, res) => {
       return res.status(400).json({ message: "Missing required fiaelds" });
     }
 
-    // Validate userID as a non-empty string (Firebase UID)
+    // Validate userID
     if (typeof userID !== "string" || userID.trim() === "") {
       return res.status(400).json({ message: "Invalid userID format. Must be a non-empty string." });
     }
@@ -139,11 +140,11 @@ router.put("/update-meeting/:meetingID", verifyFirebaseToken, async (req, res) =
   const updateFields = req.body; // Fields to update from the request body
 
   try {
-    // Find the meeting by ID and update it with the provided fields
+    // Find the meeting by ID and update
     const updatedMeeting = await Meeting.findByIdAndUpdate(
       meetingID,
       { $set: updateFields },
-      { new: true, runValidators: true } // Return the updated document and enforce validation
+      { new: true, runValidators: true } 
     );
 
     if (!updatedMeeting) {
@@ -193,7 +194,7 @@ router.post('/:meetingLink/select-time', async (req, res) => {
       if (!meeting) {
           return res.status(404).json({ message: 'Meeting not found' });
       }
-        // Minimum required minutes
+        // min time 
         const minMinutesRequired = meeting.minimumTimeSlots || 0;
 
 
@@ -210,30 +211,26 @@ router.post('/:meetingLink/select-time', async (req, res) => {
         totalSelectedMinutes += duration;
       }
 
-    // Check if requirement met
+    // Check if participant min time met
     if (minMinutesRequired > 0 && totalSelectedMinutes < minMinutesRequired) {
       return res.status(400).json({
         message: `You must select at least ${minMinutesRequired} minutes. You selected ${totalSelectedMinutes} minutes.`
       });
     }
 
-    
-
-
-      // Add or update the participant's time slots
+  
       const participantIndex = meeting.participants.findIndex(
           (p) => p.name === participantName
       );
 
       if (participantIndex > -1) {
-          // Update existing participant's time slots
+          
           meeting.participants[participantIndex].times = selectedTimeSlots;
       } else {
-          // Add new participant
+     
           meeting.participants.push({ name: participantName, times: selectedTimeSlots });
       }
 
-      // Save changes to the database
       await meeting.save();
 
       res.status(200).json({ message: 'Time slots submitted successfully', meeting });
