@@ -35,7 +35,7 @@ const MeetingsCarousel = ({meeting}) => {
                     setDateRange(`${newStartDate} to ${newEndDate}`);
 
                     //meetingLink
-                    setMeetingLink(`http://localhost:5174/join/${meeting.meetingLink}`);
+                    setMeetingLink(`http://localhost:5173/join/${meeting.meetingLink}`);
 
                 } catch (error) {
                     console.error('Error fetching user meetings:', error.response?.data || error.message);

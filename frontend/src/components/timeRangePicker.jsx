@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useState, useRef } from "react";
 
+// Unlike MinTimeRange Slider, this one uses two sliders and only fills in the area between the two knubs
 const TimeRangePicker = ({
   min = 8,
   max = 22,
@@ -22,6 +23,7 @@ const TimeRangePicker = ({
     [min, max]
   );
 
+  // The useEffect changes the width of the colored bar as the thumbs move
   useEffect(() => {
     const minPercent = getPercent(minVal);
     const maxPercent = getPercent(maxValRef.current);
@@ -39,6 +41,7 @@ const TimeRangePicker = ({
     }
   }, [maxVal, getPercent]);
 
+  // Notify parent of the changes made in the component -> sliding the 2 thumbs
   useEffect(() => {
     if (minVal !== minValRef.current || maxVal !== maxValRef.current) {
       onChange && onChange({ min: minVal, max: maxVal });
@@ -51,33 +54,34 @@ const TimeRangePicker = ({
     <div className="relative top-3 w-full h-[120px] bg-white rounded-md">
       <div className="absolute top-5 w-5/6 h-full left-1/2 -translate-x-1/2">
         <div className="absolute top-0 w-full text-center font-poppins text-2xl text-[#0B1354]">
+          {/* Display the time range (changes as the thumb moves) */}
           {`${minVal > 12 ? minVal - 12 : minVal} ${
             minVal < 12 ? "AM" : "PM"
           } to ${maxVal > 12 ? maxVal - 12 : maxVal} ${
             maxVal >= 12 ? "PM" : "AM"
           }`}
         </div>
+        {/* Subtext once again */}
         <div className="absolute bottom-7 w-full h-[26px] text-[#A3A3A3] text-xs font-poppins">
           <span className="absolute left-0">8 AM</span>
           <span className="absolute left-1/2 -translate-x-1/2">3 PM</span>
           <span className="absolute right-0">10 PM</span>
         </div>
 
-        {/* Slider Container */}
+        {/* Filling in the yellow area on top of the grey  */}
+        {/* Pointer events - just to prevent interference from either thumb */}
         <div className="relative mt-[56px] h-[8px]">
-          {/* Gray track */}
           <div
             className="absolute h-full w-full z-[1]"
             style={{ backgroundColor: trackColor, pointerEvents: 'none' }}
           />
-          {/* Yellow range */}
           <div
             ref={range}
             className="absolute h-full z-[2]"
             style={{ backgroundColor: rangeColor, pointerEvents: 'none' }}
           />
 
-          {/* Right thumb input first */}
+          {/* Right thumb input*/}
           <input
             type="range"
             min={min}
@@ -86,7 +90,7 @@ const TimeRangePicker = ({
             onChange={(e) => setMaxVal(Math.max(Number(e.target.value), minVal + 1))}
             className="absolute appearance-none w-full h-7 z-[3] "
           />
-          {/* Left thumb input second */}
+          {/* Left thumb input*/}
           <input
             type="range"
             min={min}
@@ -97,7 +101,7 @@ const TimeRangePicker = ({
           />
         </div>
       </div>
-
+      {/* Customize thumb appearance and z-index -> both clickable */}
       <style>
         {`
           input[type="range"] {
@@ -117,7 +121,7 @@ const TimeRangePicker = ({
           input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             background: white;
-            pointer-events: auto; /* Re-enable clicks only on the thumb */
+            pointer-events: auto; 
             cursor: grab;
             border: 2px solid #FFBA08;
             border-radius: 50%;

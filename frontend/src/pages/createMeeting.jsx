@@ -1,3 +1,6 @@
+// Dana Lee 261054107
+
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { addDays } from 'date-fns';
@@ -35,8 +38,8 @@ const CreateMeeting = () => {
 
     const handleTimeRangeChange = (range) => {
         const convertedRange = {
-            start: range.min * 60, // Convert hours to minutes
-            end: range.max * 60, // Convert hours to minutes
+            start: range.min * 60, // Hours to minutes
+            end: range.max * 60,
         };
         setTimeRange(convertedRange);
     };
@@ -59,12 +62,12 @@ const CreateMeeting = () => {
                 throw new Error("User is not authenticated");
             }
     
-            // Fetch Firebase token
+            //Firebase token to authenticate
             const token = await user.getIdToken();
-            console.log("Firebase Token:", token); // Debugging: Ensure token is retrieved
+            console.log("Firebase Token:", token); 
 
     
-            // Prepare meeting data
+            // Prepare meeting data to post to our schema
             const meetingData = {
                 userID: user.uid,
                 scheduleMode: activeIndex === 0 ? "common_time" : "common_date",
@@ -168,7 +171,7 @@ const CreateMeeting = () => {
                 <div className=" mb-5 w-full left-1/2">
                     <TimeRangePicker onChange={handleTimeRangeChange} />
                 </div>
-
+                {/* Active Index specified so that one of the accordions are clicked at a time */}
                 <div className="py-3">
                     <h2 className="py-2 font-poppins text-[15px] lg:text-2xl font-normal text-[#ffffff]">Select Your Scheduling Options</h2>
                     <Accordion

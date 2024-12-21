@@ -3,11 +3,12 @@
 import React, { useEffect, useState, useRef } from "react";
 
 const TimeSlider = ({
-  max = 360, // Max value in minutes
-  step = 15, // Interval step in minutes
+  // Max 6 hours
+  max = 360, 
+  step = 15, // Increments 15 at a time
   trackColor = "#cecece",
   sliderColor = "#FFBA08",
-  defaultValue = 180, // Default time in minutes (e.g., 180 = 3 hours)
+  defaultValue = 180, // I set default as 3 hours
   onChange,
 }) => {
   const [value, setValue] = useState(defaultValue);
@@ -22,7 +23,7 @@ const TimeSlider = ({
     }
   }, [value, max]);
 
-  // Notify of the change
+  // Notify of the change to parent
   useEffect(() => {
     if (onChange) {
       onChange(value);
@@ -38,7 +39,6 @@ const TimeSlider = ({
   return (
     <div className="relative w-full h-[100px] bg-white rounded-md">
       <div className="absolute top-0 w-5/6 h-full left-1/2 -translate-x-1/2">
-        {/* Title */}
         <div className="absolute py-0 top-0 w-full text-center font-poppins text-2xl text-[#0B1354]">
           {`${Math.floor(value / 60)} hrs ${value % 60} mins`}
         </div>
@@ -54,12 +54,13 @@ const TimeSlider = ({
               className="absolute h-full rounded-md z-[2]"
               style={{ backgroundColor: sliderColor }}
             />
+            {/* Subtext at beg half and end */}
             <div className="absolute bottom-0 w-full h-0 text-[#A3A3A3] text-xs font-poppins">
               <span className="absolute left-0">0 Mins</span>
               <span className="absolute left-1/2 -translate-x-1/2">3Hrs</span>
               <span className="absolute right-0">6Hrs</span>
             </div>
-            {/* Thumb */}
+            {/* Knub to move the slider */}
             <input
               type="range"
               min={0}

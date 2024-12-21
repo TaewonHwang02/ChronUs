@@ -16,45 +16,36 @@ const RegisterPage = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const validateInputs = () => {
-    const newErrors = {};
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailRegex.test(email)) {
-      newErrors.email = "Please enter a valid email address.";
-    }
-
-    if (password !== confirmPassword) {
-      newErrors.passwordMatch = "Passwords do not match.";
-    }
-
-    if (password.length < 8) {
-      newErrors.passwordLength = "Password must be at least 8 characters long.";
-    }
-
-    return newErrors;
-  };
-  
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    const validationErrors = validateInputs();
-    if (Object.keys(validationErrors).length > 0) {
-      setError(validationErrors);
+  
+    // Email validation regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    // Password requirements
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long");
       return;
     }
-
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
   
-
+  
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+  
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+  
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+  
       const idToken = await userCredential.user.getIdToken();
       console.log("Generated Firebase ID Token:", idToken);
+  
       const response = await fetch("http://localhost:5001/api/users/register", {
         method: "POST",
         headers: {
@@ -63,19 +54,20 @@ const RegisterPage = () => {
         },
         body: JSON.stringify({ name, email }),
       });
-
+  
       if (!response.ok) {
         throw new Error("Failed to sync user with MongoDB");
       }
-
+  
       const data = await response.json();
       console.log("User registered successfully:", data);
-      navigate("/dashboard", { state: { user: data, idToken:idToken} });
+      navigate("/dashboard", { state: { user: data, idToken } });
     } catch (error) {
       console.error("Error registering user:", error.message);
       setError("Registration failed. Please try again.");
     }
   };
+  
 
   return (
     <div className="">
