@@ -4,7 +4,7 @@
 import React from 'react';
 import landingLogo from '../assets/Group 76.svg'; // Header logo
 import demoPic from '../assets/demo.svg'; // Demo picture
-import Button from '../components/Button';
+import Button from '../components/button.jsx';
 import { Link } from 'react-router-dom';
 
 const LandingPage = () => {

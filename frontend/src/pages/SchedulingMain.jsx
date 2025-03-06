@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import registerLogo from "../assets/WhiteLogo.svg";
 import { DraggableSelector } from "react-draggable-selector";
-import ButtonBlue from '../components/ButtonBlue';
+import ButtonBlue from '../components/ButtonBlue.jsx';
 import axios from "axios";
 import GridOverlapDisplay from '../components/GridOverlapDisplay';
 
