@@ -4,7 +4,6 @@ import React, { useEffect,useState } from 'react';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import {auth,googleProvider} from "../firebase"
 import LoginLogo from '../assets/GreenLogo.svg'; // Login logo
-import Button from '../components/Button';
 import { useNavigate } from 'react-router-dom'; // For navigation
 
 
