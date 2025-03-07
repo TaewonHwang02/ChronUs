@@ -1,4 +1,4 @@
-URL = http://localhost:5173/
+URL = https://www.chronus.blog/
 
 | Member | Contribution |
 ---------|--------------|
