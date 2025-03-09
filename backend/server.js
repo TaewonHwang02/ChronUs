@@ -34,5 +34,5 @@
 
     app.listen(5001,() => {
         connectDB()
-        console.log("Server started at http://localhost:5001 hello")
+        console.log("Server started at http://chronus.onrender.com hello")
     })

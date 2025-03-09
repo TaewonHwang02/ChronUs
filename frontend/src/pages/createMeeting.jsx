@@ -90,7 +90,7 @@ const CreateMeeting = () => {
 
     
             // Make POST request to load our meeting schema data onto mongoDB
-            const response = await axios.post("http://localhost:5001/api/meetings/create-meeting", meetingData, {
+            const response = await axios.post("http://chronus.onrender.com/api/meetings/create-meeting", meetingData, {
                 headers: {
                     Authorization: `Bearer ${token}`, 
                 },
