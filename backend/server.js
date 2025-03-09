@@ -17,7 +17,10 @@
     const app = express();
     connectDB();
 
-    app.use(cors());
+    app.use(cors({
+        origin: ["https://chronus.blog"], // Ensure your frontend is allowed
+        credentials: true,
+      }));
     app.use(express.json()); //parse incoming json requests
     app.use(express.urlencoded({extended:true}))
     app.use("/api/users", userRoutes);
@@ -34,5 +37,5 @@
 
     app.listen(5001,() => {
         connectDB()
-        console.log("Server started at http://chronus.onrender.com hello")
+        console.log("Server started at https://chronus.onrender.com hello")
     })

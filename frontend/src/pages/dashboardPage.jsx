@@ -22,7 +22,7 @@ const DashboardPage = () => {
                     console.error("Token is missing");
                     return;
                 }             
-                const response = await axios.get(`http://chronus.onrender.com/api/meetings/user-meetings/${user.user.uid}`, {
+                const response = await axios.get(`https://chronus.onrender.com/api/meetings/user-meetings/${user.user.uid}`, {
                     headers: {
                         Authorization: `Bearer ${idToken}`, // Use Firebase token for authentication
                     },

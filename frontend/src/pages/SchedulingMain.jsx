@@ -40,7 +40,7 @@ const SchedulingMainPage = () => {
     useEffect(() => {
         const fetchMeetingData = async () => {
             try {
-                const response = await axios.get(`http://chronus.onrender.com/api/meetings/${meetingLink}`);
+                const response = await axios.get(`https://chronus.onrender.com/api/meetings/${meetingLink}`);
                 const meeting = response.data.meeting;
 
                 setMinTime(meeting.begTimeFrame / 60);
@@ -118,7 +118,7 @@ const SchedulingMainPage = () => {
 
             console.log("Submitting selected time slots:", formattedTimes);
             const response = await axios.post(
-                `http://chronus.onrender.com/api/meetings/${meetingLink}/select-time`,
+                `https://chronus.onrender.com/api/meetings/${meetingLink}/select-time`,
                 {
                     participantName: participant || user?.name,
                     selectedTimeSlots: formattedTimes,
@@ -129,7 +129,7 @@ const SchedulingMainPage = () => {
                 alert("Time slots submitted successfully!");
 
                 const updatedMeetingResponse = await axios.get(
-                    `http://chronus.onrender.com/api/meetings/${meetingLink}`
+                    `https://chronus.onrender.com/api/meetings/${meetingLink}`
                 );
                 const updatedMeeting = updatedMeetingResponse.data.meeting;
                 const allParticipantsTimes = updatedMeeting.participants.flatMap((p) => p.times);

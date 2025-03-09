@@ -27,7 +27,7 @@ const LoginPage = () => {
             // testing
             const idToken = await userCredential.user.getIdToken();
             console.log("Firebase ID Token:", idToken); 
-            const response = await fetch("http://chronus.onrender.com/api/users/login", {
+            const response = await fetch("https://chronus.onrender.com/api/users/login", {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json", 

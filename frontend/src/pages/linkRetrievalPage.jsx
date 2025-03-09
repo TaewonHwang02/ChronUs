@@ -48,12 +48,12 @@ const LinkRetrievalPage = () => {
           }
       
           const userToken = await user.getIdToken();
-          const uniqueLink = `http://localhost:5173/join/${meetingLink}`;
+          const uniqueLink = `https://chronus.onrender.com:5173/join/${meetingLink}`;
 
       
           // Make the PUT request to update the meeting name
           const response = await axios.put(
-            `http://chronus.onrender.com/api/meetings/update-meeting/${meetingID}`,
+            `https://chronus.onrender.com/api/meetings/update-meeting/${meetingID}`,
             { meetingName: inputMeetingName },
             {
               headers: { Authorization: `Bearer ${userToken}` }, // Pass token here

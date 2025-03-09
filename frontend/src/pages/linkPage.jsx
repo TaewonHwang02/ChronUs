@@ -34,7 +34,7 @@ const LinkPage = () => {
         console.log("Fetching meeting data for:", meetingLink);  // Debugging
         const fetchMeetingData = async () => {
             try {
-                const response = await axios.get(`http://chronus.onrender.com/api/meetings/${meetingLink}`);
+                const response = await axios.get(`https://chronus.onrender.com/api/meetings/${meetingLink}`);
                 const meeting = response.data.meeting;
 
                 console.log("Meeting data:", meeting); // Debugging: check meeting data
@@ -78,7 +78,7 @@ const LinkPage = () => {
 
     const handleJoinMeeting = async () => {
         try {
-            const response = await axios.post("http://chronus.onrender.com/api/meetings/join-meeting", {
+            const response = await axios.post("https://chronus.onrender.com/api/meetings/join-meeting", {
                 meetingLink,
                 participantName,
                 times: [],  // No times selected initially
