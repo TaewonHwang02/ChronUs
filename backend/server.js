@@ -18,9 +18,12 @@
     connectDB();
 
     app.use(cors({
-        origin: ["https://chronus.blog"], // Ensure your frontend is allowed
-        credentials: true,
+        origin: "https://www.chronus.blog", 
+        methods: ["GET", "POST", "PUT", "DELETE"], 
+        allowedHeaders: ["Content-Type", "Authorization"], 
+        credentials: true, 
       }));
+      
     app.use(express.json()); // Parse JSON bodies
     app.use(express.json()); //parse incoming json requests
     app.use(express.urlencoded({extended:true}))
