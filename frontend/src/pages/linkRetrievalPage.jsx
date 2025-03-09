@@ -48,7 +48,7 @@ const LinkRetrievalPage = () => {
           }
       
           const userToken = await user.getIdToken();
-          const uniqueLink = `https://chronus.onrender.com/join/${meetingLink}`;
+          const uniqueLink = `https://chronus.blog/join/${meetingLink}`;
 
       
           // Make the PUT request to update the meeting name
