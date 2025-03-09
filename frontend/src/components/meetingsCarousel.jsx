@@ -35,7 +35,7 @@ const MeetingsCarousel = ({meeting}) => {
                     setDateRange(`${newStartDate} to ${newEndDate}`);
 
                     //meetingLink
-                    setMeetingLink(`https://chronus.onrender.com:5173/join/${meeting.meetingLink}`);
+                    setMeetingLink(`https://chronus.onrender.com/join/${meeting.meetingLink}`);
 
                 } catch (error) {
                     console.error('Error fetching user meetings:', error.response?.data || error.message);
