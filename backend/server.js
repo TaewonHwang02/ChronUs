@@ -21,6 +21,7 @@
         origin: ["https://chronus.blog"], // Ensure your frontend is allowed
         credentials: true,
       }));
+    app.use(express.json()); // Parse JSON bodies
     app.use(express.json()); //parse incoming json requests
     app.use(express.urlencoded({extended:true}))
     app.use("/api/users", userRoutes);
