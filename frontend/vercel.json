@@ -1,0 +1,6 @@
+{
+    "rewrites": [
+      { "source": "/join/:meetingId", "destination": "/index.html" }
+    ]
+  }
+  
