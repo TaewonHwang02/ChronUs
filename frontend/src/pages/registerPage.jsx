@@ -46,7 +46,7 @@ const RegisterPage = () => {
       const idToken = await userCredential.user.getIdToken();
       console.log("Generated Firebase ID Token:", idToken);
   
-      const response = await fetch("https://chronus.onrender.com/api/users/register", {
+      const response = await fetch("https://chronus-qrt1.onrender.com/api/users/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

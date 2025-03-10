@@ -53,7 +53,7 @@ const LinkRetrievalPage = () => {
       
           // Make the PUT request to update the meeting name
           const response = await axios.put(
-            `https://chronus.onrender.com/api/meetings/update-meeting/${meetingID}`,
+            `https://chronus-qrt1.onrender.com/api/meetings/update-meeting/${meetingID}`,
             { meetingName: inputMeetingName },
             {
               headers: { Authorization: `Bearer ${userToken}` }, // Pass token here
