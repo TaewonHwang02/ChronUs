@@ -5,6 +5,7 @@ import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import registerLogo from "../assets/WhiteLogo.svg";
 import axios from "axios";
 import GridOverlapDisplay from '../components/GridOverlapDisplay';
+import { API_BASE_URL } from "../config";
 
 const convertToDate = (dateString) => {
     const year = parseInt(dateString.slice(0, 4), 10);
@@ -34,7 +35,7 @@ const LinkPage = () => {
         console.log("Fetching meeting data for:", meetingLink);  // Debugging
         const fetchMeetingData = async () => {
             try {
-                const response = await axios.get(`https://chronus-qrt1.onrender.com/api/meetings/${meetingLink}`);
+                const response = await axios.get(`${API_BASE_URL}/api/meetings/${meetingLink}`);
                 const meeting = response.data.meeting;
 
                 console.log("Meeting data:", meeting); // Debugging: check meeting data
@@ -78,7 +79,7 @@ const LinkPage = () => {
 
     const handleJoinMeeting = async () => {
         try {
-            const response = await axios.post("https://chronus-qrt1.onrender.com/api/meetings/join-meeting", {
+            const response = await axios.post(`${API_BASE_URL}/api/meetings/join-meeting`, {
                 meetingLink,
                 participantName,
                 times: [],  // No times selected initially

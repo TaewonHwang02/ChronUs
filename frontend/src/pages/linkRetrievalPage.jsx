@@ -6,6 +6,7 @@ import ButtonBlue from '../components/ButtonBlue';
 import { DraggableSelector } from 'react-draggable-selector';
 import axios from "axios"
 import {getAuth} from "firebase/auth"
+import { API_BASE_URL } from "../config";
 
 const LinkRetrievalPage = () => {
     const location = useLocation();
@@ -53,7 +54,7 @@ const LinkRetrievalPage = () => {
       
           // Make the PUT request to update the meeting name
           const response = await axios.put(
-            `https://chronus-qrt1.onrender.com/api/meetings/update-meeting/${meetingID}`,
+            `${API_BASE_URL}/api/meetings/update-meeting/${meetingID}`,
             { meetingName: inputMeetingName },
             {
               headers: { Authorization: `Bearer ${userToken}` }, // Pass token here

@@ -7,7 +7,7 @@ import googleLogo from "../assets/GoogleLogo.svg";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
-
+import { API_BASE_URL } from "../config";
 const RegisterPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -46,7 +46,7 @@ const RegisterPage = () => {
       const idToken = await userCredential.user.getIdToken();
       console.log("Generated Firebase ID Token:", idToken);
   
-      const response = await fetch("https://chronus-qrt1.onrender.com/api/users/register", {
+      const response = await fetch(`${API_BASE_URL}/api/users/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

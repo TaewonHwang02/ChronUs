@@ -4,7 +4,7 @@ import { Link,useNavigate,useLocation } from 'react-router-dom';
 import axios from "axios";
 import MeetingsCarousel from '../components/meetingsCarousel';
 import meetingSchema from '../../../backend/models/meetingSchema';
-
+import { API_BASE_URL } from "../config";
 const DashboardPage = () => {
 
     const navigate = useNavigate();
@@ -22,7 +22,7 @@ const DashboardPage = () => {
                     console.error("Token is missing");
                     return;
                 }             
-                const response = await axios.get(`https://chronus-qrt1.onrender.com/api/meetings/user-meetings/${user.user.uid}`, {
+                const response = await axios.get(`${API_BASE_URL}/api/meetings/user-meetings/${user.user.uid}`, {
                     headers: {
                         Authorization: `Bearer ${idToken}`, // Use Firebase token for authentication
                     },

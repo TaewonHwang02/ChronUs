@@ -1,5 +1,6 @@
 // Wendy Kuang 261111975
 import React, {useEffect, useState} from 'react';
+import { API_BASE_URL } from "../config";
 
 const MeetingsCarousel = ({meeting}) => {
     console.log("current meeting is:", meeting);
@@ -35,7 +36,7 @@ const MeetingsCarousel = ({meeting}) => {
                     setDateRange(`${newStartDate} to ${newEndDate}`);
 
                     //meetingLink
-                    setMeetingLink(`https://chronus-qrt1.onrender.com/join/${meeting.meetingLink}`);
+                    setMeetingLink(`${API_BASE_URL}/join/${meeting.meetingLink}`);
 
                 } catch (error) {
                     console.error('Error fetching user meetings:', error.response?.data || error.message);

@@ -5,7 +5,7 @@ import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import {auth,googleProvider} from "../firebase"
 import LoginLogo from '../assets/GreenLogo.svg'; // Login logo
 import { useNavigate } from 'react-router-dom'; // For navigation
-
+import { API_BASE_URL } from "../config";
 
 const LoginPage = () => {
 
@@ -27,7 +27,7 @@ const LoginPage = () => {
             // testing
             const idToken = await userCredential.user.getIdToken();
             console.log("Firebase ID Token:", idToken); 
-            const response = await fetch("https://chronus-qrt1.onrender.com/api/users/login", {
+            const response = await fetch(`${API_BASE_URL}/api/users/login`, {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json", 

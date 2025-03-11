@@ -11,20 +11,22 @@
     import mailingRoutes from "./routes/mailingRoutes.js";
 
 
-
-
-    dotenv.config();
+    // production : render
+    // development : localhost
+    if (process.env.NODE_ENV !== "production") {
+        dotenv.config({ path: `.env.development` });
+    } 
     const app = express();
     connectDB();
 
     app.use(cors({
-        origin: "https://www.chronus.blog", 
+        origin: process.env.FRONTEND_URL || "http://localhost:5173", 
         methods: ["GET", "POST", "PUT", "DELETE"], 
         allowedHeaders: ["Content-Type", "Authorization"], 
         credentials: true, 
       }));
       
-    app.use(express.json()); // Parse JSON bodies
+
     app.use(express.json()); //parse incoming json requests
     app.use(express.urlencoded({extended:true}))
     app.use("/api/users", userRoutes);
@@ -38,8 +40,8 @@
     console.log("MONGO_URI:", process.env.MONGO_URI);
 
 
-
-    app.listen(5001,() => {
+    const PORT = process.env.PORT || 5002;
+    app.listen(5002,() => {
         connectDB()
         console.log("Server started at https://chronus-qrt1.onrender.com hello")
     })

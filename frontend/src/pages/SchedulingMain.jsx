@@ -7,7 +7,7 @@ import { DraggableSelector } from "react-draggable-selector";
 import ButtonBlue from '../components/ButtonBlue.jsx';
 import axios from "axios";
 import GridOverlapDisplay from '../components/GridOverlapDisplay';
-
+import { API_BASE_URL } from "../config";
 const convertToDate = (dateString) => {
     const year = parseInt(dateString.slice(0, 4), 10);
     const month = parseInt(dateString.slice(4, 6), 10) - 1;
@@ -40,7 +40,7 @@ const SchedulingMainPage = () => {
     useEffect(() => {
         const fetchMeetingData = async () => {
             try {
-                const response = await axios.get(`https://chronus-qrt1.onrender.com/api/meetings/${meetingLink}`);
+                const response = await axios.get(`${API_BASE_URL}/api/meetings/${meetingLink}`);
                 const meeting = response.data.meeting;
 
                 setMinTime(meeting.begTimeFrame / 60);
@@ -118,7 +118,7 @@ const SchedulingMainPage = () => {
 
             console.log("Submitting selected time slots:", formattedTimes);
             const response = await axios.post(
-                `https://chronus-qrt1.onrender.com/api/meetings/${meetingLink}/select-time`,
+                `${API_BASE_URL}/api/meetings/${meetingLink}/select-time`,
                 {
                     participantName: participant || user?.name,
                     selectedTimeSlots: formattedTimes,
@@ -129,7 +129,7 @@ const SchedulingMainPage = () => {
                 alert("Time slots submitted successfully!");
 
                 const updatedMeetingResponse = await axios.get(
-                    `https://chronus-qrt1.onrender.com/api/meetings/${meetingLink}`
+                    `${API_BASE_URL}/api/meetings/${meetingLink}`
                 );
                 const updatedMeeting = updatedMeetingResponse.data.meeting;
                 const allParticipantsTimes = updatedMeeting.participants.flatMap((p) => p.times);

@@ -14,6 +14,7 @@ import TimeRangePicker from '../components/timeRangePicker';
 import Accordion from '../components/accordionOptions';
 import MinRangeSlider from '../components/minTimeRange';
 import DatePicker from '../components/datePicker';
+import { API_BASE_URL } from "../config";
 
 const CreateMeeting = () => {
     const [dateRange, setDateRange] = useState({
@@ -90,7 +91,7 @@ const CreateMeeting = () => {
 
     
             // Make POST request to load our meeting schema data onto mongoDB
-            const response = await axios.post("https://chronus-qrt1.onrender.com/api/meetings/create-meeting", meetingData, {
+            const response = await axios.post(`${API_BASE_URL}/api/meetings/create-meeting`, meetingData, {
                 headers: {
                     Authorization: `Bearer ${token}`, 
                 },
