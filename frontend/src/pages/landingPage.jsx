@@ -11,7 +11,7 @@ const LandingPage = () => {
       <div className="absolute bottom-0 left-0 w-[88%] h-full bg-steel_blue rounded-br-[700px] z-[-1]"></div>
 
       {/* Text part on left */}
-      <div className="flex flex-col justify-center space-y-[40px] px-[45px] tb:px-[5%] w-full tb:w-1/2">
+      <div className="flex flex-col justify-center space-y-[40px] px-[45px] tb:px-[5%] w-full tb:w-1/2 relative">
         <div>
           <img
             src={landingLogo}
@@ -34,14 +34,14 @@ const LandingPage = () => {
           </h1>
         </div>
 
-        {/* Direct user to login page */}
+        {/* Direct user to login page
         <div>
           <Link to="/login">
             <Button text="Log in" />
           </Link>
-        </div>
+        </div> */}
 
-        {/* If user has not registered, direct them to the register page */}
+        {/* If user has not registered, direct them to the register page
         <div className="font-poppins m-[10px]">
           <p className="text-xs text-white">
             Not registered yet?{" "}
@@ -49,12 +49,23 @@ const LandingPage = () => {
               Register Now
             </Link>
           </p>
-        </div>
+        </div> */}
+      </div>
+
+      <div className="font-poppins m-[10px] whitespace-nowrap absolute z-20 ">
+        <input
+          type="text"
+          placeholder="Meeting Name"
+          className="rounded-full px-4 py-1 m-8"
+        />
+        <Link to="/createMeeting">
+          <Button text="Start Hosting"></Button>
+        </Link>
       </div>
 
       {/* Floating white block columns (to disappear in phone mode) */}
       {/* Preview of website feature */}
-      <div className="sm:visible invisible sm:flex relative w-full tb:flex-row tb:w-1/2 h-full items-center justify-center gap-8">
+      <div className="sm:visible invisible sm:flex relative w-full tb:flex-row tb:w-1/2 h-full items-center justify-center gap-8 z-10">
         <div className="flex w-2/3 flex-col gap-y-12 gap-4 top-[10%] float-animation">
           <div className="w-full h-64 bg-gradient-to-br from-steel_blue from-60% to-light_blue to-100% rounded-[18px]"></div>
           <div className="w-full h-96 bg-white flex justify-center items-center rounded-sm">

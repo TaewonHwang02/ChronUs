@@ -123,13 +123,13 @@ const CreateMeeting = () => {
     <div className="overflow-auto w-full h-screen bg-steel_blue flex flex-col lg:flex-row lg:items-center lg:justify-center lg:gap-1 space-y-[70px] lg:space-y-0">
       <div className="space-y-[20px] lg:space-y-2 p-[25px] lg:p-0 w-full h-full lg:w-2/5 lg:h-4/5">
         <img src={LoginLogo} alt="ChronUs Logo" className="w-20 h-35" />
-        <div
+        {/* <div
           className="relative w-2/3 mt-4 font-poppins text-white text-[15px] lg:text-xs flex items-center space-x-2 cursor-pointer"
           onClick={() => navigate("/dashboard")}
         >
           <img src={returnArr} alt="return" className=" w-3 h-3" />
           <span>Back to Dashboard</span>
-        </div>
+        </div> */}
         <h1 className="py-2 font-poppins text-[40px] lg:text-3xl lg:text-[3vw] font-medium text-white">
           Set Your Dates
         </h1>
