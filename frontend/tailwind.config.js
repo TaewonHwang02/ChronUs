@@ -8,16 +8,21 @@ export default {
         tb: "900px", // For Desktop sizes (bigger than tablet)
       },
       colors: {
-        steel_blue: "#3F88C5",
+        primary: {
+          light: "#3F88C5", // blue
+          dark: "#1a1a1a", // black
+        },
+        secondary: {
+          light: "#FFFFFF", // white
+          dark: "#3F5A72", // grey
+        },
         selective_yellow: "#FFBA08",
-        grey_background: "#F5F5F5",
-        light_blue: "#A1CDF1",
-        pine_green: "#136F63",
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
         kulim: ['"Kulim Park"', "sans-serif"],
       },
+      darkMode: "class",
     },
   },
   plugins: [],

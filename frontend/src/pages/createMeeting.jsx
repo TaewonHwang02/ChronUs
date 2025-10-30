@@ -4,7 +4,6 @@ import { addDays } from "date-fns";
 import { getAuth } from "firebase/auth";
 import axios from "axios";
 import LoginLogo from "../assets/Group 76.svg";
-import returnArr from "../assets/returnArrow.svg";
 import minimum from "../assets/defaultOp.svg";
 import defaultimg from "../assets/minTime.svg";
 import TimeRangePicker from "../components/timeRangePicker";

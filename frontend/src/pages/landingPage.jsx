@@ -1,37 +1,67 @@
-import React from "react";
-import landingLogo from "../assets/Group 76.svg"; // Header logo
-import demoPic from "../assets/demo.svg"; // Demo picture
-import Button from "../components/button.jsx";
+import React, { useState, useEffect } from "react";
+import landingLogo from "../assets/logo.svg"; // Header logo
+import Button from "../components/clearButton.jsx";
 import { Link } from "react-router-dom";
 
 const LandingPage = () => {
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    if (darkMode) document.documentElement.classList.add("dark");
+    else document.documentElement.classList.remove("dark");
+  }, [darkMode]);
+
   return (
-    <div className="relative w-full h-screen flex tb:flex-row items-center justify-center tb:justify-start overflow-hidden">
-      <div className="absolute w-full h-screen bg-grey_background z-[-2]"></div>
-      <div className="absolute bottom-0 left-0 w-[88%] h-full bg-steel_blue rounded-br-[700px] z-[-1]"></div>
+    <div
+      className="relative w-full h-screen bg-primary-light flex tb:flex-row items-center justify-center tb:justify-start overflow-hidden
+    bg-[url('/src/assets/lightBg.svg')]   /* Mobile light */
+    ph:bg-[url('/src/assets/bg-light-desktop.jpg')]  /* Desktop light */
+    dark:bg-[url('/src/assets/lightBg.svg')]   /* Mobile dark */
+    dark:ph:bg-[url('/src/assets/bg-dark-desktop.jpg')] /* Desktop dark */
+    bg-center bg-[length:200%_auto] bg-no-repeat 
+    "
+    >
+      <div className="absolute w-full h-screen backdrop-blur-xs bg-gradient-to-b from-slate-900 to-transparent"></div>
+      {/* <div className="absolute bottom-0 left-0 w-[88%] h-full  rounded-br-[700px] z-[-1]"></div> */}
 
       {/* Text part on left */}
-      <div className="flex flex-col justify-center space-y-[40px] px-[45px] tb:px-[5%] w-full tb:w-1/2 relative">
+      <div className="flex flex-col justify-center space-y-[45px] px-[45px] tb:px-[5%] w-full tb:w-1/2 relative">
         <div>
-          <img
-            src={landingLogo}
-            alt="ChronUs Logo"
-            className="w-[120px] h-[120px]"
-          />
+          <img src={landingLogo} alt="ChronUs Logo" className="w-[54px]" />
         </div>
 
         <div className="text-white">
-          <h2 className="text-lg tb:text-3xl font-poppins mb-2">
-            Plan Smarter
-          </h2>
-          <h2 className="text-lg tb:text-3xl font-poppins mb-2">with</h2>
-          <h1 className="text-6xl tb:text-7xl font-kulim ">
+          <h2 className="text-m tb:text-2xl font-poppins mb-1">Plan Smarter</h2>
+          <h2 className="text-lg tb:text-2xl font-poppins mb-2 py-2">with</h2>
+          <h1 className="text-6xl tb:text-6xl font-kulim">
             <span className="text-white font-normal">Chron</span>
-            <span className="text-selective_yellow text-6xl tb:text-8xl">
+            <span className="text-selective_yellow text-6xl tb:text-6xl uppercase">
               u
             </span>
             <span className="text-selective_yellow">s</span>
           </h1>
+        </div>
+
+        <div className="font-poppins wrap justify-center">
+          <input
+            type="text"
+            placeholder="Meeting Name"
+            className="rounded-full px-4 py-1"
+          />
+          <div className="my-8">
+            <Link to="/createMeeting">
+              <Button text="Start Hosting"></Button>
+            </Link>
+          </div>
+        </div>
+
+        <div>
+          <button
+            onClick={() => setDarkMode(!darkMode)}
+            className=" px-6 border border-white rounded-full text-white"
+          >
+            Toggle {darkMode ? "Light" : "Dark"}
+          </button>
         </div>
 
         {/* Direct user to login page
@@ -52,38 +82,11 @@ const LandingPage = () => {
         </div> */}
       </div>
 
-      <div className="font-poppins m-[10px] whitespace-nowrap absolute z-20 ">
-        <input
-          type="text"
-          placeholder="Meeting Name"
-          className="rounded-full px-4 py-1 m-8"
-        />
-        <Link to="/createMeeting">
-          <Button text="Start Hosting"></Button>
-        </Link>
-      </div>
-
       {/* Floating white block columns (to disappear in phone mode) */}
       {/* Preview of website feature */}
-      <div className="sm:visible invisible sm:flex relative w-full tb:flex-row tb:w-1/2 h-full items-center justify-center gap-8 z-10">
-        <div className="flex w-2/3 flex-col gap-y-12 gap-4 top-[10%] float-animation">
-          <div className="w-full h-64 bg-gradient-to-br from-steel_blue from-60% to-light_blue to-100% rounded-[18px]"></div>
-          <div className="w-full h-96 bg-white flex justify-center items-center rounded-sm">
-            <img
-              src={demoPic}
-              alt="Demo"
-              className="w-full h-full object-contain"
-            />
-          </div>
-        </div>
-        <div className="flex w-1/3 h-full justify-center flex-col gap-y-12 gap-4 top-[15%] float-animation">
-          <div className="w-full h-[30%] bg-white opacity-40 rounded-sm"></div>
-          <div className="w-full h-[60%] bg-white rounded-sm"></div>
-          <div className="w-full h-[30%] bg-white rounded-sm"></div>
-        </div>
-      </div>
+      <div className="sm:visible invisible sm:flex relative w-full tb:flex-row tb:w-1/2 h-full items-center justify-center gap-8 z-10"></div>
 
-      {/* Making white blocks on right slightly float */}
+      {/* Making prototypes float */}
       <style>
         {`
         @keyframes float {

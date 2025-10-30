@@ -1,16 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Kulim+Park:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Kulim+Park:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-html, body, #root {
+html,
+body,
+#root {
   margin: 0 !important;
   padding: 0 !important;
-  border: none !important;
   width: 100% !important;
   height: 100% !important;
   overflow-x: hidden !important; /* Prevent horizontal scroll */
+}
+
+html {
+  transition: background-color background-image 0.3s ease, color 0.3s ease;
 }
 
 .gsi-material-button {
@@ -19,20 +24,18 @@ html, body, #root {
   -ms-user-select: none;
   -webkit-appearance: none;
   background-color: #f2f2f2;
-  border: none;
-  border-radius: 20px;
-  box-sizing: border-box;
+
   color: #1f1f1f;
   cursor: pointer;
   font-family: "Roboto", arial, sans-serif;
   font-size: 14px;
   height: 40px;
   letter-spacing: 0.25px;
-  outline: none;
+  /* outline: none; */
   overflow: hidden;
   padding: 0 12px;
   text-align: center;
-  transition: background-color 0.218s, border-color 0.218s, box-shadow 0.218s;
+  transition: background-color 0.218s, box-shadow 0.218s;
   vertical-align: middle;
   width: auto;
   max-width: 400px;
@@ -72,5 +75,6 @@ html, body, #root {
 }
 
 .gsi-material-button:not(:disabled):hover {
-  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3),
+    0 1px 3px 1px rgba(60, 64, 67, 0.15);
 }
