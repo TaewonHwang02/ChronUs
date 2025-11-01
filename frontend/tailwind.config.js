@@ -11,7 +11,10 @@ export default {
       colors: {
         primary: "var(--primary)",
         secondary: "var(--secondary)",
-        selective_yellow: "#FFBA08",
+        tertiary: "var(--tertiary)",
+        selective_blue: "#3f88c5",
+        dark: "#1a1a1a",
+        grey: "#2D4151",
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],

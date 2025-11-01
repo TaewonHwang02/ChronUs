@@ -17,11 +17,13 @@ body,
 :root.light {
   --primary: #3f88c5;
   --secondary: #ffffff;
+  --tertiary: #ffba08;
 }
 
 :root.dark {
   --primary: #1a1a1a;
   --secondary: #3f5a72;
+  --tertiary: #dca414;
 }
 
 * {
