@@ -14,18 +14,18 @@ body,
   overflow-x: hidden !important; /* Prevent horizontal scroll */
 }
 
-.light {
+:root.light {
   --primary: #3f88c5;
   --secondary: #ffffff;
 }
 
-.dark {
+:root.dark {
   --primary: #1a1a1a;
   --secondary: #3f5a72;
 }
 
-html {
-  transition: background-color background-image 0.3s ease, color 0.3s ease;
+* {
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .gsi-material-button {

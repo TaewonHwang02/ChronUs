@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: "class",
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
@@ -16,7 +17,6 @@ export default {
         poppins: ["Poppins", "sans-serif"],
         kulim: ['"Kulim Park"', "sans-serif"],
       },
-      darkMode: "class",
     },
   },
   plugins: [],

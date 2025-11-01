@@ -7,32 +7,36 @@ import CreateMeeting from "./pages/createMeeting";
 import LinkPage from "./pages/linkPage";
 
 function App() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem("theme");
+    return saved === "dark";
+  });
 
-  // 🌙 Load saved theme from localStorage on startup
   useEffect(() => {
-    const selectedTheme = localStorage.getItem("theme");
+    const root = document.documentElement;
 
-    if (selectedTheme === "dark") {
-      document.documentElement.classList.add("dark");
-      setDarkMode(true);
+    if (darkMode) {
+      root.classList.add("dark");
+      root.classList.remove("light");
+      localStorage.setItem("theme", "dark");
     } else {
-      document.documentElement.classList.remove("dark");
-      setDarkMode(false);
+      root.classList.add("light");
+      root.classList.remove("dark");
+      localStorage.setItem("theme", "light");
     }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("theme", darkMode ? "dark" : "light");
   }, [darkMode]);
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
-      
+        <Route
+          path="/"
+          element={
+            <LandingPage darkMode={darkMode} setDarkMode={setDarkMode} />
+          }
+        />
         <Route
           path="/schedulingmain/:meetingLink"
-          element={<SchedulingMainPage />}
+          element={<SchedulingMainPage darkMode={darkMode} />}
         />
         <Route path="/createMeeting" element={<CreateMeeting />} />
         <Route path="/join/:meetingLink" element={<LinkPage />} />
