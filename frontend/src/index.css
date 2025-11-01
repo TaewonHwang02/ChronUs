@@ -14,6 +14,16 @@ body,
   overflow-x: hidden !important; /* Prevent horizontal scroll */
 }
 
+.light {
+  --primary: #3f88c5;
+  --secondary: #ffffff;
+}
+
+.dark {
+  --primary: #1a1a1a;
+  --secondary: #3f5a72;
+}
+
 html {
   transition: background-color background-image 0.3s ease, color 0.3s ease;
 }
@@ -31,7 +41,6 @@ html {
   font-size: 14px;
   height: 40px;
   letter-spacing: 0.25px;
-  /* outline: none; */
   overflow: hidden;
   padding: 0 12px;
   text-align: center;
@@ -72,6 +81,12 @@ html {
 .gsi-material-button:disabled {
   cursor: default;
   background-color: #ffffff61;
+}
+
+button {
+  border: inherit !important;
+  border-width: initial !important;
+  border-style: solid !important;
 }
 
 .gsi-material-button:not(:disabled):hover {

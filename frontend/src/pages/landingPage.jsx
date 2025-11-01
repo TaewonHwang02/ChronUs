@@ -13,7 +13,7 @@ const LandingPage = () => {
 
   return (
     <div
-      className="relative w-full h-screen bg-primary-light flex tb:flex-row items-center justify-center tb:justify-start overflow-hidden
+      className="relative w-full h-screen bg-primary flex tb:flex-row items-center justify-center tb:justify-start overflow-hidden
     bg-[url('/src/assets/lightBg.svg')]   /* Mobile light */
     ph:bg-[url('/src/assets/bg-light-desktop.jpg')]  /* Desktop light */
     dark:bg-[url('/src/assets/lightBg.svg')]   /* Mobile dark */
@@ -25,7 +25,7 @@ const LandingPage = () => {
       {/* <div className="absolute bottom-0 left-0 w-[88%] h-full  rounded-br-[700px] z-[-1]"></div> */}
 
       {/* Text part on left */}
-      <div className="flex flex-col justify-center space-y-[45px] px-[45px] tb:px-[5%] w-full tb:w-1/2 relative">
+      <div className="flex flex-col justify-center items-start space-y-[45px] px-[45px] tb:px-[5%] w-full tb:w-1/2 relative">
         <div>
           <img src={landingLogo} alt="ChronUs Logo" className="w-[54px]" />
         </div>
@@ -42,13 +42,13 @@ const LandingPage = () => {
           </h1>
         </div>
 
-        <div className="font-poppins wrap justify-center">
+        <div className="font-poppins flex flex-wrap items-center">
           <input
             type="text"
             placeholder="Meeting Name"
-            className="rounded-full px-4 py-1"
+            className="rounded-full bg-slate-500 bg-opacity-50 px-4 py-1 text-sm text-white placeholder-slate-300"
           />
-          <div className="my-8">
+          <div className="my-8 mx-6">
             <Link to="/createMeeting">
               <Button text="Start Hosting"></Button>
             </Link>
@@ -56,12 +56,10 @@ const LandingPage = () => {
         </div>
 
         <div>
-          <button
+          <Button
             onClick={() => setDarkMode(!darkMode)}
-            className=" px-6 border border-white rounded-full text-white"
-          >
-            Toggle {darkMode ? "Light" : "Dark"}
-          </button>
+            text={`Toggle ${darkMode ? "Light" : "Dark"}`}
+          ></Button>
         </div>
 
         {/* Direct user to login page
