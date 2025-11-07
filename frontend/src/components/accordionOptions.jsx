@@ -1,14 +1,19 @@
 // Dana Lee 261054107
 
+import React from "react";
 
-
-import React from 'react';
-
-const Accordion = ({ title, subtext, children, imageSrc, isActive, onToggle }) => {
+const Accordion = ({
+  title,
+  subtext,
+  children,
+  imageSrc,
+  isActive,
+  onToggle,
+}) => {
   return (
     <div
       className={`accordion w-full rounded-md transition-all duration-300 ease-in-out ${
-        isActive ? 'bg-white border-l-4 border-yellow-500' : 'bg-gray-100'
+        isActive ? "bg-secondary border-l-4 border-yellow-500" : "bg-secondary"
       }`}
     >
       <div
@@ -23,14 +28,17 @@ const Accordion = ({ title, subtext, children, imageSrc, isActive, onToggle }) =
         />
         {/* From the parent, we display the title and the subtext */}
         <div className="flex flex-col flex-grow">
-          <h3 className="ph:text-base text-[15px] font-medium font-poppins">{title}</h3>
-          <p className="ph:text-xs text-[10px] text-gray-500 mt-1 font-poppins">{subtext}</p>
+          <h3 className="ph:text-base text-[15px] font-medium font-poppins text-secondary_letter">
+            {title}
+          </h3>
+          <p className="ph:text-xs text-[10px] text-letter_secondary mt-1 font-poppins">
+            {subtext}
+          </p>
         </div>
-        
       </div>
       {isActive && (
         // Whatever is on the children field of the accordion component
-        <div className="accordion-content px-4 py-0 bg-white rounded-b-md">
+        <div className="accordion-content px-4 py-0 bg-secondary rounded-b-md">
           {children}
         </div>
       )}

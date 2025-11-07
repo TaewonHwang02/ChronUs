@@ -12,6 +12,8 @@ export default {
         primary: "var(--primary)",
         secondary: "var(--secondary)",
         tertiary: "var(--tertiary)",
+        primary_letter: "var(--letter-primary)",
+        secondary_letter: "var(--letter-secondary)",
         selective_blue: "#3f88c5",
         dark: "#1a1a1a",
         grey: "#2D4151",

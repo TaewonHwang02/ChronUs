@@ -26,7 +26,7 @@ const DateSelector = ({ onChange }) => {
 
   // Structure of component, tweaking options to make a simple date picker
   return (
-    <div className="date-selector-container font-poppins w-full rounded-md p-2  flex items-center justify-center">
+    <div className=" date-selector-container font-poppins w-full rounded-md p-2  flex items-center justify-center ">
       <div className="date-range-wrapper flex justify-center rounded-md  items-center w-full h-full ">
         <DateRange
           editableDateInputs={true}
@@ -71,6 +71,45 @@ const DateSelector = ({ onChange }) => {
           transition: transform 0.3s ease-in-out;
         }
       }
+
+
+        .daterange-component {
+          background-color: var(--secondary);
+          color: var(--letter-secondary);
+          border-radius: 18px;
+          border: !none;
+        }
+
+
+        /* Calendar cells */
+        .daterange-component .rdrDay {
+          background-color: transparent;
+          color: "var(--letter-primary)";
+          border: none !important;
+          box-shadow: none !important;
+        }
+
+        /* Selected range */
+        .daterange-component .rdrDayStartPreview,
+        .daterange-component .rdrDayEndPreview,
+        .daterange-component .rdrInRange
+        {
+          background-color: #aaaaaa !important; 
+        }
+    
+        .rdrDateDisplayWrapper, .rdrDateDisplay .rdrDateInput{
+        background-color: var(--secondary);
+        }
+
+        .daterange-component .rdrMonthAndYearPickers select,
+        .daterange-component .rdrMonthAndYearWrapper button
+        {
+          background-color: transparent;
+          color: #1a1a1a;
+          border: none !important;
+        }
+
+        
 
       `}
       </style>

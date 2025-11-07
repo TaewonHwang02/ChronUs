@@ -140,8 +140,8 @@ const CreateMeeting = () => {
     >
       {/* left panel */}
       <div className="snap-start flex flex-col justify-center space-y-4 lg:space-y-4 px-[25px] lg:px-0 w-full lg:w-2/5 h-screen lg:h-4/5">
-        <img src={LoginLogo} alt="ChronUs Logo" className="w-14" />
-        <h1 className="py-2 font-poppins text-[40px] lg:text-[3vw] font-medium text-white">
+        <img src={LoginLogo} alt="ChronUs Logo" className="w-12" />
+        <h1 className="py-2 font-poppins text-[40px] lg:text-[3vw] font-medium text-primary_letter">
           Set Your Dates
         </h1>
         <div className="flex items-center">
@@ -149,7 +149,7 @@ const CreateMeeting = () => {
         </div>
 
         <div className="px-3 w-full left-1/2 space-y-2">
-          <label className="flex items-center space-x-2 text-white">
+          <label className="flex items-center space-x-2 text-primary_letter">
             <input
               type="checkbox"
               className="form-checkbox accent-selective_yellow"
@@ -163,7 +163,7 @@ const CreateMeeting = () => {
 
           {emailOption && (
             <div className="mt-2">
-              <label className="flex items-center space-x-2 text-white font-poppins text-xs">
+              <label className="flex items-center space-x-2 text-primary_letter font-poppins text-xs">
                 <h2>Select date and time:</h2>
                 <input
                   type="datetime-local"
@@ -185,7 +185,7 @@ const CreateMeeting = () => {
           <h3 className="py-1 font-poppins text-[15px] lg:text-[1.3vw] font-normal text-[#98BCDA]">
             Advanced Options
           </h3>
-          <h2 className="font-poppins text-[18px] lg:text-2xl font-normal text-white">
+          <h2 className="font-poppins text-[18px] lg:text-2xl font-normal text-primary_letter">
             Select Your Time Frame
           </h2>
         </div>
@@ -195,7 +195,7 @@ const CreateMeeting = () => {
         </div>
 
         <div className="py-3 space-y-3">
-          <h2 className="font-poppins text-[15px] lg:text-2xl font-normal text-white">
+          <h2 className="font-poppins text-[15px] lg:text-2xl font-normal text-primary_letter">
             Select Your Scheduling Options
           </h2>
           <Accordion
