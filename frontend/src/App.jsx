@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SchedulingMainPage from "./pages/SchedulingMain";
 import CreateMeeting from "./pages/createMeeting";
 import LinkPage from "./pages/linkPage";
+import OptionPanel from "./components/optionPanel"; // ✅ import the panel
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
@@ -27,20 +28,36 @@ function App() {
   }, [darkMode]);
   return (
     <Router>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <LandingPage darkMode={darkMode} setDarkMode={setDarkMode} />
-          }
-        />
-        <Route
-          path="/schedulingmain/:meetingLink"
-          element={<SchedulingMainPage darkMode={darkMode} />}
-        />
-        <Route path="/createMeeting" element={<CreateMeeting />} />
-        <Route path="/join/:meetingLink" element={<LinkPage />} />
-      </Routes>
+      <div className="relative w-full min-h-screen overflow-hidden">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <LandingPage darkMode={darkMode} setDarkMode={setDarkMode} />
+            }
+          />
+          <Route
+            path="/schedulingmain/:meetingLink"
+            element={
+              <SchedulingMainPage
+                darkMode={darkMode}
+                setDarkMode={setDarkMode}
+              />
+            }
+          />
+          <Route
+            path="/createMeeting"
+            element={
+              <CreateMeeting darkMode={darkMode} setDarkMode={setDarkMode} />
+            }
+          />
+          <Route
+            path="/join/:meetingLink"
+            element={<LinkPage darkMode={darkMode} setDarkMode={setDarkMode} />}
+          />{" "}
+        </Routes>
+        <OptionPanel darkMode={darkMode} setDarkMode={setDarkMode} />
+      </div>
     </Router>
   );
 }
