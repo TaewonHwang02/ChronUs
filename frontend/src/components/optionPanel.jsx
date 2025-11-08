@@ -4,7 +4,7 @@ const OptionPanel = ({ darkMode, setDarkMode }) => {
   const [showToggle, setShowToggle] = useState(false);
 
   return (
-    <div className="fixed bottom-0 w-full transform flex flex-col items-end z-10 font-poppins text-sm text-white">
+    <div className="fixed bottom-0 right-0  w-12px transform flex flex-col items-end z-10 font-poppins text-sm text-white">
       <div
         className={`cursor-pointer bg-tertiary text-white
         flex flex-col items-center justify-center
@@ -12,7 +12,7 @@ const OptionPanel = ({ darkMode, setDarkMode }) => {
         ${
           showToggle
             ? "w-full h-1/4 rounded-lg p-2"
-            : "mb-10 mr-10 w-12 h-12 rounded-full p-0"
+            : "mb-5 mr-5 w-12 h-12 rounded-full p-0"
         }`}
       >
         {!showToggle && (
