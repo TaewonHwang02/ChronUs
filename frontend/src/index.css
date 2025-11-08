@@ -18,12 +18,16 @@ body,
   --primary: #3f88c5;
   --secondary: #ffffff;
   --tertiary: #ffba08;
+  --letter-primary: white;
+  --letter-secondary: black;
 }
 
 :root.dark {
   --primary: #1a1a1a;
   --secondary: #3f5a72;
   --tertiary: #dca414;
+  --letter-primary: rgb(224, 224, 224);
+  --letter-secondary: white;
 }
 
 * {

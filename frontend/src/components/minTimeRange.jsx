@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 
 const TimeSlider = ({
   // Max 6 hours
-  max = 360, 
+  max = 360,
   step = 15, // Increments 15 at a time
   trackColor = "#cecece",
   sliderColor = "#FFBA08",
@@ -32,19 +32,19 @@ const TimeSlider = ({
 
   const handleChange = (e) => {
     const rawValue = Number(e.target.value);
-    const snappedValue = Math.round(rawValue / step) * step; 
+    const snappedValue = Math.round(rawValue / step) * step;
     setValue(snappedValue);
   };
 
   return (
-    <div className="relative w-full h-[100px] bg-white rounded-md">
+    <div className="relative w-full h-[100px] bg-secondary rounded-md">
       <div className="absolute top-0 w-5/6 h-full left-1/2 -translate-x-1/2">
-        <div className="absolute py-0 top-0 w-full text-center font-poppins text-2xl text-[#0B1354]">
+        <div className="absolute py-2 top-0 w-full text-center font-poppins text-xl text-secondary_letter">
           {`${Math.floor(value / 60)} hrs ${value % 60} mins`}
         </div>
 
-        <div className="py-4">
-          <div className="relative mt-9 h-[9px]">
+        <div className="py-3">
+          <div className="relative mt-9 h-[8px]">
             <div
               className="absolute h-full w-full rounded-md z-[1]"
               style={{ backgroundColor: trackColor }}

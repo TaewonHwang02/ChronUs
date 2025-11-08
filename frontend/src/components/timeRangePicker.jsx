@@ -51,9 +51,9 @@ const TimeRangePicker = ({
   }, [minVal, maxVal, onChange]);
 
   return (
-    <div className="relative top-3 w-full h-[120px] bg-white rounded-md">
+    <div className="relative top-3 w-full h-[120px] bg-secondary rounded-md">
       <div className="absolute top-5 w-5/6 h-full left-1/2 -translate-x-1/2">
-        <div className="absolute top-0 w-full text-center font-poppins text-2xl text-[#0B1354]">
+        <div className="absolute top-0 w-full text-center font-poppins text-2xl text-secondary_letter">
           {/* Display the time range (changes as the thumb moves) */}
           {`${minVal > 12 ? minVal - 12 : minVal} ${
             minVal < 12 ? "AM" : "PM"
@@ -73,12 +73,12 @@ const TimeRangePicker = ({
         <div className="relative mt-[56px] h-[8px]">
           <div
             className="absolute h-full w-full z-[1]"
-            style={{ backgroundColor: trackColor, pointerEvents: 'none' }}
+            style={{ backgroundColor: trackColor, pointerEvents: "none" }}
           />
           <div
             ref={range}
             className="absolute h-full z-[2]"
-            style={{ backgroundColor: rangeColor, pointerEvents: 'none' }}
+            style={{ backgroundColor: rangeColor, pointerEvents: "none" }}
           />
 
           {/* Right thumb input*/}
@@ -87,7 +87,9 @@ const TimeRangePicker = ({
             min={min}
             max={max}
             value={maxVal}
-            onChange={(e) => setMaxVal(Math.max(Number(e.target.value), minVal + 1))}
+            onChange={(e) =>
+              setMaxVal(Math.max(Number(e.target.value), minVal + 1))
+            }
             className="absolute appearance-none w-full h-7 z-[3] "
           />
           {/* Left thumb input*/}
@@ -96,7 +98,9 @@ const TimeRangePicker = ({
             min={min}
             max={max}
             value={minVal}
-            onChange={(e) => setMinVal(Math.min(Number(e.target.value), maxVal - 1))}
+            onChange={(e) =>
+              setMinVal(Math.min(Number(e.target.value), maxVal - 1))
+            }
             className="relative appearance-none w-full h-2 z-[4] left-thumb"
           />
         </div>
