@@ -1,4 +1,3 @@
-// Dana Lee 261054107
 // Component brought from utility library date-fns
 
 import React, { useState } from "react";
@@ -17,14 +16,14 @@ const DateSelector = ({ onChange }) => {
     },
   ]);
 
-  // Notifying parent (state) of the changes made from the component
+  // Notifying parent
   const handleDateChange = (item) => {
     const newSelection = item.selection;
     setState([newSelection]);
     onChange && onChange(newSelection);
   };
 
-  // Structure of component, tweaking options to make a simple date picker
+  // Structure of component, simple date picker
   return (
     <div className=" date-selector-container font-poppins w-full rounded-md p-2  flex items-center justify-center ">
       <div className="date-range-wrapper flex justify-center rounded-md  items-center w-full h-full ">
@@ -66,16 +65,25 @@ const DateSelector = ({ onChange }) => {
 
       @media (max-width: 430px) {
         .date-range-wrapper {
-          transform: scale(0.8); 
-          transform-origin: top center; 
+          transform: scale(0.8);
+          transform-origin: center; 
+          height: 300px;
           transition: transform 0.3s ease-in-out;
+          display: flex;
+          justify-content: center;
         }
       }
 
 
-        .daterange-component {
+        .daterange-component .rdrCalendarWrapper {
+          height: auto !important;
+          max-height: none !important;
+        }
+
+        .daterange-component, .rdrDateDisplayWrapper {
           background-color: var(--secondary);
           color: var(--letter-secondary);
+          padding-top: 2px;
           border-radius: 18px;
           border: !none;
         }
@@ -89,26 +97,42 @@ const DateSelector = ({ onChange }) => {
           box-shadow: none !important;
         }
 
-        /* Selected range */
-        .daterange-component .rdrDayStartPreview,
-        .daterange-component .rdrDayEndPreview,
-        .daterange-component .rdrInRange
-        {
-          background-color: #aaaaaa !important; 
+        .daterange-component .rdrInRange,
+        .daterange-component .rdrStartEdge,
+        .daterange-component .rdrEndEdge{
+          background-color: var(--tertiary);
+          opacity: 0.7;
         }
     
-        .rdrDateDisplayWrapper, .rdrDateDisplay .rdrDateInput{
+        .rdrDateDisplayWrapper, 
+        .rdrDateDisplay .rdrDateInput{
         background-color: var(--secondary);
         }
 
-        .daterange-component .rdrMonthAndYearPickers select,
-        .daterange-component .rdrMonthAndYearWrapper button
-        {
-          background-color: transparent;
-          color: #1a1a1a;
-          border: none !important;
+        .daterange-component .rdrDateDisplay .rdrDateDisplayItemActive{
+          border-color: var(--letter-secondary);
         }
 
+        .daterange-component .rdrDayPassive .rdrDayNumber span {
+          color: var(--letter-secondary) !important;
+          opacity: 0.3;
+        }
+
+        .daterange-component .rdrMonthAndYearWrapper .rdrMonthAndYearPickers select
+        {
+          color: var(--letter-secondary) !important;
+          opacity: 0.5;
+          background-color: transparent;
+        }
+
+        .daterange-component .rdrMonthAndYearWrapper button,
+        .daterange-component .rdrMonthAndYearWrapper
+        {
+          background-color: transparent;
+          border: none !important;
+          padding-top: 0px
+        }
+          
         
 
       `}

@@ -39,12 +39,12 @@ const TimeSlider = ({
   return (
     <div className="relative w-full h-[100px] bg-secondary rounded-md">
       <div className="absolute top-0 w-5/6 h-full left-1/2 -translate-x-1/2">
-        <div className="absolute py-0 top-0 w-full text-center font-poppins text-2xl text-secondary_letter">
+        <div className="absolute py-2 top-0 w-full text-center font-poppins text-xl text-secondary_letter">
           {`${Math.floor(value / 60)} hrs ${value % 60} mins`}
         </div>
 
-        <div className="py-4">
-          <div className="relative mt-9 h-[9px]">
+        <div className="py-3">
+          <div className="relative mt-9 h-[8px]">
             <div
               className="absolute h-full w-full rounded-md z-[1]"
               style={{ backgroundColor: trackColor }}

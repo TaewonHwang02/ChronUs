@@ -136,46 +136,37 @@ const CreateMeeting = () => {
     lg:overflow-hidden 
     lg:snap-none
     scroll-smooth
+    py-0
   "
     >
       {/* left panel */}
       <div className="snap-start flex flex-col justify-center space-y-4 lg:space-y-4 px-[25px] lg:px-0 w-full lg:w-2/5 h-screen lg:h-4/5">
-        <img src={LoginLogo} alt="ChronUs Logo" className="w-12" />
-        <h1 className="py-2 font-poppins text-[40px] lg:text-[3vw] font-medium text-primary_letter">
+        <img src={LoginLogo} alt="ChronUs Logo" className="w-11 py-4" />
+        <h1 className="py-1 font-poppins text-[30px] lg:text-[3vw] font-medium text-primary_letter">
           Set Your Dates
         </h1>
-        <div className="flex items-center">
+        <div className="flex items-center p-0 m-0">
           <DatePicker onChange={handleDateChange} />
         </div>
 
         <div className="px-3 w-full left-1/2 space-y-2">
           <label className="flex items-center space-x-2 text-primary_letter">
-            <input
-              type="checkbox"
-              className="form-checkbox accent-selective_yellow"
-              checked={emailOption}
-              onChange={(e) => setEmailOption(e.target.checked)}
-            />
-            <span className="px-2 text-[15px] lg:text-sm font-poppins">
-              Receive an E-mail of curated dates/times
+            <span className="px-0 text-[15px] lg:text-sm font-poppins ">
+              E-mail of curated sessions
             </span>
           </label>
-
-          {emailOption && (
-            <div className="mt-2">
-              <label className="flex items-center space-x-2 text-primary_letter font-poppins text-xs">
-                <h2>Select date and time:</h2>
-                <input
-                  type="datetime-local"
-                  id="email-date"
-                  name="email-date"
-                  min="2024-12-19T08:30"
-                  className="font-poppins text-blue-950 w-3/5 rounded-md px-2 py-1 focus:outline-none focus:ring-0 focus:border-transparent"
-                  onChange={(e) => setEmailDate(e.target.value)}
-                />
-              </label>
-            </div>
-          )}
+          <div className="mt-2">
+            <label className="flex items-center space-x-2 text-primary_letter font-poppins text-xs">
+              <h2>Select date and time:</h2>
+              <input
+                type="datetime-local"
+                id="email-date"
+                name="email-date"
+                className="font-poppins text-blue-950 w-3/5 rounded-md px-2 py-1 focus:outline-none focus:ring-0 focus:border-transparent"
+                onChange={(e) => setEmailDate(e.target.value)}
+              />
+            </label>
+          </div>
         </div>
       </div>
 
@@ -218,7 +209,7 @@ const CreateMeeting = () => {
 
         <div className="flex justify-center pt-4">
           <button
-            className="bg-selective_yellow text-white font-poppins py-2 px-12 rounded-full shadow-lg w-auto cursor-pointer hover:opacity-90 transition"
+            className="bg-tertiary !border-none text-white font-poppins py-2 px-10 rounded-full shadow-lg w-auto cursor-pointer transition"
             onClick={handleGenerateSchedule}
           >
             Generate Schedule

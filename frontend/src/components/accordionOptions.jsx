@@ -31,7 +31,7 @@ const Accordion = ({
           <h3 className="ph:text-base text-[15px] font-medium font-poppins text-secondary_letter">
             {title}
           </h3>
-          <p className="ph:text-xs text-[10px] text-letter_secondary mt-1 font-poppins">
+          <p className="ph:text-xs text-[10px] text-secondary_letter opacity-60 mt-1 font-poppins">
             {subtext}
           </p>
         </div>
