@@ -22,12 +22,27 @@ const LandingPage = ({ darkMode, setDarkMode }) => {
       className="relative w-full min-h-screen bg-primary flex tb:flex-row items-center justify-center tb:justify-start overflow-hidden
     bg-center bg-[length:200%_auto] bg-no-repeat z-0"
     >
-      <div
-        className="absolute inset-0 bg-center bg-[length:200%_auto] ph:bg-[length:120%_auto] bg-no-repeat 
-        bg-[url('/src/assets/lightBg.svg')] ph:bg-[url('/src/assets/bg-light-desktop.svg')]
-        dark:bg-[url('/src/assets/darkBg.svg')] dark:ph:bg-[url('/src/assets/bg-dark-desktop.svg')]
-        animate-float-slow z-0"
-      ></div>
+      <div className="absolute inset-0 bg-no-repeat bg-center animate-float-slow z-0">
+        <div
+          className="absolute inset-0 ph:hidden bg-[url('/src/assets/lightBg.svg')]
+          dark:bg-[url('/src/assets/darkBg.svg')]
+          bg-center bg-[length:180%_auto]"
+        ></div>
+
+        <div
+          className="hidden ph:block absolute top-[-10%] left-[-10%] w-[70%] h-[70%]
+          bg-[url('/src/assets/bg-light-desktop.svg')]
+          dark:bg-[url('/src/assets/bg-dark-desktop.svg')]
+          bg-no-repeat bg-contain rotate-[-10deg] opacity-90"
+        ></div>
+
+        <div
+          className="hidden ph:block absolute bottom-[-20%] right-[-10%] w-[70%] h-[70%]
+          bg-[url('/src/assets/bg-light-desktop.svg')]
+          dark:bg-[url('/src/assets/bg-dark-desktop.svg')]
+          bg-no-repeat bg-contain rotate-[-10deg] opacity-90"
+        ></div>
+      </div>
 
       <div className="absolute w-full h-screen backdrop-blur-xs bg-gradient-to-b from-slate-900 to-transparent"></div>
 

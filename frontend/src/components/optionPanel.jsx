@@ -4,14 +4,15 @@ const OptionPanel = ({ darkMode, setDarkMode }) => {
   const [showToggle, setShowToggle] = useState(false);
 
   return (
-    <div className="fixed bottom-0 right-0  w-12px transform flex flex-col items-end z-10 font-poppins text-sm text-white">
+    <div
+      className={`fixed bottom-0 right-0 transform flex flex-col items-end z-10 font-poppins text-sm text-white transition-all duration-300 ease-in-out
+      ${showToggle ? "w-full" : "w-auto"}`}
+    >
       <div
-        className={`cursor-pointer bg-tertiary text-white
-        flex flex-col items-center justify-center
-        transition-all duration-300 ease-in-out
+        className={`cursor-pointer bg-tertiary text-white flex flex-col items-center justify-center transition-all duration-300 ease-in-out
         ${
           showToggle
-            ? "w-full h-1/4 rounded-lg p-2"
+            ? "h-1/4 rounded-t-lg w-full p-2"
             : "mb-5 mr-5 w-12 h-12 rounded-full p-0"
         }`}
       >

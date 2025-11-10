@@ -212,14 +212,14 @@ const CreateMeeting = () => {
               <input
                 type="text"
                 readOnly
-                value={`https://chronus.blog/linkPage/${meetingLink}`}
+                value={`https://chronus.blog/join/${meetingLink}`}
                 className="font-poppins w-3/4 p-2 rounded-md text-center"
               />
               <button
                 className="bg-tertiary !border-none text-white font-poppins py-1 px-6 rounded-full shadow-lg transition"
                 onClick={() => {
                   navigator.clipboard.writeText(
-                    `https://chronus.blog/linkPage/${meetingLink}`
+                    `https://chronus.blog/join/${meetingLink}`
                   );
                   setCopied(true);
                   setTimeout(() => setCopied(false), 10000); // revert back after 10 seconds
