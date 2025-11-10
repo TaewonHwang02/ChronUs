@@ -1,11 +1,21 @@
 import React from "react";
+import PropTypes from "prop-types";
 
-const Button = ({ text }) => {
+const Button = ({ text, onClick, ...props }) => {
   return (
-    <button className="!border-2 text-gray-50 text-sm font-poppins font-thin text-base px-8 rounded-[50px]">
+    <button
+      onClick={onClick}
+      {...props}
+      className="!border-2 text-gray-50 text-sm font-poppins font-thin px-8 rounded-[50px]"
+    >
       {text}
     </button>
   );
+};
+
+Button.propTypes = {
+  text: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
 };
 
 export default Button;
