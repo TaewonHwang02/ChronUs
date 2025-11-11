@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SchedulingMainPage from "./pages/SchedulingMain";
 import CreateMeeting from "./pages/createMeeting";
 import LinkPage from "./pages/linkPage";
-import OptionPanel from "./components/optionPanel"; // ✅ import the panel
+import OptionPanel from "./components/optionPanel";
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
