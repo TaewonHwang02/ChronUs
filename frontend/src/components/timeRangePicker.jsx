@@ -51,7 +51,7 @@ const TimeRangePicker = ({
   }, [minVal, maxVal, onChange]);
 
   return (
-    <div className="relative top-3 w-full h-[120px] bg-secondary rounded-md">
+    <div className="relative w-full h-[120px] bg-secondary rounded-md">
       <div className="absolute top-5 w-5/6 h-full left-1/2 -translate-x-1/2">
         <div className="absolute top-0 w-full text-center font-poppins text-2xl text-secondary_letter">
           {/* Display the time range (changes as the thumb moves) */}

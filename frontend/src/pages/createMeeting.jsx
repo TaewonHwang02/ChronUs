@@ -10,6 +10,8 @@ import Accordion from "../components/accordionOptions";
 import MinRangeSlider from "../components/minTimeRange";
 import DatePicker from "../components/datePicker";
 import { API_BASE_URL } from "../config";
+// import * as dfstz from "date-fns-tz";
+const { fromZonedTime } = await import("date-fns-tz");
 
 const CreateMeeting = () => {
   const location = useLocation();
@@ -22,10 +24,12 @@ const CreateMeeting = () => {
     startDate: new Date(),
     endDate: addDays(new Date(), 3),
   });
+  const [email, setEmail] = useState("");
+  const [emailDateRaw, setEmailDateRaw] = useState(""); // input str
+  const [emailDate, setEmailDate] = useState(null); // UTC date conv
 
-  const [emailDate, setEmailDate] = useState(null);
   const [timeRange, setTimeRange] = useState({ start: 480, end: 1020 });
-  const [activeIndex, setActiveIndex] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [minimumTimeSlots, setMinimumTimeSlots] = useState(0);
   const [timeZone, setTimeZone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -57,9 +61,31 @@ const CreateMeeting = () => {
     setMinimumTimeSlots(value);
   };
 
+  const handleDeadlineChange = (e) => {
+    setEmailDateRaw(e.target.value); // store string
+  };
+
+  const handleTimezoneChange = (e) => {
+    setTimeZone(e.target.value);
+  };
+
   const handleGenerateSchedule = async () => {
     try {
-      // Prepare meeting data to post to our schema
+      let utcDeadline;
+
+      if (emailDateRaw) {
+        // emailDateRaw is a string from datetime-local input
+        const pickedDate = new Date(emailDateRaw);
+        // Convert it to UTC using the selected timezone
+        utcDeadline = fromZonedTime(pickedDate, timeZone);
+      } else {
+        utcDeadline = new Date();
+      }
+
+      console.log("UTC Deadline:", utcDeadline.toISOString());
+      console.log("Current server time:", new Date().toString());
+      console.log("Current UTC time:", new Date().toISOString());
+
       const meetingData = {
         scheduleMode: activeIndex === 0 ? "common_time" : "common_date",
         timeZone,
@@ -67,9 +93,10 @@ const CreateMeeting = () => {
         endTimeFrame: timeRange.end,
         startdate: dateRange.startDate,
         enddate: dateRange.endDate,
-        deadline: emailDate ? new Date(emailDate) : new Date(),
+        deadline: utcDeadline.toISOString(),
         meetingName,
         minimumTimeSlots: activeIndex === 1 ? minimumTimeSlots : 0,
+        email,
       };
       console.log("ActiveIndex before sending:", activeIndex);
       console.log("Current minimumTimeSlots value:", minimumTimeSlots);
@@ -115,6 +142,7 @@ const CreateMeeting = () => {
     lg:gap-8 
     scroll-smooth
     py-6
+    lg:py-0
   "
     >
       {/* left panel */}
@@ -127,47 +155,69 @@ const CreateMeeting = () => {
           <DatePicker onChange={handleDateChange} />
         </div>
 
-        <div className="px-3 w-full left-1/2 space-y-2">
-          <label className="flex items-center space-x-2 text-primary_letter">
-            <span className="px-0 text-[15px] lg:text-sm font-poppins ">
-              E-mail of curated sessions
+        <div className=" w-full left-1/2 space-y-2">
+          <label className="flex items-center space-x-1 text-primary_letter">
+            <span className="text-[12px] lg:text-base font-poppins">
+              Deadline:
             </span>
-            {/* Time zone selector */}
-            <div className="py-3">
-              <select
-                value={timeZone}
-                onChange={(e) => setTimeZone(e.target.value)}
-                className=" w-40px rounded-md font-poppins text-xs focus:outline-none  text-black border-gray-300"
-              >
-                <option value="UTC">UTC</option>
-                <option value="America/New_York">EST</option>
-                <option value="America/Chicago">CST</option>
-                <option value="America/Denver">MST</option>
-                <option value="America/Los_Angeles">PST</option>
-              </select>
-            </div>
+
+            <input
+              type="datetime-local"
+              id="email-date"
+              name="email-date"
+              className="font-poppins bg-primary w-[110px] lg:w-[140px] h-8 text-sm lg:text-base text-white rounded-md px-2 py-1 focus:outline-none focus:ring-0 focus:border-transparent"
+              onChange={handleDeadlineChange}
+            />
+
+            <select
+              value={timeZone}
+              onChange={handleTimezoneChange}
+              className="ml-2 w-16 lg:w-28 bg-primary rounded-md font-poppins text-xs focus:outline-none text-white border-gray-300"
+            >
+              <option value={Intl.DateTimeFormat().resolvedOptions().timeZone}>
+                {`${Intl.DateTimeFormat().resolvedOptions().timeZone}`}
+              </option>
+
+              <option value="America/Toronto">America/Toronto (EST)</option>
+              <option value="America/Chicago">America/Chicago (CST)</option>
+              <option value="America/Denver">America/Denver (MST)</option>
+              <option value="America/Vancouver">America/Vancouver (PST)</option>
+              <option value="Asia/Seoul">Korea Standard Time (KST)</option>
+              <option value="Asia/Tokyo">Japan Standard Time (JST)</option>
+
+              {/* <optgroup label="🇬🇧 Europe">
+                <option value="Europe/London">United Kingdom (GMT/BST)</option>
+                <option value="Europe/Paris">Central Europe (CET)</option>
+                <option value="Europe/Moscow">Moscow (MSK)</option>
+              </optgroup>
+
+              <optgroup label="🇦🇺 Australia / 🇳🇿 New Zealand">
+                <option value="Australia/Sydney">Sydney (AEST)</option>
+                <option value="Pacific/Auckland">Auckland (NZST)</option>
+              </optgroup> */}
+
+              <option value="UTC">UTC</option>
+            </select>
           </label>
-          <div className="mt-2">
-            <label className="flex items-center space-x-2 text-primary_letter font-poppins text-xs">
-              <h2>Select date and time:</h2>
-              <input
-                type="datetime-local"
-                id="email-date"
-                name="email-date"
-                className="font-poppins text-blue-950 w-3/5 rounded-md px-2 py-1 focus:outline-none focus:ring-0 focus:border-transparent"
-                onChange={(e) => setEmailDate(e.target.value)}
-              />
-            </label>
+
+          <div className="flex justify-left items-center">
+            <span className="text-[12px] lg:text-base font-poppins text-white mr-2">
+              Email address
+            </span>
+            <input
+              type="email"
+              className="bg-secondary rounded-md px-2 py-1 font-poppins text-xs"
+              placeholder="Enter Email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
         </div>
       </div>
 
       {/* Right panel */}
-      <div className="snap-start flex flex-col justify-center p-[25px] lg:p-0 w-full lg:w-2/5 min-h-screen lg:min-h-0 space-y-6">
+      <div className="snap-start flex flex-col justify-center p-[25px] lg:p-0 w-full lg:w-2/5 min-h-screen lg:min-h-0 space-y-4">
         <div>
-          <h3 className="py-1 font-poppins text-[15px] lg:text-[1.3vw] font-normal text-[#98BCDA]">
-            Advanced Options
-          </h3>
           <h2 className="font-poppins text-[18px] lg:text-2xl font-normal text-primary_letter">
             Select Your Time Frame
           </h2>
@@ -208,12 +258,12 @@ const CreateMeeting = () => {
           </button>
 
           {meetingLink && (
-            <div className="flex flex-row items-center mt-4 py-2 space-x-2 text-xs">
+            <div className="flex flex-row  items-center mt-4 py-2 space-x-2 text-xs">
               <input
                 type="text"
                 readOnly
                 value={`https://chronus.blog/join/${meetingLink}`}
-                className="font-poppins w-3/4 p-2 rounded-md text-center"
+                className="font-poppins bg-secondary text-secondary_letter opacity-70 w-3/4 p-2 rounded-md text-center"
               />
               <button
                 className="bg-tertiary !border-none text-white font-poppins py-1 px-6 rounded-full shadow-lg transition"

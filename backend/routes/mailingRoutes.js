@@ -3,11 +3,38 @@ import nodemailer from "nodemailer";
 import schedule from "node-schedule";
 import Meeting from "../models/meetingSchema.js";
 import User from "../models/User.js";
+import fs from "fs";
+import path from "path";
 
 const router = express.Router();
 
+// Load HTML template
+const loadMailTemplate = () => {
+  const templatePath = path.join(process.cwd(), "mailFormat.html");
+  return fs.readFileSync(templatePath, "utf-8");
+};
+
+// Generate HTML table rows for time slots
+const generateTimeSlotRows = (aggregatedSlots) => {
+  if (aggregatedSlots.length === 0) {
+    return `<tr><td colspan="4">No time slots available.</td></tr>`;
+  }
+
+  return aggregatedSlots
+    .map(
+      (slot) => `
+    <tr>
+      <td>${slot.date}</td>
+      <td>${slot.minTime}</td>
+      <td>${slot.maxTime}</td>
+      <td>${slot.participants.join(", ")}</td>
+    </tr>`
+    )
+    .join("");
+};
+
 // Setting-up stage of emailing function, and Gmail 2factor authentication password
-const sendEmail = async ({ to, subject, text }) => {
+const sendEmail = async ({ to, subject, text, html }) => {
   const transporter = nodemailer.createTransport({
     service: "Gmail",
     auth: {
@@ -16,12 +43,13 @@ const sendEmail = async ({ to, subject, text }) => {
     },
   });
 
-  try { 
+  try {
     const info = await transporter.sendMail({
       from: process.env.USER,
       to,
       subject,
       text,
+      html,
     });
     console.log(`Email sent to ${to}: ${info.messageId}`);
   } catch (error) {
@@ -48,7 +76,6 @@ const formatTimeSlotTable = (aggregatedSlots) => {
   return table;
 };
 
-
 // Function to find the maximum number of participants in a block and only filter those
 // For other emailing options, we could maybe implement other aggregations, but just this for noww
 const aggregateAndPrioritizeTimeSlots = (participants) => {
@@ -72,19 +99,21 @@ const aggregateAndPrioritizeTimeSlots = (participants) => {
 
   // Find slots with max number of participants and return those
   const aggregatedSlots = Array.from(timeSlotMap.values());
-  const maxParticipants = Math.max(...aggregatedSlots.map(slot => slot.participants.length));
-  return aggregatedSlots.filter(slot => slot.participants.length === maxParticipants);
+  const maxParticipants = Math.max(
+    ...aggregatedSlots.map((slot) => slot.participants.length)
+  );
+  return aggregatedSlots.filter(
+    (slot) => slot.participants.length === maxParticipants
+  );
 };
 
 // For scheduled emailing to work, we need to check regularly for emailOption true and also emailDate has to be today
 const checkAndSendEmails = async () => {
   try {
-    const now = new Date();
-
-    // All meetings that satisfy our needs
+    const nowUtc = new Date(new Date().toISOString());
     const meetings = await Meeting.find({
       emailOption: true,
-      emailDate: { $lte: now },
+      emailDate: { $lte: nowUtc },
     }).populate("participants");
 
     for (const meeting of meetings) {
@@ -94,29 +123,36 @@ const checkAndSendEmails = async () => {
         continue;
       }
 
-      // Prioritize only max participant slots
-      const maxAggregatedSlots = aggregateAndPrioritizeTimeSlots(meeting.participants);
-      const tableContent = formatTimeSlotTable(maxAggregatedSlots);
+      const maxAggregatedSlots = aggregateAndPrioritizeTimeSlots(
+        meeting.participants
+      );
+      const tableRows = generateTimeSlotRows(maxAggregatedSlots);
 
-      // Email format (to fill in with actual user data)
-      const emailContent = {
+      // Load template and replace placeholders
+      const template = loadMailTemplate();
+      const emailHtml = template
+        .replace("{{meetingName}}", meeting.meetingName)
+        .replace("{{timeSlots}}", tableRows)
+        .replace("Hello,", `Hello ${user.name},`);
+
+      // Send HTML email
+      await sendEmail({
         to: user.email,
-        subject: "Your Meeting Reminder",
-        text: `Hello ${user.name},\n\nThis is a reminder for your scheduled meeting:\n\nMeeting Name: ${meeting.meetingName}\n${tableContent}\n\nBest regards,\n\nChronUs Team`,
-      };
+        subject: `Reminder: ${meeting.meetingName}`,
+        html: emailHtml, // <-- send as HTML
+      });
 
-      await sendEmail(emailContent);
-
-      // ***** Scheduler runs every minute so once we send, we tick emailOption to false to avoid spamming!!!
+      // Disable emailOption so it's sent only once
       meeting.emailOption = false;
       await meeting.save();
-      console.log(`Email sent and emailOption updated for meeting ID: ${meeting._id}`);
+      console.log(
+        `Email sent and emailOption updated for meeting ID: ${meeting._id}`
+      );
     }
   } catch (error) {
     console.error("Error checking and sending emails:", error.message);
   }
 };
-
 
 // Scheduling to check the meeting schema every minute ("*/1 * * * *")
 schedule.scheduleJob("*/1 * * * *", checkAndSendEmails);
