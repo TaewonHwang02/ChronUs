@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { addDays } from "date-fns";
 import axios from "axios";
@@ -11,14 +11,24 @@ import MinRangeSlider from "../components/minTimeRange";
 import DatePicker from "../components/datePicker";
 import { API_BASE_URL } from "../config";
 // import * as dfstz from "date-fns-tz";
-const { fromZonedTime } = await import("date-fns-tz");
+// const { fromZonedTime } = await import("date-fns-tz");
 
 const CreateMeeting = () => {
   const location = useLocation();
 
   const [copied, setCopied] = useState(false);
+  const [fromZonedTime, setFromZonedTime] = useState(null);
 
   const meetingName = location.state?.meetingName || "Untitled Meeting";
+
+  useEffect(() => {
+    // Dynamically import only in useEffect
+    const loadTz = async () => {
+      const dfstz = await import("date-fns-tz");
+      setFromZonedTime(() => dfstz.fromZonedTime);
+    };
+    loadTz();
+  }, []);
 
   const [dateRange, setDateRange] = useState({
     startDate: new Date(),
@@ -74,8 +84,13 @@ const CreateMeeting = () => {
       let utcDeadline;
 
       if (emailDateRaw) {
-        // emailDateRaw is a string from datetime-local input
         const pickedDate = new Date(emailDateRaw);
+
+        if (!fromZonedTime) {
+          console.error("fromZonedTime not loaded yet!");
+          return;
+        }
+
         // Convert it to UTC using the selected timezone
         utcDeadline = fromZonedTime(pickedDate, timeZone);
       } else {
