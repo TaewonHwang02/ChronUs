@@ -18,7 +18,7 @@ const meetingSchema = new mongoose.Schema({
   participants: [participantSchema],
   meetingLink: { type: String, unique: true, required: true },
   meetingName: { type: String, required: false },
-  // emailOption: {type:Boolean, required: true},
+  emailOption: { type: Boolean, default: true },
   emailDate: { type: Date },
   minimumTimeSlots: { type: Number, default: 0 },
 });
