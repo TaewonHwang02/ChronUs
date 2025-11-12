@@ -13,22 +13,24 @@ import { API_BASE_URL } from "../config";
 // import * as dfstz from "date-fns-tz";
 // const { fromZonedTime } = await import("date-fns-tz");
 
+const convertToUTC = (dateStr, timeZone) => {
+  const localDate = new Date(dateStr);
+  // Interpret local date in the given timezone
+  const tzDate = new Date(
+    new Date(localDate.toLocaleString("en-US", { timeZone })).getTime()
+  );
+  return tzDate;
+};
+
 const CreateMeeting = () => {
   const location = useLocation();
 
   const [copied, setCopied] = useState(false);
-  const [fromZonedTime, setFromZonedTime] = useState(null);
 
   const meetingName = location.state?.meetingName || "Untitled Meeting";
 
-  useEffect(() => {
-    // Dynamically import only in useEffect
-    const loadTz = async () => {
-      const dfstz = await import("date-fns-tz");
-      setFromZonedTime(() => dfstz.fromZonedTime);
-    };
-    loadTz();
-  }, []);
+  const [meetingLink, setMeetingLink] = useState(null);
+  const [meetingId, setMeetingId] = useState(null); // store MongoDB _id
 
   const [dateRange, setDateRange] = useState({
     startDate: new Date(),
@@ -44,8 +46,6 @@ const CreateMeeting = () => {
   const [timeZone, setTimeZone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone
   );
-
-  const [meetingLink, setMeetingLink] = useState(null);
 
   const handleDateChange = (selectedDates) => {
     setDateRange({
@@ -82,24 +82,11 @@ const CreateMeeting = () => {
   const handleGenerateSchedule = async () => {
     try {
       let utcDeadline;
-
       if (emailDateRaw) {
-        const pickedDate = new Date(emailDateRaw);
-
-        if (!fromZonedTime) {
-          console.error("fromZonedTime not loaded yet!");
-          return;
-        }
-
-        // Convert it to UTC using the selected timezone
-        utcDeadline = fromZonedTime(pickedDate, timeZone);
+        utcDeadline = convertToUTC(emailDateRaw, timeZone);
       } else {
         utcDeadline = new Date();
       }
-
-      console.log("UTC Deadline:", utcDeadline.toISOString());
-      console.log("Current server time:", new Date().toString());
-      console.log("Current UTC time:", new Date().toISOString());
 
       const meetingData = {
         scheduleMode: activeIndex === 0 ? "common_time" : "common_date",
@@ -113,33 +100,31 @@ const CreateMeeting = () => {
         minimumTimeSlots: activeIndex === 1 ? minimumTimeSlots : 0,
         email,
       };
-      console.log("ActiveIndex before sending:", activeIndex);
-      console.log("Current minimumTimeSlots value:", minimumTimeSlots);
 
-      if (activeIndex === 1) {
-        meetingData.minimumTimeSlots = minimumTimeSlots;
+      let response;
+      if (meetingId) {
+        // Update existing meeting
+        response = await axios.put(
+          `${API_BASE_URL}/api/meetings/${meetingId}`,
+          meetingData
+        );
+      } else {
+        // Create new meeting
+        response = await axios.post(
+          `${API_BASE_URL}/api/meetings/create-meeting`,
+          meetingData
+        );
+        setMeetingId(response.data.meeting._id); // store the _id for future updates
       }
-      console.log(
-        "MinimumTimeSlots before sending:",
-        meetingData.minimumTimeSlots
-      );
 
-      // Make POST request to load our meeting schema data onto mongoDB
-      const response = await axios.post(
-        `${API_BASE_URL}/api/meetings/create-meeting`,
-        meetingData
-      );
-
-      console.log("Raw response from backend:", response.data);
-      const { meeting, meetingLink } = response.data;
-
-      setMeetingLink(meetingLink);
+      setMeetingLink(response.data.meetingLink);
+      console.log("Meeting saved/updated:", response.data);
     } catch (error) {
       console.error(
-        "Error creating meeting:",
+        "Error creating/updating meeting:",
         error.response?.data || error.message
       );
-      alert("Failed to create the meeting. Please try again.");
+      alert("Failed to save the meeting. Please try again.");
     }
   };
 
