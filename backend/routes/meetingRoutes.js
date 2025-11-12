@@ -11,6 +11,7 @@ router.post("/create-meeting", async (req, res) => {
   console.log("Received request data:", req.body);
   try {
     const {
+      meetingID, // optional: if present, update existing meeting
       scheduleMode,
       timeZone,
       begTimeFrame,
@@ -20,6 +21,7 @@ router.post("/create-meeting", async (req, res) => {
       deadline,
       participants,
       minimumTimeSlots,
+      email,
       emailDate,
       meetingName,
     } = req.body;
@@ -35,35 +37,71 @@ router.post("/create-meeting", async (req, res) => {
       !deadline ||
       !meetingName
     ) {
-      return res.status(400).json({ message: "Missing required fiaelds" });
+      return res.status(400).json({ message: "Missing required fields" });
     }
 
-    // Create the meeting
-    const meeting = new Meeting({
-      scheduleMode,
-      timeZone,
-      begTimeFrame,
-      endTimeFrame,
-      startdate,
-      enddate,
-      deadline,
-      participants,
-      minimumTimeSlots: minimumTimeSlots || 0,
-      emailDate,
-      meetingName,
-      meetingLink: uuidv4(),
-    });
+    let meeting;
+    let meetingLink;
 
-    // Save the meeting
-    const savedMeeting = await meeting.save();
+    if (meetingID) {
+      // Update existing meeting
+      meeting = await Meeting.findByIdAndUpdate(
+        meetingID,
+        {
+          scheduleMode,
+          timeZone,
+          begTimeFrame,
+          endTimeFrame,
+          startdate,
+          enddate,
+          deadline,
+          participants,
+          minimumTimeSlots: minimumTimeSlots || 0,
+          email,
+          emailDate,
+          meetingName,
+        },
+        { new: true, runValidators: true }
+      );
 
-    res.status(201).json({
-      message: "Meeting created successfully",
-      meeting: savedMeeting._id,
-      meetingLink: savedMeeting.meetingLink,
+      if (!meeting) {
+        return res.status(404).json({ message: "Meeting not found" });
+      }
+
+      meetingLink = meeting.meetingLink;
+      console.log("Meeting updated successfully:", meetingLink);
+    } else {
+      // Create a new meeting
+      meeting = new Meeting({
+        scheduleMode,
+        timeZone,
+        begTimeFrame,
+        endTimeFrame,
+        startdate,
+        enddate,
+        deadline,
+        participants,
+        minimumTimeSlots: minimumTimeSlots || 0,
+        email,
+        emailDate,
+        meetingName,
+        meetingLink: uuidv4(),
+      });
+
+      const savedMeeting = await meeting.save();
+      meetingLink = savedMeeting.meetingLink;
+      console.log("Meeting created successfully:", meetingLink);
+    }
+
+    res.status(200).json({
+      message: meetingID
+        ? "Meeting updated successfully"
+        : "Meeting created successfully",
+      meeting: meeting._id,
+      meetingLink,
     });
   } catch (error) {
-    console.error("Error creating meeting:", error.message);
+    console.error("Error creating/updating meeting:", error.message);
     res.status(500).json({ error: error.message });
   }
 });

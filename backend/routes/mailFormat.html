@@ -5,59 +5,124 @@
     <title>Meeting Reminder</title>
     <style>
       body {
-        font-family: Poppins, sans-serif;
-        background-color: #3b7aaf;
-        color: white;
-        padding: 20px;
+        font-family: "Poppins", Arial, sans-serif;
+        background-color: #3f88c5;
+        margin: 0;
+        padding: 0;
       }
-      h1 {
-        font-weight: 500;
+      .email-container {
+        max-width: 600px;
+        margin: 40px auto;
+        background-color: #1e293b; /* dark content background */
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        color: white;
         text-align: center;
       }
+      .header {
+        background-color: #3f88c5;
+        padding: 20px;
+        text-align: center;
+        font-size: x-large;
+      }
+      .header img {
+        height: 48px;
+        display: block;
+        margin: 0 auto;
+      }
+      .content {
+        padding: 24px;
+      }
+      .content h1 {
+        font-size: 22px;
+        margin-bottom: 12px;
+        color: #ffffff;
+      }
+      .content p {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #ffffff;
+        margin: 8px 0;
+      }
       table {
-        border-collapse: collapse;
         width: 100%;
-        max-width: 600px;
-        margin: 10px 0;
+        border-collapse: collapse;
+        margin: 16px auto;
         color: white;
       }
       th,
       td {
-        padding: 8px;
+        padding: 10px;
+        border: 1px solid #ffffff;
         text-align: center;
-        border-bottom: 1px solid #ddd;
       }
       th {
-        background-color: #3b7aaf;
+        background-color: #334155;
       }
-      footer img {
-        width: 60px;
-        margin-top: 20px;
+      .footer {
+        text-align: center;
+        font-size: 14px;
+        color: #94a3b8;
+        padding: 16px;
+        background-color: #111827;
+      }
+
+      /* Responsive font scaling for larger screens */
+      @media screen and (min-width: 600px) {
+        .content h1 {
+          font-size: 28px !important;
+        }
+        .content p {
+          font-size: 18px !important;
+        }
+        th,
+        td {
+          padding: 12px !important;
+          font-size: 16px !important;
+        }
       }
     </style>
   </head>
   <body>
-    <h1><span>Chron</span><span style="color: #ffba08">Us</span></h1>
-    <p>Hello,</p>
-    <p>This is a reminder for:</p>
-    <p><strong></strong> {{meetingName}}</p>
-    <p>Your most optimal time slots are listed below:</p>
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Start Time</th>
-          <th>End Time</th>
-          <th>Participants</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{timeSlots}}
-      </tbody>
-    </table>
-    <p>Thank you for planning with ChronUs.</p>
-    <footer>
-      <img src="https://chronus.blog/assets/logo.svg" alt="ChronUs Logo" />
-    </footer>
+    <div class="email-container">
+      <div class="header">
+        <span style="color: white">Chron</span
+        ><span style="color: #ffba08">Us</span>
+      </div>
+      <div class="content">
+        <h1>Meeting Reminder</h1>
+        <p>Hello,</p>
+        <p>This is a reminder for:</p>
+        <p><strong>{{meetingName}}</strong></p>
+        <p>Your most optimal time slots are listed below:</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th>Participants</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{timeSlots}}
+          </tbody>
+        </table>
+
+        <p>Thank you for planning with ChronUs.</p>
+      </div>
+
+      <div class="bottom-logo">
+        <img
+          src="https://chronus.blog/logo.png"
+          alt="ChronUs Logo"
+          style="width: 25px"
+        />
+      </div>
+
+      <div class="footer">© {{year}} ChronUs — All rights reserved.</div>
+    </div>
   </body>
 </html>
