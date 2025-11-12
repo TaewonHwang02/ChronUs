@@ -10,8 +10,6 @@ import Accordion from "../components/accordionOptions";
 import MinRangeSlider from "../components/minTimeRange";
 import DatePicker from "../components/datePicker";
 import { API_BASE_URL } from "../config";
-// import * as dfstz from "date-fns-tz";
-// const { fromZonedTime } = await import("date-fns-tz");
 
 const convertToUTC = (dateStr, timeZone) => {
   const localDate = new Date(dateStr);
