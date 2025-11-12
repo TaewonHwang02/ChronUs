@@ -13,7 +13,7 @@ import { API_BASE_URL } from "../config";
 
 const convertToUTC = (dateStr, timeZone) => {
   const localDate = new Date(dateStr);
-  // Interpret local date in the given timezone
+  // Interpret local date in the given time
   const tzDate = new Date(
     new Date(localDate.toLocaleString("en-US", { timeZone })).getTime()
   );
