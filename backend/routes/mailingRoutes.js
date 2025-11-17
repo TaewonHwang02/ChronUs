@@ -17,6 +17,19 @@ console.log("APP_PASSWORD:", process.env.APP_PASSWORD ? "Loaded" : "Missing");
 
 const router = express.Router();
 
+// Manual email sending route
+router.post("/send", async (req, res) => {
+  const { to, subject, text, html } = req.body;
+
+  try {
+    await sendEmail({ to, subject, text, html });
+    res.status(200).json({ message: "Email sent successfully" });
+  } catch (error) {
+    console.error("Manual email error:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Load HTML email template
 const loadMailTemplate = () => {
   const templatePath = path.join(__dirname, "mailFormat.html");
