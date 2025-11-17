@@ -10,30 +10,38 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-dotenv.config({ path: path.resolve(__dirname, "../../.env") });
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config({ path: path.resolve(__dirname, "../../.env") });
+} else {
+  dotenv.config();
+}
 
 console.log("USER:", process.env.USER);
 console.log("APP_PASSWORD:", process.env.APP_PASSWORD ? "Loaded" : "Missing");
 
 const router = express.Router();
 
-// Manual email sending route
-router.post("/send", async (req, res) => {
-  const { to, subject, text, html } = req.body;
-
-  try {
-    await sendEmail({ to, subject, text, html });
-    res.status(200).json({ message: "Email sent successfully" });
-  } catch (error) {
-    console.error("Manual email error:", error.message);
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// Load HTML email template
 const loadMailTemplate = () => {
-  const templatePath = path.join(__dirname, "mailFormat.html");
-  return fs.readFileSync(templatePath, "utf-8");
+  try {
+    const templatePath = path.join(
+      process.cwd(),
+      "templates",
+      "mailFormat.html"
+    );
+    console.log("Loading template from:", templatePath);
+
+    return fs.readFileSync(templatePath, "utf-8");
+  } catch (e) {
+    console.error("Template load error:", e.message);
+
+    // fallback basic template to avoid crashes
+    return `
+      <h2>{{meetingName}}</h2>
+      <p>Time slots:</p>
+      <table>{{timeSlots}}</table>
+      <p>&copy; {{year}}</p>
+    `;
+  }
 };
 
 // Generate HTML table rows for time slots
@@ -58,7 +66,9 @@ const generateTimeSlotRows = (aggregatedSlots) => {
 // Nodemailer email sender
 const sendEmail = async ({ to, subject, text, html }) => {
   const transporter = nodemailer.createTransport({
-    service: "Gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
     auth: {
       user: process.env.USER,
       pass: process.env.APP_PASSWORD,
@@ -73,11 +83,26 @@ const sendEmail = async ({ to, subject, text, html }) => {
       text,
       html,
     });
-    console.log(`Email sent to ${to}: ${info.messageId}`);
-  } catch (error) {
-    console.error(`Error sending email to ${to}:`, error.message);
+
+    console.log("Email sent:", info.messageId);
+    return info;
+  } catch (err) {
+    console.error("Email error:", err.message);
+    throw err;
   }
 };
+
+// API manual trigger
+router.post("/send", async (req, res) => {
+  const { to, subject, text, html } = req.body;
+
+  try {
+    await sendEmail({ to, subject, text, html });
+    res.status(200).json({ message: "Email sent OK" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 // Aggregate participant time slots and find the ones with the maximum participants
 const aggregateAndPrioritizeTimeSlots = (participants) => {
@@ -110,44 +135,41 @@ const aggregateAndPrioritizeTimeSlots = (participants) => {
 
 // Scheduled email sender
 const checkAndSendEmails = async () => {
+  console.log("Running scheduler check at:", new Date().toISOString());
+
   try {
-    const nowUtc = new Date();
+    const now = new Date();
+
     const meetings = await Meeting.find({
       emailOption: true,
       email: { $exists: true, $ne: "" },
-      deadline: { $lte: nowUtc },
+      deadline: { $lte: now },
     });
 
-    for (const meeting of meetings) {
-      if (!meeting.email) {
-        console.warn(`No email provided for meeting ID: ${meeting._id}`);
-        continue;
-      }
+    console.log("Meetings found:", meetings.length);
 
-      const maxAggregatedSlots = aggregateAndPrioritizeTimeSlots(
-        meeting.participants || []
-      );
-      const tableRows = generateTimeSlotRows(maxAggregatedSlots);
+    for (const meeting of meetings) {
+      const slots = aggregateAndPrioritizeTimeSlots(meeting.participants || []);
+      const rows = generateTimeSlotRows(slots);
 
       const template = loadMailTemplate();
-      const emailHtml = template
+
+      const html = template
         .replace("{{meetingName}}", meeting.meetingName)
-        .replace("{{timeSlots}}", tableRows)
+        .replace("{{timeSlots}}", rows)
         .replace("{{year}}", new Date().getFullYear());
 
       await sendEmail({
         to: meeting.email,
         subject: `Reminder: ${meeting.meetingName}`,
-        html: emailHtml,
+        html,
       });
 
-      meeting.emailOption = false; // mark as sent
+      meeting.emailOption = false;
       await meeting.save();
-
-      console.log(`Email sent for meeting ID: ${meeting._id}`);
     }
-  } catch (error) {
-    console.error("Error checking and sending emails:", error.message);
+  } catch (err) {
+    console.error("Scheduler error:", err.message);
   }
 };
 
