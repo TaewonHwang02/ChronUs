@@ -260,15 +260,16 @@ const CreateMeeting = () => {
               <input
                 type="text"
                 readOnly
-                value={`https://chronus.blog/join/${meetingLink}`}
+                // Changed chronus to window.location.origin to test in localhost.
+                // 
+                value={`${window.location.origin}/join/${meetingLink}`}
                 className="font-poppins bg-secondary text-secondary_letter opacity-70 w-3/4 p-2 rounded-md text-center"
               />
               <button
                 className="bg-tertiary !border-none text-white font-poppins py-1 px-6 rounded-full shadow-lg transition"
                 onClick={() => {
-                  navigator.clipboard.writeText(
-                    `https://chronus.blog/join/${meetingLink}`
-                  );
+                  const url = `${window.location.origin}/join/${meetingLink}`;
+                  navigator.clipboard.writeText(url);
                   setCopied(true);
                   setTimeout(() => setCopied(false), 10000); // revert back after 10 seconds
                 }}
