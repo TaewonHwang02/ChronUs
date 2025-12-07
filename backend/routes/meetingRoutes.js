@@ -109,7 +109,7 @@ router.post("/create-meeting", async (req, res) => {
 router.post("/join-meeting", async (req, res) => {
   const { meetingLink, participantName, times } = req.body;
 
-  if (!meetingLink || !participantName || !times) {
+  if (!meetingLink || !participantName) {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
@@ -122,7 +122,7 @@ router.post("/join-meeting", async (req, res) => {
 
     meeting.participants.push({
       name: participantName,
-      times,
+      slots: [],      // used later by TimeSelector
     });
 
     await meeting.save();
@@ -216,17 +216,16 @@ router.get("/scheduling/:meetingLink", async (req, res) => {
     console.error("Error retrieving meeting for scheduling:", error.message);
     res.status(500).json({ message: "Server error", error: error.message });
   }
-});
-router.post("/:meetingLink/select-time", async (req, res) => {
+});router.post("/:meetingLink/select-time", async (req, res) => {
   const { meetingLink } = req.params;
-  const { participantName, selectedTimeSlots } = req.body;
+
+  // TimeSelector will send: { participantName, slots, slotMinutes }
+  const { participantName, slots, slotMinutes } = req.body;
+
+  console.log("select-time body:", req.body); // debug
 
   // Validate request body
-  if (
-    !participantName ||
-    !selectedTimeSlots ||
-    !Array.isArray(selectedTimeSlots)
-  ) {
+  if (!participantName || !Array.isArray(slots)) {
     return res.status(400).json({ message: "Missing or invalid data" });
   }
 
@@ -237,39 +236,30 @@ router.post("/:meetingLink/select-time", async (req, res) => {
     if (!meeting) {
       return res.status(404).json({ message: "Meeting not found" });
     }
-    // min time
+
+    // Minimum time check (using slot count instead of ranges)
     const minMinutesRequired = meeting.minimumTimeSlots || 0;
+    const slotLen = Number(slotMinutes) || 30; // default 30 minutes
+    const totalSelectedMinutes = slots.length * slotLen;
 
-    // Calculate total selected minutes
-    let totalSelectedMinutes = 0;
-    for (const slot of selectedTimeSlots) {
-      const [startH, startM] = slot.minTime.split(":").map(Number);
-      const [endH, endM] = slot.maxTime.split(":").map(Number);
-
-      const startTotal = startH * 60 + startM;
-      const endTotal = endH * 60 + endM;
-      const duration = endTotal - startTotal;
-
-      totalSelectedMinutes += duration;
-    }
-
-    // Check if participant min time met
     if (minMinutesRequired > 0 && totalSelectedMinutes < minMinutesRequired) {
       return res.status(400).json({
         message: `You must select at least ${minMinutesRequired} minutes. You selected ${totalSelectedMinutes} minutes.`,
       });
     }
 
-    const participantIndex = meeting.participants.findIndex(
+    // Find or create participant
+    const participant = meeting.participants.find(
       (p) => p.name === participantName
     );
 
-    if (participantIndex > -1) {
-      meeting.participants[participantIndex].times = selectedTimeSlots;
+    if (participant) {
+      participant.slots = slots;
     } else {
       meeting.participants.push({
         name: participantName,
-        times: selectedTimeSlots,
+        slots,
+
       });
     }
 

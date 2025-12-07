@@ -53,7 +53,7 @@ function App() {
             }
           />
           <Route
-            path="/schedulingpage"
+            path="/schedulingpage/:meetingLink"
             element={
               <SchedulingPage darkMode={darkMode} setDarkMode={setDarkMode} />
             }

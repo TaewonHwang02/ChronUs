@@ -1,58 +1,135 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import TimeSelector from "../components/TimeSelector";
 import SchedulingLogo from "../assets/BlueLogo.svg";
 import landingLogo from "../assets/logo.svg";
+import { useParams, useLocation } from "react-router-dom";
+import axios from "axios";
+import { API_BASE_URL } from "../config";
 
-const SchedulingPage = () =>{
+// convert minutes → "HH:MM"
+const minutesToTime = (m) =>
+  `${String(Math.floor(m / 60)).padStart(2, "0")}:${String(m % 60).padStart(
+    2,
+    "0"
+  )}`;
 
-    // Test meeting data
-    const meeting = {
-    id: "demo-meeting",
-    title: "Select your availabilities",
-    timezone: "America/Toronto",
-    slotMinutes: 30,
-    dayStart: "06:00",
-    dayEnd: "20:00",
-    startDate: "2025-11-01",
-    endDate: "2025-11-07",
+const SchedulingPage = () => {
+  const { meetingLink } = useParams();
+  const location = useLocation();
+  const participantName = location.state?.participantName;
+
+  const [meeting, setMeeting] = useState(null);
+  const [groupSlots, setGroupSlots] = useState([]);      // all participants
+  const [initialSelected, setInitialSelected] = useState([]); // this participant
+
+  // ---- fetchMeeting defined ONCE, used by both useEffect & handleSubmit ----
+  const fetchMeeting = async () => {
+    try {
+      const res = await axios.get(
+        `${API_BASE_URL}/api/meetings/${meetingLink}`
+      );
+      const data = res.data.meeting;
+
+      // config for TimeSelector
+      const slotMinutes = 30; // or data.slotMinutes if you store it
+      setMeeting({
+        id: data._id,
+        title: data.meetingName || "Select Your Availabilities",
+        timezone: data.timeZone || "America/Toronto",
+        slotMinutes,
+        dayStart: minutesToTime(data.begTimeFrame),
+        dayEnd: minutesToTime(data.endTimeFrame),
+        startDate: data.startdate,
+        endDate: data.enddate,
+      });
+
+      // build groupSlots + initialSelected from participants.slots
+      const allSlots = [];
+      let mySlots = [];
+
+      (data.participants || []).forEach((p) => {
+        const slotsForP = p.slots || [];
+        allSlots.push(...slotsForP);
+
+        if (p.name === participantName) {
+          mySlots = slotsForP;
+        }
+      });
+
+      setGroupSlots(allSlots);
+      setInitialSelected(mySlots);
+    } catch (err) {
+      console.error("Failed to load meeting:", err);
+    }
   };
 
-  const handleSubmit = (payload) => {
-    console.log("Submitted schedule: ", payload);
+  // load meeting when page mounts / meetingLink changes
+  useEffect(() => {
+    fetchMeeting();
+  }, [meetingLink, participantName]);
+
+  // ---- submit handler called by TimeSelector ----
+  const handleSubmit = async ({ meetingId, timezone, slots }) => {
+    console.log("Submitted schedule:", { meetingId, timezone, slots });
+
+    try {
+      await axios.post(
+        `${API_BASE_URL}/api/meetings/${meetingLink}/select-time`,
+        {
+          participantName,
+          slots,             // ISO strings from TimeSelector
+          slotMinutes: meeting?.slotMinutes || 30,
+        }
+      );
+
+      // refresh to pull latest participants.slots (for left grid)
+      await fetchMeeting();
+    } catch (err) {
+      console.error("Error submitting schedule:", err.response?.data || err);
+    }
   };
+
+  if (!meeting) return <div>Loading...</div>;
 
   return (
-      
-      <div className = "fixed inset-0 bg-white overflow-hidden flex items-center justify-center">
-        {/* CU Letter background image*/}
-        <img src={SchedulingLogo}  className="
-          pointer-events-none
-          absolute
-          left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
-          w-[220vmin] h-[202vmin]  
-          object-cover
-          "/>
+  <div
+  className="relative w-full min-h-screen flex tb:flex-row items-center justify-center tb:justify-start overflow-hidden
+  bg-center bg-[length:200%_auto] "
+>
 
-        {/* Blue box */}
+    {/* Background */}
+    <img
+      src={SchedulingLogo}
+      className="pointer-events-none absolute left-1/2 top-1/2 
+        -translate-x-1/2 -translate-y-1/2 w-[220vmin] h-[202vmin] object-cover"
+    />
 
-        <div className="absolute top-16 left-1/2 top-12 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[200%] bg-[#3B7AAF] z-20"/>
+    {/* Blue box */}
+    <div
+      className="absolute top-12 left-1/2 -translate-x-1/2 -translate-y-1/2 
+      w-[70%] h-[200%] bg-[#3B7AAF] z-20"
+    />
 
-        <img src={landingLogo} className="w-[54px] absolute top-12 -translate-x-1/2  z-30"/>
-        <div className="relative z-30 w-full flex items-start justify-center">
-        {/* White card that contains the selector */}
-        <div className="mt-36 w-[72%] max-w-5xl bg-white text-black rounded-2xl shadow-xl p-6">
-          <TimeSelector meeting={meeting} onSubmit={handleSubmit} />
-        </div>
+    {/* Logo */}
+        <img
+      src={landingLogo}
+      className="w-[54px] absolute top-12 left-1/2 -translate-x-1/2 z-30"
+    />
+
+    {/* Time Selector   */}
+    <div className="relative z-30 w-full flex items-start justify-center">
+      <div className="mt-36 w-full max-w-none p-0">
+        <TimeSelector
+          meeting={meeting}
+          groupSlots={groupSlots}
+          initialSelected={initialSelected}
+          onSubmit={handleSubmit}
+        />
       </div>
+    </div>
+  </div>
+);
 
-        
-
-       
-      
-      </div>
-  
-
-  )
 };
 
 export default SchedulingPage;
