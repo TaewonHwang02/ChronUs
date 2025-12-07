@@ -4,18 +4,21 @@ import registerLogo from "../assets/logo.svg";
 import axios from "axios";
 import GridOverlapDisplay from "../components/GridOverlapDisplay";
 import { API_BASE_URL } from "../config";
+import linkpage_background from "../assets/bg-light-linkpage.svg";
+import landingLogo from "../assets/logo.svg";
+import { DateRange } from "react-date-range";
 
-const convertToDate = (dateString) => {
-  const year = parseInt(dateString.slice(0, 4), 10);
-  const month = parseInt(dateString.slice(4, 6), 10) - 1;
-  const day = parseInt(dateString.slice(6, 8), 10);
-  return new Date(year, month, day);
-};
+// const convertToDate = (dateString) => {
+//   const year = parseInt(dateString.slice(0, 4), 10);
+//   const month = parseInt(dateString.slice(4, 6), 10) - 1;
+//   const day = parseInt(dateString.slice(6, 8), 10);
+//   return new Date(year, month, day);
+// };
 
-const convertToTimeString = (time) => {
-  const [hours, minutes] = time.split(":");
-  return `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}`;
-};
+// const convertToTimeString = (time) => {
+//   const [hours, minutes] = time.split(":");
+//   return `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}`;
+// };
 
 const LinkPage = () => {
   const [meetingName, setMeetingName] = useState("");
@@ -28,6 +31,9 @@ const LinkPage = () => {
   const [participantName, setParticipantName] = useState("");
   const location = useLocation();
   const user = location.state?.user || {};
+
+  // Date range
+  const [dateRange, setDateRange] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -57,6 +63,25 @@ const LinkPage = () => {
         setDates(dateArray);
 
         setMeetingName(meeting.meetingName || "Meeting");
+
+        // Logic for date range
+        const start = new Date(meeting.startdate);
+        const end = new Date(meeting.enddate);
+
+        // Keeping only Month/ Date format to keep it short
+        const startFormatted = start.toLocaleDateString("en-US", {
+          month: "long",   
+          day: "numeric",   
+        });
+
+        const endFormatted = end.toLocaleDateString("en-US", {
+          month: "long",
+          day: "numeric",
+        });
+        setDateRange(`${startFormatted} - ${endFormatted}`);
+
+
+
 
         // Store minimum required minutes
         setMinimumTimeSlots(meeting.minimumTimeSlots || 0);
@@ -91,6 +116,8 @@ const LinkPage = () => {
     fetchMeetingData();
   }, [meetingLink]);
 
+
+
   const handleJoinMeeting = async () => {
     try {
       const response = await axios.post(
@@ -104,7 +131,7 @@ const LinkPage = () => {
 
       console.log("Response from backend:", response.data);
       alert("Successfully joined the meeting!");
-      navigate(`/schedulingmain/${meetingLink}`, {
+      navigate(`/schedulingpage/${meetingLink}`, {
         state: { meetingLink, participantName },
       });
     } catch (error) {
@@ -117,67 +144,56 @@ const LinkPage = () => {
   };
 
   return (
-    <div>
-      <div className="absolute w-full h-full bg-primary min-h-screen z-[-1]"></div>
-      <div className="p-0 ph:p-[100px] tb:p-0">
-        <div className="relative order-2 tb:order-1 mx-[30px] tb:mx-auto tb:ml-[8%] tb:my-[8%] mt-[30px] transform bg-secondary p-4 rounded-lg shadow-md tb:w-[33%] flex items-center justify-center">
-          <div className="  rounded-lg shadow-md w-full md:w-3/4">
-            <GridOverlapDisplay
-              startDate={dates[0]}
-              endDate={dates[dates.length - 1]}
-              startTime={convertToTimeString(minTime + ":00")}
-              endTime={convertToTimeString(maxTime + ":00")}
-              timeSlots={aggregatedTimes}
-              timeUnit={30} // 30-minute increments
-            />
-          </div>
-        </div>
-        <div className="flex flex-col tb:flex-row tb:items-center translate-y-[40px] tb:translate-y-[5%]">
-          {/* Right side: Meeting Info */}
-          <div className="order-1 tb:order-2 flex flex-col space-y-[40px] tb:space-y-[10vh] flex-1 translate-y-[-7%]">
-            <div className="space-y-[5vh]">
-              <div className="flex justify-center py-5">
-                <img
-                  src={registerLogo}
-                  alt="ChronUs Logo"
-                  className="h-14 w-auto"
-                />
-              </div>
-              <h1 className="font-poppins font-semibold text-[25px] tb:text-[3vw] text-white text-center">
-                Join {meetingName ? meetingName : "Meeting"}
-              </h1>
-            </div>
+    <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
+      {/* Background SVG */}
+      <img
+        src={linkpage_background}
+        alt="Background"
+        className="absolute inset-0 w-full h-full object-cover -z-10"
+      />
+    <div className="w-full max-w-md flex flex-col items-center">
 
-            <div className="flex flex-col items-center justify-center space-y-5">
-              <div className="flex flex-col items-start justify-center ">
-                <label
-                  htmlFor="name"
-                  className="font-poppins font-normal mb-2 tb:text-[1vw] text-white opacity-70"
-                >
-                  Enter Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  value={participantName}
-                  onChange={(e) => setParticipantName(e.target.value)}
-                  className="font-poppins bg-secondary opacity-80 shadow-[inset_0_2px_4px_0px_rgba(0,0,0,0.3)] rounded-md p-2 w-72 h-8"
-                />
-              </div>
-            </div>
+      {/* Logo */}
+      <img src={landingLogo} className="w-[54px] absolute top-12 -translate-x-1/2  z-30"/>
 
-            <div className="flex flex-col items-center justify-center">
-              <button
-                className="justify-center h-[25px] p-1 tb:h-auto w-[60px] tb:w-[6vw] bg-selective_yellow shadow rounded-2xl tb:text-[1.3vw] font-poppins font-normal text-white"
-                onClick={handleJoinMeeting}
-              >
-                Go!
-              </button>
-            </div>
-          </div>
+      {/* Meeting Name */}
+       {/* Title */}
+        <h1 className="font-poppins font-semibold text-3xl text-black text-center">
+          Join {meetingName || "Project Meeting"}
+        </h1>
+
+        {/* Date range */}
+        {dateRange && (
+          <p className="mt-3 text-base text-black font-poppins text-center">
+            {dateRange}
+          </p>
+        )}
+
+      {/* Enter participant name */}
+      <div className="mt-8 w-full space-y-4 flex flex-col items-center">
+          <input
+            type="text"
+            placeholder="Name"
+            value={participantName}
+            onChange={(e) => setParticipantName(e.target.value)}
+            className="w-72 h-10 px-4 rounded-2xl bg-[#EEF1F5] text-sm font-poppins text-[#6F7C8E] shadow-[inset_0_2px_4px_rgba(0,0,0,0.15)] outline-none placeholder:text-[#6F7C8E]"
+          />
         </div>
-      </div>
+
+        {/* Enter button */}
+        <button
+  
+          onClick={handleJoinMeeting}
+          className="mt-8 px-14 py-2 rounded-full bg-[#DCA414] hover:bg-[#E3A23A] text-white text-sm font-poppins border-none"
+        >
+          Enter
+        </button>
     </div>
+
+    </div>
+
+      
+
   );
 };
 

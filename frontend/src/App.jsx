@@ -6,6 +6,7 @@ import SchedulingMainPage from "./pages/SchedulingMain";
 import CreateMeeting from "./pages/createMeeting";
 import LinkPage from "./pages/linkPage";
 import OptionPanel from "./components/optionPanel";
+import SchedulingPage from "./pages/SchedulingPage";
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
@@ -49,6 +50,12 @@ function App() {
             path="/createMeeting"
             element={
               <CreateMeeting darkMode={darkMode} setDarkMode={setDarkMode} />
+            }
+          />
+          <Route
+            path="/schedulingpage/:meetingLink"
+            element={
+              <SchedulingPage darkMode={darkMode} setDarkMode={setDarkMode} />
             }
           />
           <Route
