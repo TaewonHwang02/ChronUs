@@ -6,7 +6,7 @@ import SchedulingMainPage from "./pages/SchedulingMain";
 import CreateMeeting from "./pages/createMeeting";
 import LinkPage from "./pages/linkPage";
 import OptionPanel from "./components/optionPanel";
-import SchedulingPage from "./pages/SchedulingPage";
+import SchedulingPage from "./pages/schedulingPage";
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
