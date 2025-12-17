@@ -11,7 +11,7 @@ import meetingRoutes from "./routes/meetingRoutes.js";
 import mailingRoutes from "./routes/mailingRoutes.js";
 //Testing mailing issue
 import testMailerRoutes from "./routes/testMailer.js";
-app.use("/api/test-mailer", testMailerRoutes);
+
 
 // production : render
 // development : localhost
@@ -29,7 +29,8 @@ app.use(
     credentials: true,
   })
 );
-
+//Testing mailing issue
+app.use("/api/test-mailer", testMailerRoutes);
 app.use(express.json()); //parse incoming json requests
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/users", userRoutes);
