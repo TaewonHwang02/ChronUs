@@ -9,6 +9,7 @@ const router = express.Router();
 
 router.post("/test", async (req, res) => {
   console.log("🔥 Test email route called");
+  console.log("🔥 Test email route called");
 
   const { to, subject, text } = req.body;
 
