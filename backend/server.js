@@ -11,7 +11,6 @@ import meetingRoutes from "./routes/meetingRoutes.js";
 import mailingRoutes from "./routes/mailingRoutes.js";
 //Testing mailing issue
 import testMailerRoutes from "./routes/testMailer.js";
-app.use("/api/test-mailer", testMailerRoutes);
 
 // production : render
 // development : localhost
@@ -35,6 +34,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/users", userRoutes);
 app.use("/api/meetings", meetingRoutes);
 app.use("/api/email", mailingRoutes);
+app.use("/api/test-mailer", testMailerRoutes);
 app.get("/", (req, res) => {
   res.send("Server is ready");
 });
@@ -42,7 +42,6 @@ app.get("/", (req, res) => {
 console.log("MONGO_URI:", process.env.MONGO_URI);
 
 const PORT = process.env.PORT || 5002;
-app.listen(5002, () => {
-  connectDB();
-  console.log("Server started at https://chronus-qrt1.onrender.com hello");
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
 });

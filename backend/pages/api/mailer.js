@@ -1,6 +1,4 @@
-import { Resend } from "resend";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import nodemailer from "nodemailer";
 
 export default async function handler(req, res) {
   const { to, subject, text } = req.body;
@@ -12,23 +10,48 @@ export default async function handler(req, res) {
     });
   }
 
+  const user = process.env.USER;
+  const pass = process.env.APP_PASSWORD;
+
+  if (!user || !pass) {
+    console.error(
+      "Missing GMAIL_USER or GMAIL_APP_PASSWORD environment variables"
+    );
+    return res.status(500).json({
+      success: false,
+      error:
+        "Server mailer not configured. Set GMAIL_USER and GMAIL_APP_PASSWORD in environment",
+    });
+  }
+
   try {
-    const data = await resend.emails.send({
-      from: "Chronus <onboarding@resend.dev>",
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user,
+        pass,
+      },
+    });
+
+    const info = await transporter.sendMail({
+      from: process.env.MAIL_FROM || `Chronus <${user}>`,
       to,
       subject,
+      text,
       html: `<p>${text}</p>`,
     });
 
     return res.status(200).json({
       success: true,
-      id: data?.id,
+      id: info.messageId || info,
     });
   } catch (error) {
     console.error("Email error:", error);
     return res.status(500).json({
       success: false,
-      error: error.message,
+      error: error.message || String(error),
     });
   }
 }
