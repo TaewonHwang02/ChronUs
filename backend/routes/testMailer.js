@@ -1,15 +1,13 @@
 import express from "express";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
 const router = express.Router();
 
-// Minimal test email route
-router.post("/test", async (req, res) => {
-  console.log("Test email route called");
+// Initialize Resend
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-  // Check environment variables
-  console.log("USER:", process.env.USER);
-  console.log("APP_PASSWORD:", process.env.APP_PASSWORD ? "Loaded" : "Missing");
+router.post("/test", async (req, res) => {
+  console.log("🔥 Test email route called");
 
   const { to, subject, text } = req.body;
 
@@ -20,30 +18,29 @@ router.post("/test", async (req, res) => {
   }
 
   try {
-    const transporter = nodemailer.createTransport({
-      service: "Gmail",
-      auth: {
-        user: process.env.USER,
-        pass: process.env.APP_PASSWORD,
-      },
-    });
-
-    // Verify connection
-    await transporter.verify();
-    console.log("SMTP server is ready");
-
-    const info = await transporter.sendMail({
-      from: `"Test" <${process.env.USER}>`,
+    const email = await resend.emails.send({
+      from: "Chronus <onboarding@resend.dev>", // you can later change this to: "Chronus <noreply@chronus.blog>"
       to,
       subject,
-      text,
+      html: `
+        <h2>Production Email Test</h2>
+        <p>${text}</p>
+        <p>If you're reading this, the production mailer works on Vercel 🎉</p>
+      `,
     });
 
-    console.log("Email sent:", info.messageId);
-    res.status(200).json({ success: true, messageId: info.messageId });
+    console.log("✅ Email sent:", email.id);
+
+    res.status(200).json({
+      success: true,
+      emailId: email.id,
+    });
   } catch (error) {
-    console.error("Error sending email:", error);
-    res.status(500).json({ success: false, error: error.message });
+    console.error("❌ Error sending email:", error);
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
   }
 });
 
