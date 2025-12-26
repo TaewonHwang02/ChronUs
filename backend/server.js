@@ -28,7 +28,8 @@ app.use(
     credentials: true,
   })
 );
-
+//Testing mailing issue
+app.use("/api/test-mailer", testMailerRoutes);
 app.use(express.json()); //parse incoming json requests
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/users", userRoutes);

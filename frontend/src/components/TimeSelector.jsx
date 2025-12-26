@@ -15,7 +15,7 @@ function overlapStyle(count, maxCount) {
     return { backgroundColor: "white" };
   }
 
-  const t = count / maxCount; // 0..1
+  const t = count / maxCount; 
   const minL = 90;
   const maxL = 55;
   const lightness = minL - (minL - maxL) * t;
