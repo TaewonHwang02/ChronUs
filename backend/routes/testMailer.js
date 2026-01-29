@@ -9,7 +9,6 @@ const router = express.Router();
 
 router.post("/test", async (req, res) => {
   console.log("🔥 Test email route called");
-  console.log("🔥 Test email route called");
 
   const { to, subject, text } = req.body;
 
@@ -52,7 +51,11 @@ router.post("/test", async (req, res) => {
     }
 
     // Fallback: use Gmail SMTP if configured (suitable for Render backends)
-    if (process.env.USER && process.env.APP_PASSWORD) {
+    // Prefer explicit GMAIL_* env vars but accept older USER/APP_PASSWORD names as fallback
+    const gmailUser = process.env.GMAIL_USER || process.env.USER;
+    const gmailPass =
+      process.env.GMAIL_APP_PASSWORD || process.env.APP_PASSWORD;
+    if (gmailUser && gmailPass) {
       try {
         const nodemailerModule = await import("nodemailer");
         const nodemailer = nodemailerModule.default || nodemailerModule;
@@ -62,13 +65,27 @@ router.post("/test", async (req, res) => {
           port: 465,
           secure: true,
           auth: {
-            user: process.env.USER,
-            pass: process.env.APP_PASSWORD,
+            user: gmailUser,
+            pass: gmailPass,
           },
+          logger: true,
+          debug: true,
         });
 
+        // Verify connection configuration before sending — helps debug deployment issues
+        try {
+          await transporter.verify();
+          console.log("SMTP connection verified");
+        } catch (verifyErr) {
+          console.warn(
+            "SMTP verify failed:",
+            verifyErr && verifyErr.message ? verifyErr.message : verifyErr
+          );
+          // continue to attempt send, but verification failing usually indicates network/auth issues
+        }
+
         const info = await transporter.sendMail({
-          from: process.env.MAIL_FROM || `Chronus <${process.env.USER}>`,
+          from: process.env.MAIL_FROM || `Chronus <${gmailUser}>`,
           to,
           subject,
           text,
@@ -82,10 +99,16 @@ router.post("/test", async (req, res) => {
           id: info.messageId || info,
         });
       } catch (err) {
+        // Log detailed fields that often appear in SMTP/Nodemailer errors
         console.warn(
           "Gmail send failed:",
           err && err.message ? err.message : err
         );
+        if (err && err.response) console.warn("response:", err.response);
+        if (err && err.responseCode)
+          console.warn("responseCode:", err.responseCode);
+        if (err && err.code) console.warn("code:", err.code);
+        if (err && err.stack) console.warn(err.stack);
       }
     }
 
