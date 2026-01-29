@@ -31,7 +31,7 @@ export default async function handler(req, res) {
     } catch (err) {
       console.error(
         "Resend send error:",
-        err && err.message ? err.message : err
+        err && err.message ? err.message : err,
       );
       return res
         .status(500)
@@ -62,7 +62,7 @@ export default async function handler(req, res) {
     });
 
     const info = await transporter.sendMail({
-      from: process.env.MAIL_FROM || `Chronus <${user}>`,
+      from: process.env.RESEND_FROM || `Chronus <${user}>`,
       to,
       subject,
       text,
